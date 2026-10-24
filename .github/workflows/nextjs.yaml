@@ -36,7 +36,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 8
+          version: 10
           run_install: false
 
       - name: Get pnpm store directory
@@ -68,7 +68,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml', '**/yarn.lock') }}-
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Strip local-only admin routes for static Pages export
         run: rm -rf src/app/admin src/app/api src/lib/admin src/middleware.ts
