@@ -1,10 +1,10 @@
 {
-  "photographerName": "L. Photography",
-  "siteTitle": "L. Photography",
+  "photographerName": "TfiyuenLau",
+  "siteTitle": "TfiyuenLau's Photography",
   "subtitle": "Photography Portfolio",
-  "bioParagraph1": "Photographer & visual storyteller based in Greater China, exploring urban geometry, mountain landscapes, and fleeting moments across Mainland China, Hong Kong, Macau, and Taiwan.",
+  "bioParagraph1": "Photographer & visual storyteller based in Greater China, exploring urban geometry, mountain landscapes, and fleeting moments across Mainland China.",
   "bioParagraph2": "Built with TypeScript, Next.js, and D3-Geo.",
-  "copyrightName": "L. Photography",
+  "copyrightName": "TfiyuenLau",
   "mapCenter": {
     "lat": 32.5,
     "lng": 106.5
@@ -12,15 +12,15 @@
   "socials": [
     {
       "label": "Xiaohongshu",
-      "url": "https://www.xiaohongshu.com"
+      "url": "https://www.xiaohongshu.com/user/profile/614967fc000000000201de95"
     },
     {
-      "label": "Instagram",
-      "url": "https://instagram.com"
+      "label": "Blog",
+      "url": "https://www.cnblogs.com/tfiyuenlau"
     },
     {
-      "label": "Weibo",
-      "url": "https://weibo.com"
+      "label": "Github",
+      "url": "https://github.com/TfiyuenLau"
     }
   ],
   "links": [
