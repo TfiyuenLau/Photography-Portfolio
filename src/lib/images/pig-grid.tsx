@@ -60,8 +60,11 @@ function PigGrid({ items }: { items: Array<Photo> }) {
       }
     };
 
-    const PigConstructor = window.Pig || PigModule;
-    if (!PigConstructor) return;
+    const PigConstructor =
+      typeof PigModule === 'function'
+        ? PigModule
+        : (PigModule as any)?.Pig || window.Pig;
+    if (typeof PigConstructor !== 'function') return;
     const pigGrid = new PigConstructor(data, options);
     pigGrid.enable();
 
