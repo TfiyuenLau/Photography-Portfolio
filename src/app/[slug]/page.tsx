@@ -3,7 +3,7 @@ import { getAlbum, getAlbums } from '@/lib/api';
 import Nav from '@/lib/nav';
 import { titleToSlug, slugToAlbumTitle } from '@/lib/api/slug';
 import { LocationIcon } from '@/lib/icons/location-icon';
-import { TagChip, useTags } from './chip';
+import { TagChip, getTags } from './chip';
 
 const Masonry = dynamic(() => import('@/lib/images/masonry'), {
   ssr: false
@@ -18,7 +18,7 @@ async function AlbumPage({ params: { slug } }: { params: { slug: string } }) {
   const albums = await getAlbums();
   const title = slugToAlbumTitle(slug);
   const { album, photos } = await getAlbum(title);
-  const tags = useTags(album);
+  const tags = getTags(album);
 
   return (
     <section className="flex flex-col sm:flex-row sm:my-20" id="top">

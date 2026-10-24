@@ -43,6 +43,7 @@ function currentColumnWidth() {
 }
 
 function useAverageHeight(items: Array<Photo>, columnWidth: number) {
+  if (!items.length) return 0;
   const heights = items.map(item => {
     const aspectRatio = item.width / item.height;
     const scaledHeight = columnWidth / aspectRatio;
