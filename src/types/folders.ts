@@ -5,6 +5,7 @@ export type FolderName = z.infer<typeof FolderNameSchema>;
 
 export const FolderSchema = z.object({
   title: FolderNameSchema,
+  slug: z.string().optional(),
   parentTitle: FolderNameSchema.nullable(),
   description: z.string().nullable(),
   date: z.string().nullable(),

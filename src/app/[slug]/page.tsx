@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { getAlbum, getAlbums } from '@/lib/api';
 import Nav from '@/lib/nav';
-import { titleToSlug, slugToAlbumTitle } from '@/lib/api/slug';
+import { titleToSlug } from '@/lib/api/slug';
 import { LocationIcon } from '@/lib/icons/location-icon';
 import { TagChip, getTags } from './chip';
 
@@ -11,13 +11,13 @@ const Masonry = dynamic(() => import('@/lib/images/masonry'), {
 
 export async function generateStaticParams() {
   const albums = await getAlbums();
-  return albums.map(album => ({ slug: titleToSlug(album.title) }));
+  return albums.map(album => ({ slug: titleToSlug(album.title, album.slug) }));
 }
 
 async function AlbumPage({ params: { slug } }: { params: { slug: string } }) {
   const albums = await getAlbums();
-  const title = slugToAlbumTitle(slug);
-  const { album, photos } = await getAlbum(title);
+  const { album, photos } = await getAlbum(slug);
+  const title = album.title;
   const tags = getTags(album);
 
   return (
@@ -60,7 +60,7 @@ async function AlbumPage({ params: { slug } }: { params: { slug: string } }) {
             text-gray-400 hover:text-gray-600
             fade-in-delayed`}
         >
-          Go to top ↑
+          返回顶部 ↑
         </a>
       </div>
     </section>
