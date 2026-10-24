@@ -39,6 +39,11 @@ type Arc = {
   color: Array<string>;
 };
 
+const DEFAULT_AUTOROTATE_SPEED = 1.75;
+// Enlarged globe view focused directly on China
+const DEFAULT_POV = { lat: 32, lng: 105, altitude: 1.22 };
+const CITY_FOCUS_ALTITUDE = 0.38;
+
 function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
@@ -65,9 +70,9 @@ function buildChinaMultiLineGeoJson() {
         : feature.geometry.coordinates;
     for (const poly of polys) {
       const ring = poly[0];
-      if (!ring || ring.length < 20) continue;
+      if (!ring || ring.length < 14) continue;
       const simplified = ring.filter(
-        (_: unknown, i: number) => i % 4 === 0 || i === ring.length - 1
+        (_: unknown, i: number) => i % 2 === 0 || i === ring.length - 1
       );
       lines.push(simplified);
     }
@@ -136,7 +141,8 @@ function usePoints(albums: Array<Album>) {
 
 function useRings(
   globeElRef: CustomGlobeMethods,
-  setPointAltitude: React.Dispatch<React.SetStateAction<number>>
+  setPointAltitude: React.Dispatch<React.SetStateAction<number>>,
+  isCityFocusedRef: React.MutableRefObject<boolean>
 ) {
   const [activeAlbumTitle, setActiveAlbumTitle] = useState<AlbumTitle>();
   const [rings, setRings] = useState<Array<Ring>>([]);
@@ -153,28 +159,33 @@ function useRings(
     enterTimeoutRef.current = setTimeout(() => {
       if (!globeElRef) return;
       if (type === types.LOCATION) {
+        isCityFocusedRef.current = true;
         setPointAltitude(0.002);
 
         globeElRef.pointOfView(
           {
             lat,
             lng,
-            altitude: 0.42
+            altitude: CITY_FOCUS_ALTITUDE
           },
-          850
+          800
         );
 
-        globeElRef.controls().autoRotateForced = true;
-        globeElRef.controls().autoRotateSpeed = 0.25;
+        globeElRef.controls().autoRotate = false;
+        globeElRef.controls().autoRotateForced = false;
 
         setRings([
-          { lat, lng, maxR: 5, propagationSpeed: 1.1, repeatPeriod: 1400 }
+          { lat, lng, maxR: 4.5, propagationSpeed: 1.15, repeatPeriod: 1300 }
         ]);
       } else if (type === types.CUSTOM) {
-        setPointAltitude(2);
+        isCityFocusedRef.current = false;
+        setPointAltitude(1.4);
 
+        globeElRef.pointOfView(DEFAULT_POV, 800);
+
+        globeElRef.controls().autoRotate = true;
         globeElRef.controls().autoRotateForced = true;
-        globeElRef.controls().autoRotateSpeed = 3.7 * DEFAULT_AUTOROTATE_SPEED;
+        globeElRef.controls().autoRotateSpeed = 3.5 * DEFAULT_AUTOROTATE_SPEED;
 
         setRings([
           {
@@ -194,21 +205,15 @@ function useRings(
     clearTimeout(leaveTimeoutRef.current);
 
     leaveTimeoutRef.current = setTimeout(() => {
+      isCityFocusedRef.current = false;
       setPointAltitude(0.002);
       setActiveAlbumTitle(undefined);
 
       if (globeElRef) {
-        globeElRef.pointOfView(
-          {
-            lat: 30,
-            lng: 106,
-            altitude: 2
-          },
-          900
-        );
+        globeElRef.pointOfView(DEFAULT_POV, 850);
 
+        globeElRef.controls().autoRotate = false;
         globeElRef.controls().autoRotateForced = false;
-        globeElRef.controls().autoRotateSpeed = 1.5;
       }
 
       setRings([]);
@@ -305,71 +310,38 @@ function useCustomLayer(globeEl: GlobeEl) {
 function useGlobeReady(globeEl: GlobeEl) {
   const [globeReady, setGlobeReady] = useState(false);
 
-  // faster autoRotate speed over the ocean
-  const autoRotateSpeed = () => {
-    if (globeEl.current) {
-      const { lng } = globeEl.current.pointOfView();
-      let newSpeed = DEFAULT_AUTOROTATE_SPEED;
-
-      // Speed up when facing away from East Asia / China (centered around ~106°E)
-      const gradientSteps = [
-        [175, 2],
-        [165, 1.88],
-        [160, 1.77],
-        [155, 1.65],
-        [150, 1.5],
-        [145, 1.25],
-
-        [-160, 2.25],
-        [-140, 2.0],
-        [-120, 1.75],
-        [-110, 1.65],
-        [-90, 1.5],
-        [-60, 1.4],
-        [0, 1.35],
-        [45, 1.2]
-      ];
-      for (const [longitude, multiplier] of gradientSteps) {
-        if (longitude <= 45 && lng < longitude) {
-          newSpeed = multiplier * DEFAULT_AUTOROTATE_SPEED;
-          break;
-        }
-        if (longitude > 45 && lng > longitude) {
-          newSpeed = multiplier * DEFAULT_AUTOROTATE_SPEED;
-          break;
-        }
-      }
-      if (
-        !globeEl.current.controls().autoRotateForced &&
-        newSpeed !== DEFAULT_AUTOROTATE_SPEED
-      ) {
-        globeEl.current.controls().autoRotateSpeed = newSpeed;
-      }
-    }
-    requestAnimationFrame(autoRotateSpeed);
-  };
-
   useEffect(() => {
     if (globeReady && globeEl.current) {
       globeEl.current.controls().enabled = false;
-
       globeEl.current.controls().enableZoom = false;
+      globeEl.current.controls().autoRotate = false;
 
-      globeEl.current.controls().autoRotate = true;
-      globeEl.current.controls().autoRotateSpeed = DEFAULT_AUTOROTATE_SPEED;
-
-      globeEl.current.pointOfView({ lat: 30, lng: 106, altitude: 2 });
-
-      autoRotateSpeed();
+      globeEl.current.pointOfView(DEFAULT_POV);
     }
-  }, [globeEl, globeReady]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [globeEl, globeReady]);
 
   return {
     handleGlobeReady: () => setGlobeReady(true)
   };
 }
 
-function useScene(globeElRef: Ref) {
+function useScene(
+  globeElRef: Ref,
+  isCityFocusedRef: React.MutableRefObject<boolean>
+) {
+  const mouseTargetRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseTargetRef.current.x =
+        (e.clientX / Math.max(1, window.innerWidth) - 0.5) * 2;
+      mouseTargetRef.current.y =
+        (e.clientY / Math.max(1, window.innerHeight) - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   useEffect(() => {
     if (!globeElRef) return;
 
@@ -397,7 +369,7 @@ function useScene(globeElRef: Ref) {
       new THREE.LineBasicMaterial({
         color: '#b91c1c',
         transparent: true,
-        opacity: 0.55
+        opacity: 0.6
       })
     );
     scene.add(chinaBorders);
@@ -408,7 +380,7 @@ function useScene(globeElRef: Ref) {
       32
     );
     const innerSphereMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff /* it's neat to try different colors here */,
+      color: 0xffffff,
       opacity: 0.47,
       transparent: true
     });
@@ -419,15 +391,52 @@ function useScene(globeElRef: Ref) {
     innerSphere.renderOrder = Number.MAX_SAFE_INTEGER;
     scene.add(innerSphere);
 
+    // Mouse-driven 3D spherical rotation + subtle ambient breathing around China
+    const chinaTheta = ((90 - DEFAULT_POV.lng) * Math.PI) / 180;
+    const rightAxis = new THREE.Vector3(
+      -Math.sin(chinaTheta),
+      0,
+      Math.cos(chinaTheta)
+    ).normalize();
+    const upAxis = new THREE.Vector3(0, 1, 0);
+    const qLon = new THREE.Quaternion();
+    const qLat = new THREE.Quaternion();
+
+    let curX = 0;
+    let curY = 0;
+    let rafId = 0;
+
+    const animateSphereRotation = (now: number) => {
+      const t = now * 0.001;
+      const dampFactor = isCityFocusedRef.current ? 0.2 : 1.0;
+
+      const targetX =
+        mouseTargetRef.current.x * 0.34 * dampFactor +
+        Math.sin(t * 0.45) * 0.045 * dampFactor;
+      const targetY =
+        mouseTargetRef.current.y * 0.24 * dampFactor +
+        Math.cos(t * 0.35) * 0.03 * dampFactor;
+
+      curX += (targetX - curX) * 0.065;
+      curY += (targetY - curY) * 0.065;
+
+      qLon.setFromAxisAngle(upAxis, -curX);
+      qLat.setFromAxisAngle(rightAxis, curY);
+      scene.quaternion.copy(qLat).multiply(qLon);
+
+      rafId = requestAnimationFrame(animateSphereRotation);
+    };
+    rafId = requestAnimationFrame(animateSphereRotation);
+
     return () => {
+      cancelAnimationFrame(rafId);
+      scene.quaternion.identity();
       scene.remove(graticules);
       scene.remove(chinaBorders);
       scene.remove(innerSphere);
     };
-  }, [globeElRef]);
+  }, [globeElRef, isCityFocusedRef]);
 }
-
-const DEFAULT_AUTOROTATE_SPEED = 1.75;
 
 function Globe({
   albums,
@@ -440,11 +449,12 @@ function Globe({
   // object config
   const globeEl = useRef<Ref>();
   const globeElRef: Ref = globeEl.current;
+  const isCityFocusedRef = useRef(false);
 
   const { handleGlobeReady } = useGlobeReady(globeEl);
 
   // scene config
-  useScene(globeElRef);
+  useScene(globeElRef, isCityFocusedRef);
 
   // land shapes
   const { landPolygons, polygonMaterial } = useLandPolygons();
@@ -454,7 +464,7 @@ function Globe({
 
   // rings animation
   const { rings, handleMouseEnter, handleMouseLeave, activeAlbumTitle } =
-    useRings(globeElRef as CustomGlobeMethods, setPointAltitude);
+    useRings(globeElRef as CustomGlobeMethods, setPointAltitude, isCityFocusedRef);
   const activeAlbum = albums.find(album => album.title === activeAlbumTitle);
 
   // arcs animation
