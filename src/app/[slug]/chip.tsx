@@ -4,48 +4,39 @@ import Link from 'next/link';
 type Tag = string;
 
 export function getTags(
-  album: Pick<Album, 'date' | 'description' | 'locations'>
+  album: Pick<Album, 'date' | 'description' | 'locations' | 'tags'>
 ) {
-  let tags = [];
-  tags.push(album.date);
-  for (const location of album.locations) {
-    tags.push(location.date);
+  const tags: Array<string | null | undefined> = [];
+  if (album.date) tags.push(album.date);
+  if (album.tags) {
+    tags.push(...album.tags);
   }
-  tags.push(album.description);
   for (const location of album.locations) {
-    tags.push(location.description);
+    if (location.description) tags.push(location.description);
+    if (location.date) tags.push(location.date);
   }
-  tags = tags.filter(Boolean) as string[];
-  return tags;
+  if (album.description && !album.description.includes('·')) {
+    tags.push(album.description);
+  }
+  return Array.from(new Set(tags.filter(Boolean))) as string[];
 }
 
 function dateFromTag(tag: Tag) {
-  // either begins with `20##`, or `20##` is preceded by non-digit
-  // e.g. '20241231...', 'IMG_20241231...'
   return tag?.match(/(?:^20|[^\d]20)\d{2}/g)?.[0]?.trim();
 }
 
 export function TagChip({ tag }: { tag: Tag }) {
   const date = dateFromTag(tag);
+  const targetSlug = date || encodeURIComponent(tag.split(' ')[0].trim());
 
-  const chip = (
-    <div key={tag} className="border border-gray-300 rounded-md px-3 py-1">
+  return (
+    <Link
+      key={tag}
+      href={`/tags/${targetSlug}`}
+      className="border border-gray-300 rounded-md px-3 py-1 hover:bg-gray-200/60 hover:border-gray-400 transition-colors"
+      prefetch={false}
+    >
       {tag}
-    </div>
+    </Link>
   );
-
-  if (date) {
-    return (
-      <Link
-        key={tag}
-        href={`/tags/${date}`}
-        className="hover:bg-gray-200/50"
-        prefetch={false}
-      >
-        {chip}
-      </Link>
-    );
-  }
-
-  return chip;
 }

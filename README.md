@@ -1,121 +1,75 @@
-# [photos.agarun.com](https://photos.agarun.com)
+# 大中华区个人摄影作品集 (Greater China Photography Portfolio)
 
-My photography portfolio with galleries, tags, folders, and a globe 🌎
+基于 **Next.js 14 + Three.js + D3-Geo + Sharp** 构建的极简先锋编辑风（Editorial Wireframe Style）个人摄影作品集网站，配备**带密码保护的本地可视化作品集工作台 (`/admin`)**，并完美支持 **GitHub Pages / Cloudflare Pages / Vercel 纯静态零成本安全托管**。
 
-# Setup
+---
 
-## Development Server
+## 核心特性
 
-The prerequisites are Node >= 20 and pnpm >= 8.
+1. **大中华区 2.5D 悬浮立体线框地图（首页 & 关于页）**
+   - 聚焦中国大陆各省、香港、澳门、台湾及周边海域的高精度矢量地图（`src/data/china-geo.json`）。
+   - **同风格非球面动态特效**：
+     - 默认状态：鼠标 3D 视差倾斜跟随 + 呼吸感阻尼浮动 + 城市间 3D 抛物红色虚线流光轨迹（Arcs）+ 景深悬浮微粒；
+     - 悬停地域相册（如“香港”、“台湾”、“川西”、“江南”）：3D 摄像机平滑推近（Fly-to）聚焦至目标城市，对应省/地区行政板块立体抬升并加深轮廓，中心点释放多层红色雷达脉冲扩散波纹（Rings），同时弹出走马灯详情卡片；
+     - 悬停非地域专题相册（如“街头纪实”、“黑白胶片”）：摄像机拉远至全景俯瞰视角，所有坐标立柱升起并触发全图涟漪特效。
 
-First, install the dependencies:
+2. **带密码保护的本地可视化管理工作台 (`/admin`)**
+   - **安全架构**：采用“本地可视化工作台（自用管理）+ 纯静态托管（公网游客只读）”模式。管理界面受 `ADMIN_PASSWORD` 密码登录与 `HttpOnly` 会话保护；发布到公网 CDN 时仅导出静态只读网页与图片，游客在物理层面上零可能篡改数据。
+   - **批量拖拽传图 + 自动 WebP 压缩 + EXIF/GPS 自动提取**：
+     - 内置 `sharp` 与 `exifr` 引擎，彻底告别手动运行命令行脚本；
+     - 在浏览器中直接拖拽上传相机 JPG/PNG 原图，自动等比缩放（`<= 2048px`）并压制为高画质 `.webp` 存入 `public/photos/`；
+     - 自动提取照片宽高、文件大小、相机/镜头/光圈/快门/ISO 参数以及 **EXIF 拍摄日期与 GPS 经纬度**（可一键将照片 GPS 设为相册坐标）。
+   - **大中华区交互式点击选点地图**：
+     - 在后台中国地图上直接点击即可拾取相册主坐标或添加子拍摄点（`locations`），并内置 28+ 个大中华区热门摄影城市一键定位预设。
+   - **全站多维标签管理与一键 Git 版本保存**：
+     - 支持按地区（`#香港`、`#川西`）、题材（`#街头`、`#风光`、`#胶片`）与年份（`#2024`）多维打标签；
+     - 内置 Git 版本控制面板，可在网页端一键提交保存 Git 版本快照。
 
-```sh
+---
+
+## 快速开始
+
+### 1. 环境要求
+- Node.js >= 20
+- pnpm >= 8
+
+### 2. 安装依赖与启动
+
+```bash
+# 安装依赖
 pnpm install
-```
 
-Run the development server:
-
-```sh
+# 启动本地开发与管理服务
 pnpm dev
 ```
 
-Open http://localhost:3000 to see the app!
+或者在 Windows 下直接双击项目根目录的 **`manage.bat`** 即可一键启动并自动打开管理后台。
 
-## Photos Backend
+- **前台作品集首页**：[http://localhost:3000](http://localhost:3000)
+- **可视化管理后台**：[http://localhost:3000/admin](http://localhost:3000/admin)
+  - 初始默认管理员密码：`admin123`
+  - 如需自定义密码，可在项目根目录创建 `.env.local` 并写入：
+    ```env
+    ADMIN_PASSWORD=您的专属密码
+    ```
 
-This project uses Contentful to upload photos and manage photo albums. No other CMS are currently supported.
+---
 
-> **Beginning April 30, 2025, Contentful has made changes to the Free plan entitlements by reducing the monthly asset bandwidth from 800GB to 50GB. If you expect to exceed 50GB in CDN bandwidth a month, you may consider replacing it with another CMS and update the GraphQL queries and environment variables as necessary.**
+## 日常更新与发布流程
 
-To start, you'll need to create a [Contentful](https://app.contentful.com/) space. Once created, head to Settings -> API Keys -> Add API Key.
+1. 启动本地服务后访问 `http://localhost:3000/admin` 并输入密码登录；
+2. 在 **「1. 相册与地图选点」** 中创建或编辑相册，在中国地图上点击设置经纬度与子拍摄点；
+3. 在 **「2. 照片上传与标签管理」** 中拖拽上传原图（自动转 WebP 并提取 EXIF），编辑标签与排序；
+4. 在 **「4. 个人品牌与 Git 版本保存」** 中修改您的摄影师署名、简介、小红书/微博/Instagram 链接；
+5. 点击右上角 **【保存全部修改】** 即可在前台实时预览效果；确认无误后点击 **【一键保存 Git 版本】** 并 `git push` 推送至远端仓库完成发布。
 
-Here, you'll see a space ID and two tokens. You can then populate an `.env.local` file with these:
+---
 
-```
-CONTENTFUL_SPACE_ID=abcdefghijkl
-CONTENTFUL_PREVIEW_ACCESS_TOKEN=roughly40randomcharacters
-CONTENTFUL_ACCESS_TOKEN=roughly40randomcharacters
-```
+## 常用脚本命令
 
-Then, head to `Content model -> Create content type`. Create the [Photo Albums](#photo-albums) model using the schema below. Once made, you can add entries on the Content tab, and upload images to each entry's media field.
-
-This project does _not_ make use of the Contentful Image API to optimize photos. Instead, we optimize images beforehand by converting them to `.webp` in a script using [`cwebp`](https://developers.google.com/speed/webp/download) and [`ImageMagick`](https://formulae.brew.sh/formula/imagemagick):
-
-```
-bash scripts/webp.sh <some directory of image files>
-```
-
-# Technologies
-
-## Development
-
-The project is written in TypeScript, using Zod, Tailwind, and [Next.js](https://nextjs.org/).
-
-## Visualization
-
-[Globe.GL](https://github.com/vasturiano/globe.gl) for the homepage globe and [cobe](https://github.com/shuding/cobe) for the about page globe
-
-[d3-geo](https://threejs.org/) for globe data
-
-[three](https://threejs.org/) for scene creation
-
-## Images
-
-[PhotoSwipe](https://photoswipe.com/) for image lightboxes
-
-[Masonic](https://github.com/jaredLunde/masonic) for masonry layouts
-
-[Pig](https://github.com/schlosser/pig.js/) for image grid layouts
-
-[`cwebp`](https://developers.google.com/speed/webp/docs/cwebp) for compressing .jpg to .webp images. See `scripts/webp.sh` for details regarding image optimization.
-
-## Hosting
-
-The Next site is statically exported and hosted on a GitHub Pages site using GitHub Actions.
-
-All assets are stored on [Contentful](https://www.contentful.com/) and fetched from their GraphQL endpoint.
-
-## Contentful Schema
-
-### Photo Albums
-
-This model refers to the albums featured on the front page.
-
-When asked, the Contentful model should be created with the API identifier `photoGallery`. You can pick any ID, just be sure to then update `photoGalleryCollection` where needed in the codebase.
-
-| Field       | Contentful Type                          |
-| ----------- | ---------------------------------------- |
-| title       | Short text                               |
-| photos      | Media, many files                        |
-| color       | Short text - Hexadecimal color code      |
-| type        | Short text - Enum['location', 'custom']¹ |
-| description | Long text                                |
-| date        | Short text (optional)                    |
-| lat         | Decimal                                  |
-| lng         | Decimal                                  |
-| locations   | JSON (optional)²                         |
-| order       | Decimal                                  |
-
-¹ `type: 'location'` refers to albums on the front page with coordinate data. `type: 'custom'` has a fancy animation and no coordinate data, e.g. the _Music_ album on my site.
-
-² This is an array of objects, each with lat, lng, and description; e.g. `[{"lat": 40.00, "lng": 70.00, "description": "narnia"}, ...]`
-
-For more information, see the [album Zod schemas](https://github.com/agarun/photos/blob/main/src/types/albums.ts#L14).
-
-### Photo Folders
-
-This model refers to the folders feature available at the [`/folders`](https://photos.agarun.com/folders) route.
-
-When asked, the Contentful model should be created with the API identifier `photoFolders`. You can pick any ID, just be sure to then update `photoFoldersCollection` where needed in the codebase.
-
-This feature is optional.
-
-| Field        | Contentful Type   |
-| ------------ | ----------------- |
-| title        | Short text        |
-| parent_title | Short text        |
-| photos       | Media, many files |
-| description  | Long text         |
-| date         | Short text        |
-| order        | Decimal           |
+| 命令 | 说明 |
+| :--- | :--- |
+| `pnpm dev` | 启动本地开发服务器与 `/admin` 管理工作台 |
+| `pnpm check` | 运行 TypeScript 类型完整性检查 |
+| `pnpm lint` | 运行 ESLint 代码规范检查 |
+| `pnpm build` | 执行生产环境编译构建 |
