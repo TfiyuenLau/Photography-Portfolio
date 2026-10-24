@@ -37,47 +37,35 @@ async function Tag({ params: { slug } }: { params: { slug: string } }) {
         <Nav albums={albums} />
       </div>
 
-      <div className="flex-1 flex flex-col max-sm:px-2 mt-6 max-w-5xl">
-        <div className="rounded-lg bg-gray-100 px-5 py-4 mb-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="px-3 py-1 border border-dashed border-red-300 rounded-md bg-white text-red-800 font-medium text-lg">
-                #{decodedSlug}
-              </span>
-              <span className="text-sm text-gray-500">
-                共找到 {photos.length} 张相关摄影作品
-              </span>
-            </div>
+      <div className="flex-1 flex flex-col max-sm:px-2">
+        <div className="mt-12 flex flex-wrap items-center gap-2">
+          <div
+            className={`inline-block px-2.5 py-1
+            border-dashed border border-gray-300 rounded-md
+            bg-gray-100 text-gray-700 font-medium`}
+          >
+            {decodedSlug}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 pt-2 border-t border-gray-200/80">
-            {allTags.map(({ tag, count }) => {
+          <div className="flex flex-wrap gap-1.5 ml-2">
+            {allTags.map(({ tag }) => {
               const isCurrent = tag.toLowerCase() === decodedSlug.toLowerCase();
+              if (isCurrent) return null;
               return (
                 <Link
                   key={tag}
                   href={`/tags/${encodeURIComponent(tag)}`}
                   prefetch={false}
-                  className={`px-2.5 py-1 rounded text-xs transition-colors ${
-                    isCurrent
-                      ? 'bg-red-700 text-white font-medium'
-                      : 'bg-white/80 text-gray-600 hover:bg-white hover:text-black border border-gray-200'
-                  }`}
+                  className="px-2 py-1 rounded text-xs text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                 >
-                  #{tag} {count > 0 ? `(${count})` : ''}
+                  {tag}
                 </Link>
               );
             })}
           </div>
         </div>
 
-        {photos.length === 0 ? (
-          <div className="py-20 text-center text-gray-400 text-sm border border-dashed border-gray-200 rounded-xl my-6">
-            暂未找到带有「#{decodedSlug}」标签的作品，请点击上方其他标签浏览。
-          </div>
-        ) : (
-          <Masonry className="my-6" items={photos} />
-        )}
+        <Masonry className="my-6" items={photos} />
       </div>
     </section>
   );

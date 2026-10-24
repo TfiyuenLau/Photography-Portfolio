@@ -1,9 +1,9 @@
 {
-  "photographerName": "L. PHOTOGRAPHY",
-  "siteTitle": "L. Photography · 个人摄影作品集",
-  "subtitle": "大中华区纪实与山海视觉档案",
-  "bioParagraph1": "独立摄影师，长期行走于中国大陆、香港、澳门与台湾。钟情于城市空间几何、山海自然地貌与街头瞬间的光影叙事。",
-  "bioParagraph2": "本作品集基于 Next.js 与 Three.js 构建，配备本地可视化作品集工作台，记录跨越经纬的影像记忆。",
+  "photographerName": "L. Photography",
+  "siteTitle": "L. Photography",
+  "subtitle": "Photography Portfolio",
+  "bioParagraph1": "Photographer & visual storyteller based in Greater China, exploring urban geometry, mountain landscapes, and fleeting moments across Mainland China, Hong Kong, Macau, and Taiwan.",
+  "bioParagraph2": "Built with TypeScript, Next.js, and D3-Geo.",
   "copyrightName": "L. Photography",
   "mapCenter": {
     "lat": 32.5,
@@ -11,7 +11,7 @@
   },
   "socials": [
     {
-      "label": "小红书 / RED",
+      "label": "Xiaohongshu",
       "url": "https://www.xiaohongshu.com"
     },
     {
@@ -19,18 +19,18 @@
       "url": "https://instagram.com"
     },
     {
-      "label": "微博 / Weibo",
+      "label": "Weibo",
       "url": "https://weibo.com"
     }
   ],
   "links": [
     {
-      "label": "作品管理后台 / Studio",
-      "url": "/admin"
+      "label": "Folders",
+      "url": "/folders"
     },
     {
-      "label": "专题归档 / Folders",
-      "url": "/folders"
+      "label": "Studio",
+      "url": "/admin"
     }
   ]
 }

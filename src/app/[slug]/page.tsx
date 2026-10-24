@@ -60,7 +60,7 @@ async function AlbumPage({ params: { slug } }: { params: { slug: string } }) {
             text-gray-400 hover:text-gray-600
             fade-in-delayed`}
         >
-          返回顶部 ↑
+          Go to top ↑
         </a>
       </div>
     </section>

@@ -18,19 +18,19 @@ export function AlbumCard({ album }: { album: Album }) {
   return (
     <aside
       className={`p-4
-         fixed z-50 pointer-events-none
-        rounded-lg bg-gray-100/90 backdrop-blur-sm w-64 text-2xl opacity-85 flex flex-col
-        border border-gray-200 shadow-sm
+        fixed z-50 pointer-events-none
+        rounded-lg bg-gray-100/90 backdrop-blur-sm w-60 text-2xl opacity-75 flex flex-col
+        border border-gray-200
         max-sm:hidden
         overflow-hidden`}
       style={{
-        left: `calc(28% + ${randomLeft}px)`,
-        top: `calc(32% + ${randomTop}px)`
+        left: `calc(30% + ${randomLeft}px)`,
+        top: `calc(33% + ${randomTop}px)`
       }}
     >
-      <span className="blink rounded-lg font-medium text-gray-800">{album.title}</span>
-      <span className="text-sm text-gray-500 mt-0.5">{album.date}</span>
-      <div className="marquee py-3 text-lg text-gray-700">
+      <span className="blink rounded-lg">{album.title}</span>
+      <span className="text-base text-gray-500">{album.date}</span>
+      <div className="marquee py-4 text-xl">
         <div className="marquee-content">
           {tags.map(tag => (
             <span key={`${tag}-1`}>{tag}</span>
@@ -43,7 +43,7 @@ export function AlbumCard({ album }: { album: Album }) {
         </div>
       </div>
 
-      <span className="text-sm text-red-700">点击进入相册 &rarr;</span>
+      <span className="text-base text-gray-600">Click to enter &rarr;</span>
     </aside>
   );
 }

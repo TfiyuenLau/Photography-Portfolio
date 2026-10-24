@@ -8,12 +8,12 @@ import Link from 'next/link';
 
 function Contact({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
-    <div id="contact" className="flex flex-wrap gap-14">
+    <div id="contact" className="flex gap-14">
       <div>
-        <h2 className="uppercase tracking-tight text-sm mb-2 font-light text-gray-500">
-          社交媒体 / Socials
+        <h2 className="uppercase tracking-tight text-sm mb-1 font-light text-gray-500">
+          Socials
         </h2>
-        <ul className="text-lg font-medium space-y-1">
+        <ul className="text-lg font-medium">
           {siteConfig.socials.map(social => (
             <li key={social.label}>
               <ExternalLink href={social.url}>{social.label}</ExternalLink>
@@ -21,17 +21,17 @@ function Contact({ siteConfig }: { siteConfig: SiteConfig }) {
           ))}
         </ul>
       </div>
-      <div className="border border-dashed border-gray-300 rounded-lg p-4 -mt-4 bg-white/40">
-        <h2 className="uppercase tracking-tight text-sm mb-2 font-light text-gray-500">
-          快捷入口 / Links
+      <div className="border border-dashed border-gray-300 rounded-lg p-4 -mt-4">
+        <h2 className="uppercase tracking-tight text-sm mb-1 font-light text-gray-500">
+          Links
         </h2>
-        <ul className="text-lg font-medium space-y-1">
+        <ul className="text-lg font-medium">
           {siteConfig.links.map(link => (
             <li key={link.label}>
               {link.url.startsWith('/') ? (
                 <Link
                   href={link.url}
-                  className="hover:text-red-700 transition-colors"
+                  className="hover:text-gray-500 transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -71,21 +71,17 @@ async function AboutPage() {
           px-9 py-8 pt-20
           w-full relative overflow-hidden`}
       >
-        <section className="z-20 relative max-w-xl">
+        <section className="z-20 relative max-w-96">
           <h1 className="font-bold text-4xl tracking-tight">
             {siteConfig.photographerName}
           </h1>
-          <p className="text-2xl text-gray-700 font-light mt-1">
-            <span className="text-red-700">✦</span> {siteConfig.subtitle}
+          <p className="text-2xl text-gray-700 font-light">
+            <span className="text-gray-300">✦</span> {siteConfig.subtitle}
           </p>
 
-          <p className="mt-16 mb-6 text-lg text-gray-700 leading-relaxed">
-            {siteConfig.bioParagraph1}
-          </p>
+          <p className="mt-20 mb-6 text-lg">{siteConfig.bioParagraph1}</p>
 
-          <p className="mb-24 text-lg text-gray-600 leading-relaxed">
-            {siteConfig.bioParagraph2}
-          </p>
+          <p className="mb-32 text-lg">{siteConfig.bioParagraph2}</p>
 
           <Contact siteConfig={siteConfig} />
         </section>
@@ -105,7 +101,7 @@ async function AboutPage() {
           style={{
             width: 900,
             height: 900,
-            boxShadow: 'inset 0 0 50px 125px rgb(243 244 246 / 65%)'
+            boxShadow: 'inset 0 0 50px 125px rgb(250 250 255 / 50%)'
           }}
         />
         <Noise />
