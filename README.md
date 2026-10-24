@@ -1,75 +1,76 @@
-# 大中华区个人摄影作品集 (Greater China Photography Portfolio)
+# Photography Portfolio
 
-基于 **Next.js 14 + Three.js + D3-Geo + Sharp** 构建的极简先锋编辑风（Editorial Wireframe Style）个人摄影作品集网站，配备**带密码保护的本地可视化作品集工作台 (`/admin`)**，并完美支持 **GitHub Pages / Cloudflare Pages / Vercel 纯静态零成本安全托管**。
+A minimalist editorial photography portfolio built with **Next.js 14**, **Three.js**, **Tailwind CSS**, and **Sharp**. Features an interactive 3D wireframe globe centered on China, automated WebP compression with EXIF metadata parsing, chronological shooting date sorting, and a local password-protected admin studio.
 
----
-
-## 核心特性
-
-1. **大中华区 2.5D 悬浮立体线框地图（首页 & 关于页）**
-   - 聚焦中国大陆各省、香港、澳门、台湾及周边海域的高精度矢量地图（`src/data/china-geo.json`）。
-   - **同风格非球面动态特效**：
-     - 默认状态：鼠标 3D 视差倾斜跟随 + 呼吸感阻尼浮动 + 城市间 3D 抛物红色虚线流光轨迹（Arcs）+ 景深悬浮微粒；
-     - 悬停地域相册（如“香港”、“台湾”、“川西”、“江南”）：3D 摄像机平滑推近（Fly-to）聚焦至目标城市，对应省/地区行政板块立体抬升并加深轮廓，中心点释放多层红色雷达脉冲扩散波纹（Rings），同时弹出走马灯详情卡片；
-     - 悬停非地域专题相册（如“街头纪实”、“黑白胶片”）：摄像机拉远至全景俯瞰视角，所有坐标立柱升起并触发全图涟漪特效。
-
-2. **带密码保护的本地可视化管理工作台 (`/admin`)**
-   - **安全架构**：采用“本地可视化工作台（自用管理）+ 纯静态托管（公网游客只读）”模式。管理界面受 `ADMIN_PASSWORD` 密码登录与 `HttpOnly` 会话保护；发布到公网 CDN 时仅导出静态只读网页与图片，游客在物理层面上零可能篡改数据。
-   - **批量拖拽传图 + 自动 WebP 压缩 + EXIF/GPS 自动提取**：
-     - 内置 `sharp` 与 `exifr` 引擎，彻底告别手动运行命令行脚本；
-     - 在浏览器中直接拖拽上传相机 JPG/PNG 原图，自动等比缩放（`<= 2048px`）并压制为高画质 `.webp` 存入 `public/photos/`；
-     - 自动提取照片宽高、文件大小、相机/镜头/光圈/快门/ISO 参数以及 **EXIF 拍摄日期与 GPS 经纬度**（可一键将照片 GPS 设为相册坐标）。
-   - **大中华区交互式点击选点地图**：
-     - 在后台中国地图上直接点击即可拾取相册主坐标或添加子拍摄点（`locations`），并内置 28+ 个大中华区热门摄影城市一键定位预设。
-   - **全站多维标签管理与一键 Git 版本保存**：
-     - 支持按地区（`#香港`、`#川西`）、题材（`#街头`、`#风光`、`#胶片`）与年份（`#2024`）多维打标签；
-     - 内置 Git 版本控制面板，可在网页端一键提交保存 Git 版本快照。
+Fully optimized for zero-cost static deployment to **GitHub Pages**, **Cloudflare Pages**, or **Vercel**.
 
 ---
 
-## 快速开始
+## Features
 
-### 1. 环境要求
+- **3D Interactive Wireframe Globe**: Built with Three.js, `@react-three/fiber`, and D3-Geo. Features smooth mouse parallax, interactive camera focus (fly-to) on city albums, trajectory arcs, and pulse telemetry.
+- **Chronological Sorting by Shooting Date**: Photos across all city albums, folders, and tags are strictly ordered by original camera capture time (`DateTimeOriginal` / `CreateDate`), keeping recent work at the forefront.
+- **Local Management Studio (`/admin`)**:
+  - Drag-and-drop batch upload with automatic Sharp WebP conversion ($\le 2048\text{px}$, quality 88).
+  - Automatic EXIF parsing: camera, lens, focal length, aperture, shutter speed, ISO, capture timestamp, and GPS coordinates.
+  - Interactive map coordinate picker for city albums and shoot locations.
+  - Built-in Git snapshot and commit tool.
+- **Multi-dimensional Taxonomy**: Organize work by City Albums (e.g. Shenzhen, Guangzhou, Beijing), Thematic Folders (e.g. Cosplay, Street), and dynamic Tags.
+- **Static Export & Zero-cost Hosting**: Pre-renders to pure static HTML/CSS/WebP (`output: 'export'`), offering blazing speed, global CDN distribution, and zero attack surface.
+
+---
+
+## Quick Start
+
+### Prerequisites
 - Node.js >= 20
 - pnpm >= 8
 
-### 2. 安装依赖与启动
+### Installation & Development
 
 ```bash
-# 安装依赖
+# 1. Install dependencies
 pnpm install
 
-# 启动本地开发与管理服务
+# 2. Start local development server
 pnpm dev
 ```
 
-或者在 Windows 下直接双击项目根目录的 **`manage.bat`** 即可一键启动并自动打开管理后台。
-
-- **前台作品集首页**：[http://localhost:3000](http://localhost:3000)
-- **可视化管理后台**：[http://localhost:3000/admin](http://localhost:3000/admin)
-  - 初始默认管理员密码：`admin123`
-  - 如需自定义密码，可在项目根目录创建 `.env.local` 并写入：
+- **Portfolio Site**: [http://localhost:3000](http://localhost:3000)
+- **Admin Studio**: [http://localhost:3000/admin](http://localhost:3000/admin)
+  - Default password: `admin123`
+  - To customize the admin password, set `ADMIN_PASSWORD` in `.env.local`:
     ```env
-    ADMIN_PASSWORD=您的专属密码
+    ADMIN_PASSWORD=your_secure_password
     ```
 
 ---
 
-## 日常更新与发布流程
+## Essential Commands
 
-1. 启动本地服务后访问 `http://localhost:3000/admin` 并输入密码登录；
-2. 在 **「1. 相册与地图选点」** 中创建或编辑相册，在中国地图上点击设置经纬度与子拍摄点；
-3. 在 **「2. 照片上传与标签管理」** 中拖拽上传原图（自动转 WebP 并提取 EXIF），编辑标签与排序；
-4. 在 **「4. 个人品牌与 Git 版本保存」** 中修改您的摄影师署名、简介、小红书/微博/Instagram 链接；
-5. 点击右上角 **【保存全部修改】** 即可在前台实时预览效果；确认无误后点击 **【一键保存 Git 版本】** 并 `git push` 推送至远端仓库完成发布。
+| Command | Description |
+| :--- | :--- |
+| `pnpm dev` | Start development server and local `/admin` studio |
+| `pnpm check` | Run TypeScript type checking (`tsc --noEmit`) |
+| `pnpm lint` | Run ESLint validation |
+| `pnpm build` | Build production bundle (SSG static export) |
 
 ---
 
-## 常用脚本命令
+## Deployment to GitHub Pages
 
-| 命令 | 说明 |
-| :--- | :--- |
-| `pnpm dev` | 启动本地开发服务器与 `/admin` 管理工作台 |
-| `pnpm check` | 运行 TypeScript 类型完整性检查 |
-| `pnpm lint` | 运行 ESLint 代码规范检查 |
-| `pnpm build` | 执行生产环境编译构建 |
+This project is pre-configured with a GitHub Actions workflow ([`.github/workflows/nextjs.yaml`](.github/workflows/nextjs.yaml)) for automated deployment:
+
+1. In your GitHub repository, navigate to **Settings** > **Pages**.
+2. Under **Build and deployment** > **Source**, select **GitHub Actions**.
+3. Push your commits to `main`:
+   ```bash
+   git push origin main
+   ```
+4. GitHub Actions will automatically build and publish your static portfolio to GitHub Pages.
+
+---
+
+## Acknowledgements
+
+This project was developed based on and inspired by [agarun/photos](https://github.com/agarun/photos). Sincere thanks to the original author for the design aesthetic and foundational architecture.
