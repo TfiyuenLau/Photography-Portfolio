@@ -3,6 +3,8 @@ import path from 'path';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 const PORTFOLIO_PATH = path.join(process.cwd(), 'src/data/portfolio-data.json');
 const SITE_CONFIG_PATH = path.join(process.cwd(), 'src/data/site-config.json');
 
