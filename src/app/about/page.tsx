@@ -1,47 +1,45 @@
-import { getAlbums } from '@/lib/api';
-import Globe from '@/lib/globes/mini-globe';
+import { getAlbums, getSiteConfig } from '@/lib/api';
+import MiniChinaMap from '@/lib/map/mini-china-map';
 import Nav from '@/lib/nav';
 import Noise from '@/lib/fx/noise';
 import { ExternalLink } from '@/lib/external-link';
+import { SiteConfig } from '@/types';
+import Link from 'next/link';
 
-export async function generateStaticParams() {
-  const albums = await getAlbums();
-  return albums.map(album => ({ slug: album.title.toLowerCase() }));
-}
-
-function Contact() {
+function Contact({ siteConfig }: { siteConfig: SiteConfig }) {
   return (
-    <div id="contact" className="flex gap-14">
+    <div id="contact" className="flex flex-wrap gap-14">
       <div>
-        <h2 className="uppercase tracking-tight text-sm mb-1 font-light text-gray-500">
-          Socials
+        <h2 className="uppercase tracking-tight text-sm mb-2 font-light text-gray-500">
+          社交媒体 / Socials
         </h2>
-        <ul className="text-lg font-medium">
-          <li>
-            <ExternalLink href="https://instagram.com/agarunov">
-              Instagram
-            </ExternalLink>
-          </li>
-          <li>
-            <ExternalLink href="https://twitter.com/agarune">
-              Twitter
-            </ExternalLink>
-          </li>
+        <ul className="text-lg font-medium space-y-1">
+          {siteConfig.socials.map(social => (
+            <li key={social.label}>
+              <ExternalLink href={social.url}>{social.label}</ExternalLink>
+            </li>
+          ))}
         </ul>
       </div>
-      <div className="border border-dashed border-gray-300 rounded-lg p-4 -mt-4">
-        <h2 className="uppercase tracking-tight text-sm mb-1 font-light text-gray-500">
-          Links
+      <div className="border border-dashed border-gray-300 rounded-lg p-4 -mt-4 bg-white/40">
+        <h2 className="uppercase tracking-tight text-sm mb-2 font-light text-gray-500">
+          快捷入口 / Links
         </h2>
-        <ul className="text-lg font-medium">
-          <li>
-            <ExternalLink href="https://github.com/agarun/photos">
-              GitHub
-            </ExternalLink>
-          </li>
-          <li>
-            <ExternalLink href="https://agarun.com">Personal Site</ExternalLink>
-          </li>
+        <ul className="text-lg font-medium space-y-1">
+          {siteConfig.links.map(link => (
+            <li key={link.label}>
+              {link.url.startsWith('/') ? (
+                <Link
+                  href={link.url}
+                  className="hover:text-red-700 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <ExternalLink href={link.url}>{link.label}</ExternalLink>
+              )}
+            </li>
+          ))}
         </ul>
       </div>
     </div>
@@ -49,7 +47,10 @@ function Contact() {
 }
 
 async function AboutPage() {
-  const albums = await getAlbums();
+  const [albums, siteConfig] = await Promise.all([
+    getAlbums(),
+    getSiteConfig()
+  ]);
 
   return (
     <section
@@ -70,41 +71,41 @@ async function AboutPage() {
           px-9 py-8 pt-20
           w-full relative overflow-hidden`}
       >
-        <section className="z-20 relative max-w-96">
-          <h1 className="font-bold text-4xl tracking-tight">Aaron Agarunov</h1>
-          <p className="text-2xl text-gray-700 font-light">
-            <span className="text-gray-300">✦</span> Photography Portfolio
+        <section className="z-20 relative max-w-xl">
+          <h1 className="font-bold text-4xl tracking-tight">
+            {siteConfig.photographerName}
+          </h1>
+          <p className="text-2xl text-gray-700 font-light mt-1">
+            <span className="text-red-700">✦</span> {siteConfig.subtitle}
           </p>
 
-          <p className="mt-20 mb-6 text-lg">{`
-        I'm a software developer & artist from New York that's super inspired by a lot of different things. Thanks for checking out the site!
-        `}</p>
-
-          <p className="mb-32 text-lg">
-            The website is open source on GitHub, built with TypeScript and
-            React, and hosted using Pages and Contentful.
+          <p className="mt-16 mb-6 text-lg text-gray-700 leading-relaxed">
+            {siteConfig.bioParagraph1}
           </p>
 
-          <Contact />
+          <p className="mb-24 text-lg text-gray-600 leading-relaxed">
+            {siteConfig.bioParagraph2}
+          </p>
+
+          <Contact siteConfig={siteConfig} />
         </section>
 
-        <Globe
+        <MiniChinaMap
           albums={albums}
-          className={`-bottom-72 -right-48 max-sm:-bottom-36 max-sm:-right-40
-            max-w-[1024px] max-sm:w-[768px]
+          className={`-bottom-56 -right-40 max-sm:-bottom-28 max-sm:-right-32
+            max-w-[920px] max-sm:w-[680px]
             fade-in`}
         />
-        {/* Overlap Globe to fade in the edges */}
         <div
           aria-hidden={true}
           className={`
-            absolute -bottom-72 -right-48 pointer-events-none
-            rounded-full border-[100px] border-gray-100
-            max-xl:hidden max-w-[1024px]`}
+            absolute -bottom-56 -right-40 pointer-events-none
+            rounded-full border-[90px] border-gray-100
+            max-xl:hidden max-w-[920px]`}
           style={{
-            width: 1000,
-            height: 1000,
-            boxShadow: 'inset 0 0 50px 125px rgb(250 250 255 / 50%)'
+            width: 900,
+            height: 900,
+            boxShadow: 'inset 0 0 50px 125px rgb(243 244 246 / 65%)'
           }}
         />
         <Noise />
