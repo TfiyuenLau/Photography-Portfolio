@@ -55,8 +55,6 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Restore cache
         uses: actions/cache@v4
@@ -73,7 +71,7 @@ jobs:
         run: pnpm install
 
       - name: Strip local-only admin routes for static Pages export
-        run: rm -rf src/app/admin src/app/api src/middleware.ts
+        run: rm -rf src/app/admin src/app/api src/lib/admin src/middleware.ts
 
       - name: Build with Next.js
         run: pnpm build
