@@ -53,13 +53,10 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
         with:
-          # Automatically inject basePath in your Next.js configuration file and disable
-          # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-          #
-          # You may remove this line if you want to manage the configuration yourself.
-          static_site_generator: next
+          enablement: true
 
       - name: Restore cache
         uses: actions/cache@v4
@@ -75,9 +72,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Strip local-only admin routes for static Pages export
+        run: rm -rf src/app/admin src/app/api src/middleware.ts
+
       - name: Build with Next.js
         run: pnpm build
         env:
+          NEXT_PUBLIC_STATIC_EXPORT: 'true'
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
           CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
 

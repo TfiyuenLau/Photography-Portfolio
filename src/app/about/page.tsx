@@ -26,20 +26,26 @@ function Contact({ siteConfig }: { siteConfig: SiteConfig }) {
           Links
         </h2>
         <ul className="text-lg font-medium">
-          {siteConfig.links.map(link => (
-            <li key={link.label}>
-              {link.url.startsWith('/') ? (
-                <Link
-                  href={link.url}
-                  className="hover:text-gray-500 transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <ExternalLink href={link.url}>{link.label}</ExternalLink>
-              )}
-            </li>
-          ))}
+          {siteConfig.links
+            .filter(
+              link =>
+                process.env.NEXT_PUBLIC_STATIC_EXPORT !== 'true' ||
+                !link.url.startsWith('/admin')
+            )
+            .map(link => (
+              <li key={link.label}>
+                {link.url.startsWith('/') ? (
+                  <Link
+                    href={link.url}
+                    className="hover:text-gray-500 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <ExternalLink href={link.url}>{link.label}</ExternalLink>
+                )}
+              </li>
+            ))}
         </ul>
       </div>
     </div>

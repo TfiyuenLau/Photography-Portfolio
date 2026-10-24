@@ -22,12 +22,16 @@ export function getTags(
 }
 
 function dateFromTag(tag: Tag) {
-  return tag?.match(/(?:^20|[^\d]20)\d{2}/g)?.[0]?.trim();
+  return tag?.match(/20\d{2}/)?.[0]?.trim();
+}
+
+export function targetSlugFromTag(tag: Tag) {
+  const date = dateFromTag(tag);
+  return date || encodeURIComponent(tag.split(' ')[0].trim());
 }
 
 export function TagChip({ tag }: { tag: Tag }) {
-  const date = dateFromTag(tag);
-  const targetSlug = date || encodeURIComponent(tag.split(' ')[0].trim());
+  const targetSlug = targetSlugFromTag(tag);
 
   return (
     <Link

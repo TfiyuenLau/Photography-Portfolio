@@ -76,6 +76,18 @@ export function sortPhotosByTakenDateDesc(photos: Photo[]): Photo[] {
   });
 }
 
+function withBasePath(photos: Photo[]): Photo[] {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  if (!basePath) return photos;
+  return photos.map(p => ({
+    ...p,
+    url:
+      p.url.startsWith('/') && !p.url.startsWith(`${basePath}/`)
+        ? `${basePath}${p.url}`
+        : p.url
+  }));
+}
+
 export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; photos: Photo[] }> {
   const decoded = decodeURIComponent(slugOrTitle).toLowerCase();
 
@@ -86,7 +98,7 @@ export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; pho
       if (data.success && data.data.photoGalleryCollection.items.length > 0) {
         const album = data.data.photoGalleryCollection.items[0];
         const photos = album.photosCollection.items;
-        return { album, photos: sortPhotosByTakenDateDesc(photos) };
+        return { album, photos: withBasePath(sortPhotosByTakenDateDesc(photos)) };
       }
     } catch (error) {
       console.warn(`Failed to fetch album ${slugOrTitle} from Contentful, using local portfolio data.`, error);
@@ -103,7 +115,7 @@ export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; pho
         titleToSlug(a.title, a.slug) === decoded
     ) || albums[0];
   const albumPhotos = store.albumPhotos[album.title] || [];
-  return { album, photos: sortPhotosByTakenDateDesc(albumPhotos) };
+  return { album, photos: withBasePath(sortPhotosByTakenDateDesc(albumPhotos)) };
 }
 
 export async function getPhotos(tag: string): Promise<Photo[]> {
@@ -167,7 +179,7 @@ export async function getPhotos(tag: string): Promise<Photo[]> {
     }
   }
 
-  return sortPhotosByTakenDateDesc(matchedPhotos);
+  return withBasePath(sortPhotosByTakenDateDesc(matchedPhotos));
 }
 
 export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
@@ -256,5 +268,5 @@ export async function getFolder(folderSlugOrName: string): Promise<{ folder: Fol
         titleToSlug(f.title, f.slug) === decoded
     ) || folders[0];
   const photos = store.folderPhotos[folder.title] || [];
-  return { folder, photos: sortPhotosByTakenDateDesc(photos) };
+  return { folder, photos: withBasePath(sortPhotosByTakenDateDesc(photos)) };
 }

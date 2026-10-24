@@ -2,25 +2,33 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { getAlbums, getAllTags, getPhotos } from '@/lib/api';
 import Nav from '@/lib/nav';
+import { getTags, targetSlugFromTag } from '@/app/[slug]/chip';
 
 const Masonry = dynamic(() => import('@/lib/images/masonry'), {
   ssr: false
 });
 
 export async function generateStaticParams() {
-  const start = 2015;
+  const start = 2012;
   const end = new Date().getFullYear();
   const yearSlugs = Array.from({ length: end - start + 1 }, (_, i) =>
     (start + i).toString()
   );
 
-  const allTags = await getAllTags();
+  const [allTags, albums] = await Promise.all([getAllTags(), getAlbums()]);
+  const albumChipSlugs = albums.flatMap(album =>
+    getTags(album).map(tag => decodeURIComponent(targetSlugFromTag(tag)))
+  );
+
   const combined = new Set<string>([
     ...yearSlugs,
-    ...allTags.map(t => t.tag)
+    ...allTags.map(t => t.tag),
+    ...albumChipSlugs
   ]);
 
-  return Array.from(combined).map(slug => ({ slug }));
+  return Array.from(combined)
+    .filter(Boolean)
+    .map(slug => ({ slug }));
 }
 
 async function Tag({ params: { slug } }: { params: { slug: string } }) {

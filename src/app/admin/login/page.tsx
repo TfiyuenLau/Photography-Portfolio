@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
             Studio
           </h1>
           <p className="text-sm text-gray-400 mt-1">
-            Enter password (default: admin123)
+            Enter password to access local studio
           </p>
         </div>
 

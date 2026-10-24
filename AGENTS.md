@@ -151,10 +151,13 @@ git status       # 检查工作区变动文件，避免临时调试文件被误�
 
 作品集支持作为纯静态网站（Static HTML / CSS / Client JS）全托管于 GitHub Pages。
 
-### 5.1 部署架构说明
+### 5.1 部署架构与安全物理隔离说明
 
-- **前台展示端**：纯静态导出（SSG），零服务器成本，借助 GitHub 全球 CDN 极速分发。
-- **管理后台端**：`/admin` 本地轻量化工作台，仅在摄影师本机运行（`pnpm dev`）。摄影师在本地完成图片压制、选点、保存与 Commit 后，推送至 GitHub 触发自动化构建部署。
+- **前台展示端（公网只读）**：纯静态导出（SSG，`output: 'export'`），零服务器成本，借助 GitHub 全球 CDN 极速分发。
+- **管理后台端（仅限本机）**：`/admin` 与 `/api/admin/*` 仅在摄影师本机（`pnpm dev`）运行。
+- **CI 构建物理剥离（核心安全设计）**：
+  - 在 GitHub Actions 构建静态产物前，流水线会自动执行 `rm -rf src/app/admin src/app/api src/middleware.ts`，并在 `About` 页面自动隐藏 `Studio` 入口链接。
+  - 这意味着部署到 GitHub Pages 的静态产物中**物理上根本不存在 `/admin` 页面与后端接口**（访问 `/admin` 直接返回 `404`），且静态托管环境无任何 Node.js 写入进程，游客 **100% 不可能登录或篡改任何页面数据**。
 
 ### 5.2 自动化 CI/CD 流水线 ([`.github/workflows/nextjs.yaml`](file:///d:/Project/photos/.github/workflows/nextjs.yaml))
 
@@ -169,35 +172,39 @@ sequenceDiagram
 
     Agent->>GitHub: git push origin main
     GitHub->>Actions: 触发 Deploy site to Pages 工作流
-    Actions->>Actions: pnpm install & pnpm build (生成 ./out 静态产物)
+    Actions->>Actions: configure-pages (enablement: true, 获取 basePath)
+    Actions->>Actions: 物理剥离 src/app/admin、src/app/api 与 middleware.ts
+    Actions->>Actions: NEXT_PUBLIC_STATIC_EXPORT=true pnpm build (生成 ./out 静态产物)
     Actions->>Pages: 上传并发布至 GitHub Pages 环境
     Pages-->>Agent: 网站上线生效 (username.github.io/repo)
 ```
 
-### 5.3 仓库与域名配置要求
+### 5.3 首次仓库配置要求（必读：解决 `Get Pages site failed` 报错）
 
-1. **开启 GitHub Pages 权限**：
-   - 进入 GitHub 仓库页面 $\to$ **Settings** $\to$ **Pages**。
-   - **Build and deployment** $\to$ **Source** 选择 **GitHub Actions**。
-2. **二级路径 (Subpath) 兼容性说明**：
-   - **根域名部署**（如 `https://<username>.github.io` 或自定义绑定独立域名）：无需任何路径前缀修改。
-   - **项目二级路径部署**（如 `https://<username>.github.io/<repo-name>`）：
-     - GitHub Actions 中的 `actions/configure-pages@v5` 会自动注入 `basePath`。
-     - 若手动本地导出，需在 `next.config.mjs` 中指定 `basePath: '/<repo-name>'` 与 `output: 'export'`。
+首次创建新仓库并推送时，若 GitHub 尚未初始化 Pages 环境，`actions/configure-pages@v5` 可能会报错 `HttpError: Not Found - Get Pages site failed`。按以下步骤即可解决：
 
-### 5.4 手动发布 / 推送命令
+1. **开启 GitHub Pages 权限（仅首次需设置一次）**：
+   - 打开 GitHub 仓库页面 $\to$ 点击顶部 **Settings** $\to$ 左侧菜单选择 **Pages**。
+   - 在 **Build and deployment** $\to$ **Source** 下拉框中，将默认的 `Deploy from a branch` 切换为 **`GitHub Actions`**（无需选择模板，直接切换即自动保存）。
+   - 同时工作流已配置 `enablement: true`，在具备权限时会自动尝试激活 Pages。
+2. **二级路径 (Subpath) 自动适配**：
+   - 无论部署在根域名（`https://<username>.github.io`）还是项目二级路径（如 `https://tfiyuenlau.github.io/Photography-Portfolio`），流水线会自动将 `steps.pages.outputs.base_path` 注入 `NEXT_PUBLIC_BASE_PATH`。
+   - [`next.config.mjs`](file:///d:/Project/photos/next.config.mjs)、[`src/lib/api/index.ts`](file:///d:/Project/photos/src/lib/api/index.ts)（图片路径前缀）与 [`src/app/folders/layout.tsx`](file:///d:/Project/photos/src/app/folders/layout.tsx)（脚本路径前缀）均会自动适配二级路径。
+
+### 5.4 手动发布 / 重新触发部署命令
 
 ```powershell
 # 1. 验证类型与规范
 pnpm check; pnpm lint
 
 # 2. 提交所有数据与代码更改
-git add src/data/ public/photos/
+git add -A
 git commit -m "feat(photos): update portfolio content"
 
-# 3. 推送至远程仓库触发部署
+# 3. 推送至远程仓库自动触发 GitHub Actions 部署
 git push origin main
 ```
+> 若仅修改了仓库的 Settings $\to$ Pages 设置而无新代码提交，也可直接在 GitHub 仓库的 **Actions** 标签页中点击失败的工作流 $\to$ 右上角点击 **Re-run all jobs** 重新触发部署。
 
 ---
 
