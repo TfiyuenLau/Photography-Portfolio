@@ -1,8 +1,6 @@
 packages:
   - '.'
 verifyDepsBeforeRun: false
-overrides:
-  three-render-objects: 1.39.3
 allowBuilds:
   unrs-resolver: true
   sharp: true

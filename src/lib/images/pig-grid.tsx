@@ -4,6 +4,7 @@ import { useLightbox } from '@/hooks/use-lightbox';
 import { useWindowSize } from '@/hooks/use-window-size';
 import { Photo } from '@/types';
 import { useEffect } from 'react';
+import PigModule from './pig';
 
 function PigGrid({ items }: { items: Array<Photo> }) {
   useLightbox(items);
@@ -59,7 +60,9 @@ function PigGrid({ items }: { items: Array<Photo> }) {
       }
     };
 
-    const pigGrid = new window.Pig(data, options);
+    const PigConstructor = window.Pig || PigModule;
+    if (!PigConstructor) return;
+    const pigGrid = new PigConstructor(data, options);
     pigGrid.enable();
 
     return () => {

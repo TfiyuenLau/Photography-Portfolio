@@ -38,14 +38,6 @@
     "topojson-client": "^3.1.0",
     "zod": "^3.23.8"
   },
-  "overrides": {
-    "three-render-objects": "1.39.3"
-  },
-  "pnpm": {
-    "overrides": {
-      "three-render-objects": "1.39.3"
-    }
-  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18.3.1",
