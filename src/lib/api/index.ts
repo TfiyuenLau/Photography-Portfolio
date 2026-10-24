@@ -56,6 +56,26 @@ export async function getAlbums(): Promise<Album[]> {
   return [...store.albums].sort((a, b) => a.order - b.order);
 }
 
+export function getPhotoShootingTimestamp(photo: Photo): number {
+  if (photo.exif?.dateTaken) {
+    const t = new Date(photo.exif.dateTaken).getTime();
+    if (!isNaN(t) && t > 0) return t;
+  }
+  if (photo.date) {
+    const t = new Date(photo.date.replace(/\./g, '-')).getTime();
+    if (!isNaN(t) && t > 0) return t;
+  }
+  return 0;
+}
+
+export function sortPhotosByTakenDateDesc(photos: Photo[]): Photo[] {
+  return [...photos].sort((a, b) => {
+    const diff = getPhotoShootingTimestamp(b) - getPhotoShootingTimestamp(a);
+    if (diff !== 0) return diff;
+    return (b.title || '').localeCompare(a.title || '');
+  });
+}
+
 export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; photos: Photo[] }> {
   const decoded = decodeURIComponent(slugOrTitle).toLowerCase();
 
@@ -66,7 +86,7 @@ export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; pho
       if (data.success && data.data.photoGalleryCollection.items.length > 0) {
         const album = data.data.photoGalleryCollection.items[0];
         const photos = album.photosCollection.items;
-        return { album, photos };
+        return { album, photos: sortPhotosByTakenDateDesc(photos) };
       }
     } catch (error) {
       console.warn(`Failed to fetch album ${slugOrTitle} from Contentful, using local portfolio data.`, error);
@@ -83,7 +103,7 @@ export async function getAlbum(slugOrTitle: string): Promise<{ album: Album; pho
         titleToSlug(a.title, a.slug) === decoded
     ) || albums[0];
   const albumPhotos = store.albumPhotos[album.title] || [];
-  return { album, photos: albumPhotos };
+  return { album, photos: sortPhotosByTakenDateDesc(albumPhotos) };
 }
 
 export async function getPhotos(tag: string): Promise<Photo[]> {
@@ -147,7 +167,7 @@ export async function getPhotos(tag: string): Promise<Photo[]> {
     }
   }
 
-  return matchedPhotos;
+  return sortPhotosByTakenDateDesc(matchedPhotos);
 }
 
 export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
@@ -236,5 +256,5 @@ export async function getFolder(folderSlugOrName: string): Promise<{ folder: Fol
         titleToSlug(f.title, f.slug) === decoded
     ) || folders[0];
   const photos = store.folderPhotos[folder.title] || [];
-  return { folder, photos };
+  return { folder, photos: sortPhotosByTakenDateDesc(photos) };
 }

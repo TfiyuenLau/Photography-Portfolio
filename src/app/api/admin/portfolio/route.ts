@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
+import { sortPhotosByTakenDateDesc } from '@/lib/api';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,6 +33,20 @@ export async function PUT(req: NextRequest) {
     const { portfolioData, siteConfig } = body;
 
     if (portfolioData) {
+      if (portfolioData.albumPhotos && typeof portfolioData.albumPhotos === 'object') {
+        for (const key of Object.keys(portfolioData.albumPhotos)) {
+          if (Array.isArray(portfolioData.albumPhotos[key])) {
+            portfolioData.albumPhotos[key] = sortPhotosByTakenDateDesc(portfolioData.albumPhotos[key]);
+          }
+        }
+      }
+      if (portfolioData.folderPhotos && typeof portfolioData.folderPhotos === 'object') {
+        for (const key of Object.keys(portfolioData.folderPhotos)) {
+          if (Array.isArray(portfolioData.folderPhotos[key])) {
+            portfolioData.folderPhotos[key] = sortPhotosByTakenDateDesc(portfolioData.folderPhotos[key]);
+          }
+        }
+      }
       fs.writeFileSync(
         PORTFOLIO_PATH,
         JSON.stringify(portfolioData, null, 2),

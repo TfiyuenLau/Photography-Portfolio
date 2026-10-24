@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
           }
           const rawDate = parsed.DateTimeOriginal || parsed.CreateDate;
           if (rawDate instanceof Date && !isNaN(rawDate.getTime())) {
-            exifData.dateTaken = rawDate.toISOString().split('T')[0];
+            exifData.dateTaken = rawDate.toISOString();
             detectedYear = rawDate.getFullYear().toString();
           }
           if (
