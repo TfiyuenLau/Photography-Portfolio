@@ -27,10 +27,12 @@ const GLOBE_CONFIG: COBEOptions = {
 
 function useMarkers(albums: Array<Album>) {
   return albums.reduce((markers: Array<Marker>, album) => {
-    markers.push({
-      location: [album.lat, album.lng],
-      size: 0.04
-    });
+    if (album.lat !== 0 || album.lng !== 0) {
+      markers.push({
+        location: [album.lat, album.lng],
+        size: 0.04
+      });
+    }
     for (const location of album.locations) {
       markers.push({
         location: [location.lat, location.lng],
@@ -52,7 +54,7 @@ export default function Globe({
 }) {
   const markers = useMarkers(albums);
 
-  const phiRef = useRef(-0.75);
+  const phiRef = useRef(2.75);
   const widthRef = useRef(0);
   const heightRef = useRef(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);

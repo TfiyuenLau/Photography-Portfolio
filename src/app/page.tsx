@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import './globals.css';
 import { getAlbums, getSiteConfig } from '@/lib/api';
 
-const ChinaMapScene = dynamic(() => import('@/lib/map/china-map-scene'), {
+const Globe = dynamic(() => import('@/lib/globes/globe'), {
   ssr: false
 });
 
@@ -14,7 +14,7 @@ export default async function Page() {
 
   return (
     <main role="main">
-      <ChinaMapScene
+      <Globe
         albums={albums}
         photographerName={siteConfig.photographerName}
         copyrightName={siteConfig.copyrightName}

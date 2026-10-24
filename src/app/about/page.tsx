@@ -1,5 +1,5 @@
 import { getAlbums, getSiteConfig } from '@/lib/api';
-import MiniChinaMap from '@/lib/map/mini-china-map';
+import MiniGlobe from '@/lib/globes/mini-globe';
 import Nav from '@/lib/nav';
 import Noise from '@/lib/fx/noise';
 import { ExternalLink } from '@/lib/external-link';
@@ -86,7 +86,7 @@ async function AboutPage() {
           <Contact siteConfig={siteConfig} />
         </section>
 
-        <MiniChinaMap
+        <MiniGlobe
           albums={albums}
           className={`-bottom-56 -right-40 max-sm:-bottom-28 max-sm:-right-32
             max-w-[920px] max-sm:w-[680px]
