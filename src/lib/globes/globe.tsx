@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import GlobeGL from 'react-globe.gl';
 import type { GlobeProps, GlobeMethods } from 'react-globe.gl';
@@ -12,9 +12,10 @@ import { Album, AlbumTitle, types } from '@/types/albums';
 import { titleToSlug } from '@/lib/api/slug';
 import Link from 'next/link';
 import { AlbumCard } from './card';
+import chinaGeoData from '@/data/china-geo.json';
 
-type Ref = CustomGlobeMethods | undefined;
-type GlobeEl = React.MutableRefObject<Ref>;
+type Ref = CustomGlobeMethods | undefined; // Reference to globe instance
+type GlobeEl = React.MutableRefObject<Ref>; // React `ref` passed to globe element
 
 interface CustomGlobeMethods extends GlobeMethods {
   controls(): ReturnType<GlobeMethods['controls']> & {
@@ -38,86 +39,94 @@ type Arc = {
   color: Array<string>;
 };
 
-type GlobePolygon = {
-  type: string;
-  properties?: Record<string, any>;
-  geometry: any;
-  isChina?: boolean;
-};
-
-const DEFAULT_AUTOROTATE_SPEED = 1.75;
-const DEFAULT_POV = { lat: 30, lng: 106, altitude: 1.95 };
-const CITY_FOCUS_ALTITUDE = 0.35;
-const CITY_TRANSITION_MS = 780;
-const LEAVE_TRANSITION_MS = 850;
-
 function randomInRange(min: number, max: number): number {
   return Math.random() * (max - min) + min;
 }
 
+// Stable module-level accessors so react-globe.gl never re-digests layers on hover re-renders
+const POLYGON_ALTITUDE = () => 0;
+const POLYGON_SIDE_COLOR = () => 'rgba(255, 255, 255, 0)';
+const POINT_COLOR = () => 'rgba(255, 0, 0, 0.75)';
+const POINT_RADIUS = (point: object) => (point as { radius: number }).radius;
+const RING_COLOR_INTERPOLATOR = (t: number) =>
+  `rgba(255,100,50,${Math.sqrt(1 - t)})`;
+const RING_COLOR = () => RING_COLOR_INTERPOLATOR;
+const ARC_DASH_LENGTH = () => randomInRange(0.06, 0.7) / 1;
+const ARC_DASH_GAP = () => randomInRange(0.025, 0.4) * 10;
+const ARC_DASH_ANIMATE_TIME = () => randomInRange(0.08, 0.8) * 20000 + 500;
+
+function buildChinaMultiLineGeoJson() {
+  const lines: number[][][] = [];
+  for (const feature of (chinaGeoData as any).features || []) {
+    if (!feature.properties?.name || !feature.geometry) continue;
+    const polys =
+      feature.geometry.type === 'Polygon'
+        ? [feature.geometry.coordinates]
+        : feature.geometry.coordinates;
+    for (const poly of polys) {
+      const ring = poly[0];
+      if (!ring || ring.length < 20) continue;
+      const simplified = ring.filter(
+        (_: unknown, i: number) => i % 4 === 0 || i === ring.length - 1
+      );
+      lines.push(simplified);
+    }
+  }
+  return {
+    type: 'MultiLineString',
+    coordinates: lines
+  };
+}
+
 function useLandPolygons() {
-  const [landPolygons, setLandPolygons] = useState<Array<GlobePolygon>>([]);
-  const [polygonMaterial] = useState(
+  const [landPolygons, setLandPolygons] = useState([]);
+  useEffect(() => {
+    async function fetchLandPolygons() {
+      const landTopo = await import('../../data/land-110m.json');
+      const polygons = (
+        topojson.feature(
+          landTopo as any,
+          (landTopo as any).objects.land
+        ) as any
+      ).features;
+      setLandPolygons(polygons);
+    }
+    fetchLandPolygons();
+  }, []);
+  const polygonMaterial = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
         color: 0xffffff,
         opacity: 0.77,
         transparent: true
-      })
-  );
-
-  useEffect(() => {
-    async function fetchLandPolygons() {
-      const [landTopo, chinaGeo] = await Promise.all([
-        import('../../data/land-110m.json'),
-        import('../../data/china-geo.json')
-      ]);
-      const worldFeatures = (
-        topojson.feature(
-          landTopo as any,
-          (landTopo as any).objects.land
-        ) as any
-      ).features.map((f: any) => ({
-        ...f,
-        isChina: false
-      }));
-
-      const chinaFeatures = ((chinaGeo as any).features || [])
-        .filter((f: any) => Boolean(f.properties?.name))
-        .map((f: any) => ({
-          ...f,
-          isChina: true
-        }));
-
-      setLandPolygons([...worldFeatures, ...chinaFeatures]);
-    }
-    fetchLandPolygons();
-  }, []);
-
-  const getPolygonAltitude = useCallback(
-    (d: object) => ((d as GlobePolygon).isChina ? 0.0015 : 0),
+      }),
     []
   );
 
-  return { landPolygons, polygonMaterial, getPolygonAltitude };
+  return { landPolygons, polygonMaterial };
 }
 
 function usePoints(albums: Array<Album>) {
-  const [altitude, setAltitude] = useState(0.003);
-  const points = [];
-  const locations = albums.filter(
-    album => album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
-  );
-  for (const album of locations) {
-    points.push(
-      { lat: album.lat, lng: album.lng, radius: 0.22 },
-      ...album.locations.map(location => ({
-        lat: location.lat,
-        lng: location.lng,
-        radius: 0.14
-      }))
+  const [altitude, setAltitude] = useState(0.002);
+  const points = useMemo(() => {
+    const pts = [];
+    const locations = albums.filter(
+      album =>
+        album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
     );
-  }
+    for (const album of locations) {
+      pts.push(
+        { lat: album.lat, lng: album.lng, radius: 0.19 },
+        ...album.locations.map(location => ({
+          lat: location.lat,
+          lng: location.lng,
+          radius: 0.135
+        }))
+      );
+    }
+    return pts;
+  }, [albums]);
+
   return {
     pointAltitude: altitude,
     setPointAltitude: setAltitude,
@@ -126,66 +135,46 @@ function usePoints(albums: Array<Album>) {
 }
 
 function useRings(
-  globeEl: GlobeEl,
+  globeElRef: CustomGlobeMethods,
   setPointAltitude: React.Dispatch<React.SetStateAction<number>>
 ) {
   const [activeAlbumTitle, setActiveAlbumTitle] = useState<AlbumTitle>();
   const [rings, setRings] = useState<Array<Ring>>([]);
-  const colorInterpolator = useCallback(
-    (t: number) => `rgba(255,100,50,${Math.sqrt(1 - t)})`,
-    []
-  );
 
-  const enterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const enterTimeoutRef = useRef<NodeJS.Timeout>();
+  const leaveTimeoutRef = useRef<NodeJS.Timeout>();
 
   function handleMouseEnter({ lat, lng, title, type }: Album) {
-    if (leaveTimeoutRef.current) {
-      clearTimeout(leaveTimeoutRef.current);
-      leaveTimeoutRef.current = null;
-    }
-    if (enterTimeoutRef.current) {
-      clearTimeout(enterTimeoutRef.current);
-    }
+    clearTimeout(leaveTimeoutRef.current);
+    clearTimeout(enterTimeoutRef.current);
 
     setActiveAlbumTitle(title);
 
     enterTimeoutRef.current = setTimeout(() => {
-      const globe = globeEl.current;
-      if (!globe) return;
-
+      if (!globeElRef) return;
       if (type === types.LOCATION) {
-        setPointAltitude(0.003);
+        setPointAltitude(0.002);
 
-        globe.pointOfView(
+        globeElRef.pointOfView(
           {
             lat,
             lng,
-            altitude: CITY_FOCUS_ALTITUDE
+            altitude: 0.42
           },
-          CITY_TRANSITION_MS
+          850
         );
 
-        globe.controls().autoRotateForced = true;
-        globe.controls().autoRotateSpeed = 0.12;
+        globeElRef.controls().autoRotateForced = true;
+        globeElRef.controls().autoRotateSpeed = 0.25;
 
         setRings([
-          { lat, lng, maxR: 4.2, propagationSpeed: 1.35, repeatPeriod: 1100 }
+          { lat, lng, maxR: 5, propagationSpeed: 1.1, repeatPeriod: 1400 }
         ]);
       } else if (type === types.CUSTOM) {
-        setPointAltitude(1.4);
+        setPointAltitude(2);
 
-        globe.pointOfView(
-          {
-            lat: DEFAULT_POV.lat,
-            lng: DEFAULT_POV.lng,
-            altitude: DEFAULT_POV.altitude
-          },
-          CITY_TRANSITION_MS
-        );
-
-        globe.controls().autoRotateForced = true;
-        globe.controls().autoRotateSpeed = 3.7 * DEFAULT_AUTOROTATE_SPEED;
+        globeElRef.controls().autoRotateForced = true;
+        globeElRef.controls().autoRotateSpeed = 3.7 * DEFAULT_AUTOROTATE_SPEED;
 
         setRings([
           {
@@ -197,45 +186,38 @@ function useRings(
           }
         ]);
       }
-    }, 35);
+    }, 0);
   }
 
   function handleMouseLeave() {
-    if (enterTimeoutRef.current) {
-      clearTimeout(enterTimeoutRef.current);
-      enterTimeoutRef.current = null;
-    }
-    if (leaveTimeoutRef.current) {
-      clearTimeout(leaveTimeoutRef.current);
-    }
+    clearTimeout(enterTimeoutRef.current);
+    clearTimeout(leaveTimeoutRef.current);
 
     leaveTimeoutRef.current = setTimeout(() => {
-      setPointAltitude(0.003);
+      setPointAltitude(0.002);
       setActiveAlbumTitle(undefined);
 
-      const globe = globeEl.current;
-      if (globe) {
-        globe.pointOfView(
+      if (globeElRef) {
+        globeElRef.pointOfView(
           {
-            lat: DEFAULT_POV.lat,
-            lng: DEFAULT_POV.lng,
-            altitude: DEFAULT_POV.altitude
+            lat: 30,
+            lng: 106,
+            altitude: 2
           },
-          LEAVE_TRANSITION_MS
+          900
         );
 
-        globe.controls().autoRotateForced = false;
-        globe.controls().autoRotateSpeed = DEFAULT_AUTOROTATE_SPEED;
+        globeElRef.controls().autoRotateForced = false;
+        globeElRef.controls().autoRotateSpeed = 1.5;
       }
 
       setRings([]);
-    }, 90);
+    }, 60);
   }
 
   return {
     activeAlbumTitle,
     rings,
-    colorInterpolator,
     handleMouseEnter,
     handleMouseLeave
   };
@@ -243,7 +225,8 @@ function useRings(
 
 function generateArcs(albums: Array<Album>) {
   const locationAlbums = albums.filter(
-    album => album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
+    album =>
+      album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
   );
   const data = [];
   for (let i = 0; i < locationAlbums.length; i++) {
@@ -270,13 +253,14 @@ function useArcs(albums: Array<Album>) {
 }
 
 function useCustomLayer(globeEl: GlobeEl) {
-  const [customLayerData] = useState(() =>
-    Array.from({ length: 500 }, () => ({
+  const customLayerData = useMemo(() => {
+    const numbers = Array.from(Array(500), (_, index) => index);
+    return numbers.map(() => ({
       lat: (Math.random() - 0.5) * 180,
       lng: (Math.random() - 0.5) * 360,
       alt: Math.random() * 1.4 + 0.1
-    }))
-  );
+    }));
+  }, []);
 
   const customThreeObject = useCallback(
     () =>
@@ -321,59 +305,73 @@ function useCustomLayer(globeEl: GlobeEl) {
 function useGlobeReady(globeEl: GlobeEl) {
   const [globeReady, setGlobeReady] = useState(false);
 
-  useEffect(() => {
-    if (!globeReady || !globeEl.current) return;
+  // faster autoRotate speed over the ocean
+  const autoRotateSpeed = () => {
+    if (globeEl.current) {
+      const { lng } = globeEl.current.pointOfView();
+      let newSpeed = DEFAULT_AUTOROTATE_SPEED;
 
-    let rafId = 0;
+      // Speed up when facing away from East Asia / China (centered around ~106°E)
+      const gradientSteps = [
+        [175, 2],
+        [165, 1.88],
+        [160, 1.77],
+        [155, 1.65],
+        [150, 1.5],
+        [145, 1.25],
 
-    // Faster autoRotate speed over empty oceans outside Asia-Pacific
-    const autoRotateSpeed = () => {
-      if (globeEl.current) {
-        const { lng } = globeEl.current.pointOfView();
-        let newSpeed = DEFAULT_AUTOROTATE_SPEED;
-
-        const distFromChina = Math.abs(
-          ((lng - DEFAULT_POV.lng + 540) % 360) - 180
-        );
-        if (distFromChina > 120) {
-          newSpeed = 2.25 * DEFAULT_AUTOROTATE_SPEED;
-        } else if (distFromChina > 90) {
-          newSpeed = 1.85 * DEFAULT_AUTOROTATE_SPEED;
-        } else if (distFromChina > 60) {
-          newSpeed = 1.45 * DEFAULT_AUTOROTATE_SPEED;
-        } else if (distFromChina > 40) {
-          newSpeed = 1.2 * DEFAULT_AUTOROTATE_SPEED;
+        [-160, 2.25],
+        [-140, 2.0],
+        [-120, 1.75],
+        [-110, 1.65],
+        [-90, 1.5],
+        [-60, 1.4],
+        [0, 1.35],
+        [45, 1.2]
+      ];
+      for (const [longitude, multiplier] of gradientSteps) {
+        if (longitude <= 45 && lng < longitude) {
+          newSpeed = multiplier * DEFAULT_AUTOROTATE_SPEED;
+          break;
         }
-
-        if (!globeEl.current.controls().autoRotateForced) {
-          globeEl.current.controls().autoRotateSpeed = newSpeed;
+        if (longitude > 45 && lng > longitude) {
+          newSpeed = multiplier * DEFAULT_AUTOROTATE_SPEED;
+          break;
         }
       }
-      rafId = requestAnimationFrame(autoRotateSpeed);
-    };
+      if (
+        !globeEl.current.controls().autoRotateForced &&
+        newSpeed !== DEFAULT_AUTOROTATE_SPEED
+      ) {
+        globeEl.current.controls().autoRotateSpeed = newSpeed;
+      }
+    }
+    requestAnimationFrame(autoRotateSpeed);
+  };
 
-    globeEl.current.controls().enabled = false;
-    globeEl.current.controls().enableZoom = false;
-    globeEl.current.controls().autoRotate = true;
-    globeEl.current.controls().autoRotateSpeed = DEFAULT_AUTOROTATE_SPEED;
+  useEffect(() => {
+    if (globeReady && globeEl.current) {
+      globeEl.current.controls().enabled = false;
 
-    globeEl.current.pointOfView(DEFAULT_POV);
+      globeEl.current.controls().enableZoom = false;
 
-    rafId = requestAnimationFrame(autoRotateSpeed);
+      globeEl.current.controls().autoRotate = true;
+      globeEl.current.controls().autoRotateSpeed = DEFAULT_AUTOROTATE_SPEED;
 
-    return () => cancelAnimationFrame(rafId);
-  }, [globeEl, globeReady]);
+      globeEl.current.pointOfView({ lat: 30, lng: 106, altitude: 2 });
+
+      autoRotateSpeed();
+    }
+  }, [globeEl, globeReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
-    globeReady,
     handleGlobeReady: () => setGlobeReady(true)
   };
 }
 
-function useScene(globeEl: GlobeEl, globeReady: boolean) {
+function useScene(globeElRef: Ref) {
   useEffect(() => {
-    const globeElRef = globeEl.current;
-    if (!globeReady || !globeElRef) return;
+    if (!globeElRef) return;
 
     const scene = globeElRef.scene();
 
@@ -388,13 +386,29 @@ function useScene(globeEl: GlobeEl, globeReady: boolean) {
     );
     scene.add(graticules);
 
+    // Highlight China provincial map directly on the globe sphere in a single static buffer
+    const chinaGeoJson = buildChinaMultiLineGeoJson();
+    const chinaBorders = new THREE.LineSegments(
+      new GeoJsonGeometry(
+        chinaGeoJson as any,
+        globeElRef.getGlobeRadius() + 0.15,
+        5
+      ),
+      new THREE.LineBasicMaterial({
+        color: '#b91c1c',
+        transparent: true,
+        opacity: 0.55
+      })
+    );
+    scene.add(chinaBorders);
+
     const innerSphereGeometry = new THREE.SphereGeometry(
       globeElRef.getGlobeRadius() - 6,
       64,
       32
     );
     const innerSphereMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0xffffff /* it's neat to try different colors here */,
       opacity: 0.47,
       transparent: true
     });
@@ -407,10 +421,13 @@ function useScene(globeEl: GlobeEl, globeReady: boolean) {
 
     return () => {
       scene.remove(graticules);
+      scene.remove(chinaBorders);
       scene.remove(innerSphere);
     };
-  }, [globeEl, globeReady]);
+  }, [globeElRef]);
 }
+
+const DEFAULT_AUTOROTATE_SPEED = 1.75;
 
 function Globe({
   albums,
@@ -420,36 +437,44 @@ function Globe({
   photographerName?: string;
   copyrightName?: string;
 }) {
+  // object config
   const globeEl = useRef<Ref>();
+  const globeElRef: Ref = globeEl.current;
 
-  const { globeReady, handleGlobeReady } = useGlobeReady(globeEl);
+  const { handleGlobeReady } = useGlobeReady(globeEl);
 
-  useScene(globeEl, globeReady);
+  // scene config
+  useScene(globeElRef);
 
-  const { landPolygons, polygonMaterial, getPolygonAltitude } =
-    useLandPolygons();
+  // land shapes
+  const { landPolygons, polygonMaterial } = useLandPolygons();
 
+  // `albums` map points
   const { points, pointAltitude, setPointAltitude } = usePoints(albums);
 
-  const {
-    rings,
-    colorInterpolator,
-    handleMouseEnter,
-    handleMouseLeave,
-    activeAlbumTitle
-  } = useRings(globeEl, setPointAltitude);
+  // rings animation
+  const { rings, handleMouseEnter, handleMouseLeave, activeAlbumTitle } =
+    useRings(globeElRef as CustomGlobeMethods, setPointAltitude);
   const activeAlbum = albums.find(album => album.title === activeAlbumTitle);
 
+  // arcs animation
   const { arcs } = useArcs(albums);
 
+  // resize canvas on resize viewport
   const { width, height } = useWindowSize();
 
+  // stars in the background
   const { customLayerData, customThreeObject, customThreeObjectUpdate } =
     useCustomLayer(globeEl);
 
   const isMac =
     navigator.platform.toLowerCase().includes('mac') ||
     navigator.userAgent.toLowerCase().includes('mac');
+
+  const polygonStrokeColor = useCallback(
+    () => (isMac ? 'black' : 'darkslategray'),
+    [isMac]
+  );
 
   return (
     <section
@@ -466,7 +491,7 @@ function Globe({
         ref={globeEl}
         width={width}
         height={height}
-        rendererConfig={{ antialias: true }}
+        rendererConfig={{ antialias: true }} // `false` yields much better performance
         onGlobeReady={handleGlobeReady}
         animateIn={false}
         backgroundColor="rgba(0,0,0,0)"
@@ -477,25 +502,24 @@ function Globe({
         polygonsData={landPolygons}
         polygonCapMaterial={polygonMaterial}
         polygonsTransitionDuration={0}
-        polygonAltitude={getPolygonAltitude}
-        polygonSideColor={() => 'rgba(255, 255, 255, 0)'}
-        polygonStrokeColor={() => (isMac ? 'black' : 'darkslategray')}
+        polygonAltitude={POLYGON_ALTITUDE}
+        polygonSideColor={POLYGON_SIDE_COLOR}
+        polygonStrokeColor={polygonStrokeColor} // compensate for platform's polygon rendering differences
         pointsData={points}
-        pointColor={() => 'rgba(255, 0, 0, 0.75)'}
+        pointColor={POINT_COLOR}
         pointAltitude={pointAltitude}
-        pointRadius={point => (point as { radius: number }).radius}
+        pointRadius={POINT_RADIUS}
         pointsMerge={true}
         ringsData={rings}
-        ringColor={() => colorInterpolator}
+        ringColor={RING_COLOR}
         ringMaxRadius="maxR"
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
         arcsData={arcs}
         arcColor={'color'}
-        arcAltitudeAutoScale={0.42}
-        arcDashLength={() => randomInRange(0.06, 0.7) / 1}
-        arcDashGap={() => randomInRange(0.025, 0.4) * 10}
-        arcDashAnimateTime={() => randomInRange(0.08, 0.8) * 20000 + 500}
+        arcDashLength={ARC_DASH_LENGTH} // the bigger the ranges, the calmer it looks
+        arcDashGap={ARC_DASH_GAP}
+        arcDashAnimateTime={ARC_DASH_ANIMATE_TIME}
         customLayerData={customLayerData}
         customThreeObject={customThreeObject}
         customThreeObjectUpdate={customThreeObjectUpdate}
@@ -509,7 +533,6 @@ function Globe({
         <ul
           className={`flex flex-col items-center
             md:items-start tracking-tight`}
-          onMouseLeave={handleMouseLeave}
         >
           {albums.map(album => {
             return (
@@ -518,6 +541,9 @@ function Globe({
                 className="max-w-fit"
                 onMouseEnter={() => {
                   handleMouseEnter(album);
+                }}
+                onMouseLeave={() => {
+                  handleMouseLeave();
                 }}
               >
                 <Link
@@ -534,7 +560,7 @@ function Globe({
 
       {activeAlbum && <AlbumCard album={activeAlbum} />}
 
-      <footer className="tracking-tight content">
+      <footer className={`tracking-tight content`}>
         <div className="text-3xl text-center md:text-right">
           <p className="m-0 p-0">&copy; {new Date().getFullYear()}</p>
         </div>
