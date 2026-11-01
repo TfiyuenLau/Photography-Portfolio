@@ -3436,6 +3436,438 @@
     ],
     "Shenzhen": [
       {
+        "id": "shenzhen-p1016468",
+        "title": "P1016468",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 403892,
+        "url": "/photos/shenzhen/p1016468.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-10-31T13:15:49.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016464",
+        "title": "P1016464",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 407038,
+        "url": "/photos/shenzhen/p1016464.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T12:58:20.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016462",
+        "title": "P1016462",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 295208,
+        "url": "/photos/shenzhen/p1016462.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T12:55:33.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016459",
+        "title": "P1016459",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 668336,
+        "url": "/photos/shenzhen/p1016459.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-10-31T11:00:40.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016451",
+        "title": "P1016451",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 766552,
+        "url": "/photos/shenzhen/p1016451.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 3200,
+          "dateTaken": "2026-10-31T10:15:28.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016448",
+        "title": "P1016448",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 312932,
+        "url": "/photos/shenzhen/p1016448.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 3200,
+          "dateTaken": "2026-10-31T10:13:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016439",
+        "title": "P1016439",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 888964,
+        "url": "/photos/shenzhen/p1016439.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-10-31T09:54:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016428",
+        "title": "P1016428",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 709672,
+        "url": "/photos/shenzhen/p1016428.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-10-31T09:42:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016403",
+        "title": "P1016403",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 967934,
+        "url": "/photos/shenzhen/p1016403.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-10-31T09:24:47.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016365",
+        "title": "P1016365",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 602274,
+        "url": "/photos/shenzhen/p1016365.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:48:31.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016354",
+        "title": "P1016354",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 575516,
+        "url": "/photos/shenzhen/p1016354.webp",
+        "width": 1280,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/800s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:44:40.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016322",
+        "title": "P1016322",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 662492,
+        "url": "/photos/shenzhen/p1016322.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/5.6",
+          "shutterSpeed": "1/250s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:19:08.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016309",
+        "title": "P1016309",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 330394,
+        "url": "/photos/shenzhen/p1016309.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-10-17T11:54:41.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016306",
+        "title": "P1016306",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 317976,
+        "url": "/photos/shenzhen/p1016306.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/3.2",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-10-17T11:04:22.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016302",
+        "title": "P1016302",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 227706,
+        "url": "/photos/shenzhen/p1016302.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/3.2",
+          "shutterSpeed": "1/100s",
+          "iso": 500,
+          "dateTaken": "2026-10-17T10:09:56.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016295",
+        "title": "P1016295",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 276786,
+        "url": "/photos/shenzhen/p1016295.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 500,
+          "dateTaken": "2026-10-17T10:04:18.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016281",
+        "title": "P1016281",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 630378,
+        "url": "/photos/shenzhen/p1016281.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/200s",
+          "iso": 100,
+          "dateTaken": "2026-10-17T08:21:16.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016265",
+        "title": "P1016265",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 778680,
+        "url": "/photos/shenzhen/p1016265.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-10-17T08:11:47.000Z"
+        }
+      },
+      {
         "id": "shenzhen-p1016252",
         "title": "P1016252",
         "date": "2026",
@@ -6549,6 +6981,438 @@
       }
     ],
     "Street": [
+      {
+        "id": "shenzhen-p1016468",
+        "title": "P1016468",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 403892,
+        "url": "/photos/shenzhen/p1016468.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-10-31T13:15:49.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016464",
+        "title": "P1016464",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 407038,
+        "url": "/photos/shenzhen/p1016464.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T12:58:20.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016462",
+        "title": "P1016462",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 295208,
+        "url": "/photos/shenzhen/p1016462.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T12:55:33.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016459",
+        "title": "P1016459",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 668336,
+        "url": "/photos/shenzhen/p1016459.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-10-31T11:00:40.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016451",
+        "title": "P1016451",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 766552,
+        "url": "/photos/shenzhen/p1016451.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 3200,
+          "dateTaken": "2026-10-31T10:15:28.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016448",
+        "title": "P1016448",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 312932,
+        "url": "/photos/shenzhen/p1016448.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 3200,
+          "dateTaken": "2026-10-31T10:13:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016439",
+        "title": "P1016439",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 888964,
+        "url": "/photos/shenzhen/p1016439.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-10-31T09:54:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016428",
+        "title": "P1016428",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 709672,
+        "url": "/photos/shenzhen/p1016428.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-10-31T09:42:54.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016403",
+        "title": "P1016403",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 967934,
+        "url": "/photos/shenzhen/p1016403.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-10-31T09:24:47.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016365",
+        "title": "P1016365",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 602274,
+        "url": "/photos/shenzhen/p1016365.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:48:31.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016354",
+        "title": "P1016354",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 575516,
+        "url": "/photos/shenzhen/p1016354.webp",
+        "width": 1280,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/800s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:44:40.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016322",
+        "title": "P1016322",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 662492,
+        "url": "/photos/shenzhen/p1016322.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/5.6",
+          "shutterSpeed": "1/250s",
+          "iso": 100,
+          "dateTaken": "2026-10-31T08:19:08.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016309",
+        "title": "P1016309",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 330394,
+        "url": "/photos/shenzhen/p1016309.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-10-17T11:54:41.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016306",
+        "title": "P1016306",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 317976,
+        "url": "/photos/shenzhen/p1016306.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/3.2",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-10-17T11:04:22.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016302",
+        "title": "P1016302",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 227706,
+        "url": "/photos/shenzhen/p1016302.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/3.2",
+          "shutterSpeed": "1/100s",
+          "iso": 500,
+          "dateTaken": "2026-10-17T10:09:56.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016295",
+        "title": "P1016295",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 276786,
+        "url": "/photos/shenzhen/p1016295.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/100s",
+          "iso": 500,
+          "dateTaken": "2026-10-17T10:04:18.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016281",
+        "title": "P1016281",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 630378,
+        "url": "/photos/shenzhen/p1016281.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/200s",
+          "iso": 100,
+          "dateTaken": "2026-10-17T08:21:16.000Z"
+        }
+      },
+      {
+        "id": "shenzhen-p1016265",
+        "title": "P1016265",
+        "date": "2026",
+        "tags": [
+          "Shenzhen",
+          "Guangdong",
+          "Street",
+          "2026"
+        ],
+        "size": 778680,
+        "url": "/photos/shenzhen/p1016265.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-10-17T08:11:47.000Z"
+        }
+      },
       {
         "id": "shenzhen-p1016252",
         "title": "P1016252",
