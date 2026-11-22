@@ -36,24 +36,24 @@ export const Nav: React.FC<{
         })}
         {title && (
           <>
-            <li className="sm:mt-10 flex gap-1">
-              <Link
-                href="/about"
-                prefetch={false}
-                className="flex gap-1 items-center text-2xl sm:leading-5 sm:text-[15px] text-gray-400 hover:text-gray-500"
-              >
-                <InfoIcon />
-                About
-              </Link>
-            </li>
-            <li className="flex sm:mt-1 gap-1 max-sm:hidden">
+            <li className="flex sm:mt-10 gap-1 max-sm:hidden">
               <Link
                 href="/folders"
                 prefetch={false}
-                className="flex gap-1 items-center text-2xl sm:leading-5 sm:text-[15px] text-gray-400 hover:text-gray-500"
+                className="flex gap-1 items-center text-2xl sm:leading-5 sm:text-[15px] text-gray-400 hover:text-gray-500 transition-colors"
               >
                 <SocialIcon />
                 Folders
+              </Link>
+            </li>
+            <li className="flex sm:mt-1 gap-1">
+              <Link
+                href="/about"
+                prefetch={false}
+                className="flex gap-1 items-center text-2xl sm:leading-5 sm:text-[15px] text-gray-400 hover:text-gray-500 transition-colors"
+              >
+                <InfoIcon />
+                About
               </Link>
             </li>
           </>

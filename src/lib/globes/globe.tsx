@@ -3,19 +3,20 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import GlobeGL from 'react-globe.gl';
-import type { GlobeProps, GlobeMethods } from 'react-globe.gl';
+import type { GlobeMethods } from 'react-globe.gl';
 import { GeoJsonGeometry } from 'three-geojson-geometry';
 import { geoGraticule10 } from 'd3-geo';
 import * as topojson from 'topojson-client';
 import { useWindowSize } from '@/hooks/use-window-size';
 import { Album, AlbumTitle, types } from '@/types/albums';
 import { titleToSlug } from '@/lib/api/slug';
+import { GitHubLogo, XiaohongshuLogo } from '@/lib/icons/social-logos';
 import Link from 'next/link';
 import { AlbumCard } from './card';
-import chinaGeoData from '@/data/china-geo.json';
+import { createAmbientParticles, createChinaMapLayers } from './china-geometry';
 
-type Ref = CustomGlobeMethods | undefined; // Reference to globe instance
-type GlobeEl = React.MutableRefObject<Ref>; // React `ref` passed to globe element
+type Ref = CustomGlobeMethods | undefined;
+type GlobeEl = React.MutableRefObject<Ref>;
 
 interface CustomGlobeMethods extends GlobeMethods {
   controls(): ReturnType<GlobeMethods['controls']> & {
@@ -29,6 +30,7 @@ type Ring = {
   maxR: number;
   propagationSpeed: number;
   repeatPeriod: number;
+  variant: 'primary' | 'secondary';
 };
 
 type Arc = {
@@ -36,7 +38,11 @@ type Arc = {
   startLng: number;
   endLat: number;
   endLng: number;
-  color: Array<string>;
+  startTitle: AlbumTitle;
+  endTitle: AlbumTitle;
+  dashLength: number;
+  dashGap: number;
+  dashAnimateTime: number;
 };
 
 const DEFAULT_AUTOROTATE_SPEED = 1.75;
@@ -44,60 +50,151 @@ const DEFAULT_AUTOROTATE_SPEED = 1.75;
 const DEFAULT_POV = { lat: 32, lng: 105, altitude: 1.22 };
 const CITY_FOCUS_ALTITUDE = 0.38;
 
-function randomInRange(min: number, max: number): number {
-  return Math.random() * (max - min) + min;
-}
+const XIAOHONGSHU_URL =
+  'https://www.xiaohongshu.com/user/profile/614967fc000000000201de95';
+const GITHUB_URL = 'https://github.com/TfiyuenLau/Photography-Portfolio';
 
-// Stable module-level accessors so react-globe.gl never re-digests layers on hover re-renders
+// Focus-linked crimson palette
+const ARC_COLOR_DEFAULT: [string, string] = [
+  'rgba(159, 18, 57, 0.22)',
+  'rgba(159, 18, 57, 0.04)'
+];
+const ARC_COLOR_FOCUSED: [string, string] = [
+  'rgba(185, 28, 28, 0.9)',
+  'rgba(185, 28, 28, 0.15)'
+];
+const ARC_COLOR_DIMMED: [string, string] = [
+  'rgba(159, 18, 57, 0.06)',
+  'rgba(159, 18, 57, 0.02)'
+];
+
+// Stable module-level accessors so react-globe.gl never re-digests layers needlessly
 const POLYGON_ALTITUDE = () => 0;
 const POLYGON_SIDE_COLOR = () => 'rgba(255, 255, 255, 0)';
-const POINT_COLOR = () => 'rgba(255, 0, 0, 0.75)';
+const POINT_COLOR = () => 'rgba(159, 18, 57, 0.85)';
 const POINT_RADIUS = (point: object) => (point as { radius: number }).radius;
-const RING_COLOR_INTERPOLATOR = (t: number) =>
-  `rgba(255,100,50,${Math.sqrt(1 - t)})`;
-const RING_COLOR = () => RING_COLOR_INTERPOLATOR;
-const ARC_DASH_LENGTH = () => randomInRange(0.06, 0.7) / 1;
-const ARC_DASH_GAP = () => randomInRange(0.025, 0.4) * 10;
-const ARC_DASH_ANIMATE_TIME = () => randomInRange(0.08, 0.8) * 20000 + 500;
+const RING_COLOR_PRIMARY = (t: number) =>
+  `rgba(185, 28, 28, ${Math.sqrt(Math.max(0, 1 - t)) * 0.85})`;
+const RING_COLOR_SECONDARY = (t: number) =>
+  `rgba(185, 28, 28, ${Math.sqrt(Math.max(0, 1 - t)) * 0.5})`;
+const RING_COLOR = (ring: object) =>
+  (ring as Ring).variant === 'secondary'
+    ? RING_COLOR_SECONDARY
+    : RING_COLOR_PRIMARY;
+const ARC_DASH_LENGTH = (arc: object) => (arc as Arc).dashLength;
+const ARC_DASH_GAP = (arc: object) => (arc as Arc).dashGap;
+const ARC_DASH_ANIMATE_TIME_STATIC = () => 0;
+const ARC_DASH_ANIMATE_TIME_DYNAMIC = (arc: object) =>
+  (arc as Arc).dashAnimateTime;
 
-function buildChinaMultiLineGeoJson() {
-  const lines: number[][][] = [];
-  for (const feature of (chinaGeoData as any).features || []) {
-    if (!feature.properties?.name || !feature.geometry) continue;
-    const polys =
-      feature.geometry.type === 'Polygon'
-        ? [feature.geometry.coordinates]
-        : feature.geometry.coordinates;
-    for (const poly of polys) {
-      const ring = poly[0];
-      if (!ring || ring.length < 14) continue;
-      const simplified = ring.filter(
-        (_: unknown, i: number) => i % 2 === 0 || i === ring.length - 1
-      );
-      lines.push(simplified);
-    }
+function deterministicUnit(seed: number): number {
+  let x = (seed + 0x6d2b79f5) | 0;
+  x = Math.imul(x ^ (x >>> 15), 1 | x);
+  x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+  return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+}
+
+function hashPair(a: string, b: string, salt: number): number {
+  let h = (2166136261 ^ salt) >>> 0;
+  const combined = `${a}|${b}`;
+  for (let i = 0; i < combined.length; i++) {
+    h ^= combined.charCodeAt(i);
+    h = Math.imul(h, 16777619);
   }
-  return {
-    type: 'MultiLineString',
-    coordinates: lines
-  };
+  return h >>> 0;
+}
+
+function usePrefersReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  return reduced;
+}
+
+function isCoarseChinaIslandPolygon(rings: number[][][]): boolean {
+  const outer = rings[0];
+  if (!outer || outer.length === 0 || outer.length > 24) return false;
+
+  let minLng = Infinity;
+  let maxLng = -Infinity;
+  let minLat = Infinity;
+  let maxLat = -Infinity;
+  for (let i = 0; i < outer.length; i++) {
+    const [lng, lat] = outer[i];
+    if (lng < minLng) minLng = lng;
+    if (lng > maxLng) maxLng = lng;
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+  }
+
+  // Filter out 110m Hainan and Taiwan polygons so high-detail china-geo.json
+  // renders them cleanly without coarse double-coastline outlines on zoom.
+  const isHainan =
+    minLng >= 108.2 && maxLng <= 111.5 && minLat >= 17.8 && maxLat <= 20.4;
+  const isTaiwan =
+    minLng >= 119.5 && maxLng <= 122.4 && minLat >= 21.5 && maxLat <= 25.6;
+  return isHainan || isTaiwan;
 }
 
 function useLandPolygons() {
-  const [landPolygons, setLandPolygons] = useState([]);
+  const [landPolygons, setLandPolygons] = useState<object[]>([]);
+
   useEffect(() => {
+    let cancelled = false;
     async function fetchLandPolygons() {
       const landTopo = await import('../../data/land-110m.json');
-      const polygons = (
-        topojson.feature(
-          landTopo as any,
-          (landTopo as any).objects.land
-        ) as any
-      ).features;
-      setLandPolygons(polygons);
+      const topoAny = landTopo as unknown as {
+        objects: { land: Parameters<typeof topojson.feature>[1] };
+      };
+      const featureCollection = topojson.feature(
+        topoAny as unknown as Parameters<typeof topojson.feature>[0],
+        topoAny.objects.land
+      ) as unknown as {
+        features: Array<{
+          geometry?: {
+            type?: string;
+            coordinates?: number[][][][];
+          };
+        }>;
+      };
+      const filteredFeatures = featureCollection.features.map(feature => {
+        if (
+          feature.geometry?.type === 'MultiPolygon' &&
+          Array.isArray(feature.geometry.coordinates)
+        ) {
+          return {
+            ...feature,
+            geometry: {
+              ...feature.geometry,
+              coordinates: feature.geometry.coordinates.filter(
+                poly => !isCoarseChinaIslandPolygon(poly)
+              )
+            }
+          };
+        }
+        return feature;
+      });
+      if (!cancelled) {
+        setLandPolygons(filteredFeatures);
+      }
     }
     fetchLandPolygons();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
   const polygonMaterial = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
@@ -108,13 +205,19 @@ function useLandPolygons() {
     []
   );
 
+  useEffect(() => {
+    return () => {
+      polygonMaterial.dispose();
+    };
+  }, [polygonMaterial]);
+
   return { landPolygons, polygonMaterial };
 }
 
 function usePoints(albums: Array<Album>) {
   const [altitude, setAltitude] = useState(0.002);
   const points = useMemo(() => {
-    const pts = [];
+    const pts: Array<{ lat: number; lng: number; radius: number }> = [];
     const locations = albums.filter(
       album =>
         album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
@@ -140,85 +243,148 @@ function usePoints(albums: Array<Album>) {
 }
 
 function useRings(
-  globeElRef: CustomGlobeMethods,
+  globeEl: GlobeEl,
   setPointAltitude: React.Dispatch<React.SetStateAction<number>>,
-  isCityFocusedRef: React.MutableRefObject<boolean>
+  isCityFocusedRef: React.MutableRefObject<boolean>,
+  hoveredProvinceRef: React.MutableRefObject<string | null>,
+  syncHighlightRef: React.MutableRefObject<{ sync: (() => void) | null }>,
+  prefersReducedMotion: boolean
 ) {
   const [activeAlbumTitle, setActiveAlbumTitle] = useState<AlbumTitle>();
   const [rings, setRings] = useState<Array<Ring>>([]);
 
-  const enterTimeoutRef = useRef<NodeJS.Timeout>();
-  const leaveTimeoutRef = useRef<NodeJS.Timeout>();
+  const timersRef = useRef<{
+    enter?: ReturnType<typeof setTimeout>;
+    leave?: ReturnType<typeof setTimeout>;
+  }>({});
 
-  function handleMouseEnter({ lat, lng, title, type }: Album) {
-    clearTimeout(leaveTimeoutRef.current);
-    clearTimeout(enterTimeoutRef.current);
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      clearTimeout(timers.enter);
+      clearTimeout(timers.leave);
+    };
+  }, []);
 
-    setActiveAlbumTitle(title);
+  const handleMouseEnter = useCallback(
+    ({ lat, lng, title, type, province }: Album) => {
+      clearTimeout(timersRef.current.leave);
+      clearTimeout(timersRef.current.enter);
 
-    enterTimeoutRef.current = setTimeout(() => {
-      if (!globeElRef) return;
-      if (type === types.LOCATION) {
-        isCityFocusedRef.current = true;
-        setPointAltitude(0.002);
+      setActiveAlbumTitle(title);
+      hoveredProvinceRef.current =
+        type === types.LOCATION ? (province ?? null) : null;
+      syncHighlightRef.current.sync?.();
 
-        globeElRef.pointOfView(
-          {
-            lat,
-            lng,
-            altitude: CITY_FOCUS_ALTITUDE
-          },
-          800
-        );
+      timersRef.current.enter = setTimeout(() => {
+        const globe = globeEl.current;
+        if (!globe) return;
 
-        globeElRef.controls().autoRotate = false;
-        globeElRef.controls().autoRotateForced = false;
+        const transitionMs = prefersReducedMotion ? 0 : 800;
 
-        setRings([
-          { lat, lng, maxR: 4.5, propagationSpeed: 1.15, repeatPeriod: 1300 }
-        ]);
-      } else if (type === types.CUSTOM) {
-        isCityFocusedRef.current = false;
-        setPointAltitude(1.4);
+        if (type === types.LOCATION) {
+          isCityFocusedRef.current = true;
+          setPointAltitude(0.002);
 
-        globeElRef.pointOfView(DEFAULT_POV, 800);
+          globe.pointOfView(
+            {
+              lat,
+              lng,
+              altitude: CITY_FOCUS_ALTITUDE
+            },
+            transitionMs
+          );
 
-        globeElRef.controls().autoRotate = true;
-        globeElRef.controls().autoRotateForced = true;
-        globeElRef.controls().autoRotateSpeed = 3.5 * DEFAULT_AUTOROTATE_SPEED;
+          globe.controls().autoRotate = false;
+          globe.controls().autoRotateForced = false;
 
-        setRings([
-          {
-            lat: 90,
-            lng: 0,
-            maxR: 180,
-            propagationSpeed: 27,
-            repeatPeriod: 195
-          }
-        ]);
-      }
-    }, 0);
-  }
+          setRings(
+            prefersReducedMotion
+              ? []
+              : [
+                  {
+                    lat,
+                    lng,
+                    maxR: 4.6,
+                    propagationSpeed: 1.25,
+                    repeatPeriod: 1450,
+                    variant: 'primary'
+                  },
+                  {
+                    lat,
+                    lng,
+                    maxR: 3.0,
+                    propagationSpeed: 0.9,
+                    repeatPeriod: 1450,
+                    variant: 'secondary'
+                  }
+                ]
+          );
+        } else if (type === types.CUSTOM) {
+          isCityFocusedRef.current = false;
+          setPointAltitude(1.4);
 
-  function handleMouseLeave() {
-    clearTimeout(enterTimeoutRef.current);
-    clearTimeout(leaveTimeoutRef.current);
+          globe.pointOfView(DEFAULT_POV, transitionMs);
 
-    leaveTimeoutRef.current = setTimeout(() => {
+          globe.controls().autoRotate = !prefersReducedMotion;
+          globe.controls().autoRotateForced = !prefersReducedMotion;
+          globe.controls().autoRotateSpeed = 3.5 * DEFAULT_AUTOROTATE_SPEED;
+
+          setRings(
+            prefersReducedMotion
+              ? []
+              : [
+                  {
+                    lat: 90,
+                    lng: 0,
+                    maxR: 180,
+                    propagationSpeed: 24,
+                    repeatPeriod: 240,
+                    variant: 'secondary'
+                  }
+                ]
+          );
+        }
+      }, 0);
+    },
+    [
+      globeEl,
+      hoveredProvinceRef,
+      isCityFocusedRef,
+      prefersReducedMotion,
+      setPointAltitude,
+      syncHighlightRef
+    ]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    clearTimeout(timersRef.current.enter);
+    clearTimeout(timersRef.current.leave);
+
+    timersRef.current.leave = setTimeout(() => {
       isCityFocusedRef.current = false;
+      hoveredProvinceRef.current = null;
+      syncHighlightRef.current.sync?.();
       setPointAltitude(0.002);
       setActiveAlbumTitle(undefined);
 
-      if (globeElRef) {
-        globeElRef.pointOfView(DEFAULT_POV, 850);
-
-        globeElRef.controls().autoRotate = false;
-        globeElRef.controls().autoRotateForced = false;
+      const globe = globeEl.current;
+      if (globe) {
+        globe.pointOfView(DEFAULT_POV, prefersReducedMotion ? 0 : 850);
+        globe.controls().autoRotate = false;
+        globe.controls().autoRotateForced = false;
       }
 
       setRings([]);
     }, 60);
-  }
+  }, [
+    globeEl,
+    hoveredProvinceRef,
+    isCityFocusedRef,
+    prefersReducedMotion,
+    setPointAltitude,
+    syncHighlightRef
+  ]);
 
   return {
     activeAlbumTitle,
@@ -228,20 +394,30 @@ function useRings(
   };
 }
 
-function generateArcs(albums: Array<Album>) {
+function generateArcs(albums: Array<Album>): Array<Arc> {
   const locationAlbums = albums.filter(
     album =>
       album.type === types.LOCATION && (album.lat !== 0 || album.lng !== 0)
   );
-  const data = [];
+  const data: Array<Arc> = [];
   for (let i = 0; i < locationAlbums.length; i++) {
     for (let j = i + 1; j < locationAlbums.length; j++) {
+      const a = locationAlbums[i];
+      const b = locationAlbums[j];
+      const uLen = deterministicUnit(hashPair(a.title, b.title, 1));
+      const uGap = deterministicUnit(hashPair(a.title, b.title, 2));
+      const uTime = deterministicUnit(hashPair(a.title, b.title, 3));
+
       data.push({
-        startLat: locationAlbums[i].lat,
-        startLng: locationAlbums[i].lng,
-        endLat: locationAlbums[j].lat,
-        endLng: locationAlbums[j].lng,
-        color: ['red', 'red']
+        startLat: a.lat,
+        startLng: a.lng,
+        endLat: b.lat,
+        endLng: b.lng,
+        startTitle: a.title,
+        endTitle: b.title,
+        dashLength: 0.24 + uLen * 0.36,
+        dashGap: 0.4 + uGap * 1.15,
+        dashAnimateTime: Math.round(3600 + uTime * 5400)
       });
     }
   }
@@ -249,65 +425,11 @@ function generateArcs(albums: Array<Album>) {
 }
 
 function useArcs(albums: Array<Album>) {
-  const [arcs, setArcs] = useState<Array<Arc>>([]);
-  useEffect(() => {
-    setArcs(generateArcs(albums));
-  }, [albums]);
-
+  const arcs = useMemo(() => generateArcs(albums), [albums]);
   return { arcs };
 }
 
-function useCustomLayer(globeEl: GlobeEl) {
-  const customLayerData = useMemo(() => {
-    const numbers = Array.from(Array(500), (_, index) => index);
-    return numbers.map(() => ({
-      lat: (Math.random() - 0.5) * 180,
-      lng: (Math.random() - 0.5) * 360,
-      alt: Math.random() * 1.4 + 0.1
-    }));
-  }, []);
-
-  const customThreeObject = useCallback(
-    () =>
-      new THREE.Mesh(
-        new THREE.SphereGeometry(0.22),
-        new THREE.MeshBasicMaterial({
-          color: '#777777',
-          opacity: 0.25,
-          transparent: true
-        })
-      ),
-    []
-  );
-
-  const customThreeObjectUpdate: GlobeProps['customThreeObjectUpdate'] =
-    useCallback(
-      (object: THREE.Object3D, objectData: object) => {
-        const typedObjectData = objectData as {
-          lat: number;
-          lng: number;
-          alt: number;
-        };
-        const coords = globeEl.current?.getCoords(
-          typedObjectData.lat,
-          typedObjectData.lng,
-          typedObjectData.alt
-        );
-        if (coords) {
-          Object.assign(object.position, coords);
-        }
-      },
-      [globeEl]
-    );
-
-  return {
-    customLayerData,
-    customThreeObject,
-    customThreeObjectUpdate
-  };
-}
-
-function useGlobeReady(globeEl: GlobeEl) {
+function useGlobeReady(globeEl: GlobeEl, isCompact: boolean) {
   const [globeReady, setGlobeReady] = useState(false);
 
   useEffect(() => {
@@ -320,18 +442,43 @@ function useGlobeReady(globeEl: GlobeEl) {
     }
   }, [globeEl, globeReady]);
 
+  useEffect(() => {
+    if (!globeReady || !globeEl.current) return;
+    const renderer = globeEl.current.renderer();
+    if (renderer) {
+      const maxDpr = isCompact ? 1.5 : 2;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
+    }
+  }, [globeEl, globeReady, isCompact]);
+
+  const handleGlobeReady = useCallback(() => {
+    setGlobeReady(true);
+  }, []);
+
   return {
-    handleGlobeReady: () => setGlobeReady(true)
+    globeReady,
+    handleGlobeReady
   };
 }
 
 function useScene(
-  globeElRef: Ref,
-  isCityFocusedRef: React.MutableRefObject<boolean>
+  globeEl: GlobeEl,
+  globeReady: boolean,
+  isCompact: boolean,
+  isCityFocusedRef: React.MutableRefObject<boolean>,
+  hoveredProvinceRef: React.MutableRefObject<string | null>,
+  syncHighlightRef: React.MutableRefObject<{ sync: (() => void) | null }>,
+  prefersReducedMotion: boolean
 ) {
   const mouseTargetRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      mouseTargetRef.current.x = 0;
+      mouseTargetRef.current.y = 0;
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseTargetRef.current.x =
         (e.clientX / Math.max(1, window.innerWidth) - 0.5) * 2;
@@ -340,42 +487,50 @@ function useScene(
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // Ambient single-draw-call particle field sized for desktop vs compact viewports
   useEffect(() => {
-    if (!globeElRef) return;
+    const globe = globeEl.current;
+    if (!globeReady || !globe) return;
 
-    const scene = globeElRef.scene();
+    const scene = globe.scene();
+    const globeRadius = globe.getGlobeRadius();
+    const particles = createAmbientParticles(globeRadius, isCompact);
+    scene.add(particles.points);
 
-    const radius = 300;
+    return () => {
+      scene.remove(particles.points);
+      particles.dispose();
+    };
+  }, [globeEl, globeReady, isCompact]);
+
+  // Core scene geometry (graticules, dual-layer China map + highlights, inner sphere) & damped RAF
+  useEffect(() => {
+    const globe = globeEl.current;
+    if (!globeReady || !globe) return;
+
+    const scene = globe.scene();
+    const globeRadius = globe.getGlobeRadius();
+
+    const graticuleGeometry = new GeoJsonGeometry(geoGraticule10(), 300, 2);
+    const graticuleMaterial = new THREE.LineBasicMaterial({
+      color: 'lightgrey',
+      transparent: true,
+      opacity: 0.42
+    });
     const graticules = new THREE.LineSegments(
-      new GeoJsonGeometry(geoGraticule10(), radius, 2),
-      new THREE.LineBasicMaterial({
-        color: 'lightgrey',
-        transparent: true,
-        opacity: 0.47
-      })
+      graticuleGeometry,
+      graticuleMaterial
     );
     scene.add(graticules);
 
-    // Highlight China provincial map directly on the globe sphere in a single static buffer
-    const chinaGeoJson = buildChinaMultiLineGeoJson();
-    const chinaBorders = new THREE.LineSegments(
-      new GeoJsonGeometry(
-        chinaGeoJson as any,
-        globeElRef.getGlobeRadius() + 0.15,
-        5
-      ),
-      new THREE.LineBasicMaterial({
-        color: '#b91c1c',
-        transparent: true,
-        opacity: 0.6
-      })
-    );
-    scene.add(chinaBorders);
+    // Dual-layer deduplicated China borders + soft-white backing mask + per-province highlights
+    const chinaMap = createChinaMapLayers(globeRadius);
+    scene.add(chinaMap.group);
 
     const innerSphereGeometry = new THREE.SphereGeometry(
-      globeElRef.getGlobeRadius() - 6,
+      globeRadius - 6,
       64,
       32
     );
@@ -391,7 +546,7 @@ function useScene(
     innerSphere.renderOrder = Number.MAX_SAFE_INTEGER;
     scene.add(innerSphere);
 
-    // Mouse-driven 3D spherical rotation + subtle ambient breathing around China
+    // Mouse-driven 3D spherical parallax + subtle ambient breathing around China
     const chinaTheta = ((90 - DEFAULT_POV.lng) * Math.PI) / 180;
     const rightAxis = new THREE.Vector3(
       -Math.sin(chinaTheta),
@@ -405,37 +560,111 @@ function useScene(
     let curX = 0;
     let curY = 0;
     let rafId = 0;
+    let lastTime = performance.now();
+    let isDisposed = false;
 
-    const animateSphereRotation = (now: number) => {
+    const animateFrame = (now: number) => {
+      if (isDisposed || document.hidden) {
+        rafId = 0;
+        return;
+      }
+
+      const dt = Math.min(0.05, Math.max(0, (now - lastTime) * 0.001));
+      lastTime = now;
+
       const t = now * 0.001;
-      const dampFactor = isCityFocusedRef.current ? 0.2 : 1.0;
+      const parallaxDamp = 1 - Math.exp(-5.2 * dt);
+      const highlightDamp = 1 - Math.exp(-10 * dt);
 
-      const targetX =
-        mouseTargetRef.current.x * 0.34 * dampFactor +
-        Math.sin(t * 0.45) * 0.045 * dampFactor;
-      const targetY =
-        mouseTargetRef.current.y * 0.24 * dampFactor +
-        Math.cos(t * 0.35) * 0.03 * dampFactor;
+      const targetX = isCityFocusedRef.current
+        ? 0
+        : mouseTargetRef.current.x * 0.3 + Math.sin(t * 0.42) * 0.04;
+      const targetY = isCityFocusedRef.current
+        ? 0
+        : mouseTargetRef.current.y * 0.22 + Math.cos(t * 0.34) * 0.028;
 
-      curX += (targetX - curX) * 0.065;
-      curY += (targetY - curY) * 0.065;
+      curX += (targetX - curX) * parallaxDamp;
+      curY += (targetY - curY) * parallaxDamp;
 
       qLon.setFromAxisAngle(upAxis, -curX);
       qLat.setFromAxisAngle(rightAxis, curY);
       scene.quaternion.copy(qLat).multiply(qLon);
 
-      rafId = requestAnimationFrame(animateSphereRotation);
+      chinaMap.updateHighlight(hoveredProvinceRef.current, highlightDamp);
+
+      rafId = requestAnimationFrame(animateFrame);
     };
-    rafId = requestAnimationFrame(animateSphereRotation);
+
+    const startLoop = () => {
+      if (isDisposed || prefersReducedMotion || document.hidden || rafId !== 0) {
+        return;
+      }
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animateFrame);
+    };
+
+    const stopLoop = () => {
+      if (rafId !== 0) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    };
+
+    const syncHighlight = syncHighlightRef.current;
+
+    if (prefersReducedMotion) {
+      scene.quaternion.identity();
+      chinaMap.updateHighlight(hoveredProvinceRef.current, 1);
+      syncHighlight.sync = () => {
+        chinaMap.updateHighlight(hoveredProvinceRef.current, 1);
+      };
+    } else {
+      syncHighlight.sync = null;
+      startLoop();
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopLoop();
+        globe.pauseAnimation();
+      } else {
+        globe.resumeAnimation();
+        if (prefersReducedMotion) {
+          chinaMap.updateHighlight(hoveredProvinceRef.current, 1);
+        } else {
+          startLoop();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      isDisposed = true;
+      stopLoop();
+      syncHighlight.sync = null;
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       scene.quaternion.identity();
+
       scene.remove(graticules);
-      scene.remove(chinaBorders);
+      graticuleGeometry.dispose();
+      graticuleMaterial.dispose();
+
+      scene.remove(chinaMap.group);
+      chinaMap.dispose();
+
       scene.remove(innerSphere);
+      innerSphereGeometry.dispose();
+      innerSphereMaterial.dispose();
     };
-  }, [globeElRef, isCityFocusedRef]);
+  }, [
+    globeEl,
+    globeReady,
+    hoveredProvinceRef,
+    isCityFocusedRef,
+    prefersReducedMotion,
+    syncHighlightRef
+  ]);
 }
 
 function Globe({
@@ -446,44 +675,68 @@ function Globe({
   photographerName?: string;
   copyrightName?: string;
 }) {
-  // object config
   const globeEl = useRef<Ref>();
-  const globeElRef: Ref = globeEl.current;
   const isCityFocusedRef = useRef(false);
+  const hoveredProvinceRef = useRef<string | null>(null);
+  const syncHighlightRef = useRef<{ sync: (() => void) | null }>({
+    sync: null
+  });
 
-  const { handleGlobeReady } = useGlobeReady(globeEl);
+  const { width, height } = useWindowSize();
+  const isCompact =
+    (width ?? (typeof window !== 'undefined' ? window.innerWidth : 1024)) < 768;
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  // scene config
-  useScene(globeElRef, isCityFocusedRef);
+  const { globeReady, handleGlobeReady } = useGlobeReady(globeEl, isCompact);
 
-  // land shapes
+  useScene(
+    globeEl,
+    globeReady,
+    isCompact,
+    isCityFocusedRef,
+    hoveredProvinceRef,
+    syncHighlightRef,
+    prefersReducedMotion
+  );
+
   const { landPolygons, polygonMaterial } = useLandPolygons();
-
-  // `albums` map points
   const { points, pointAltitude, setPointAltitude } = usePoints(albums);
 
-  // rings animation
   const { rings, handleMouseEnter, handleMouseLeave, activeAlbumTitle } =
-    useRings(globeElRef as CustomGlobeMethods, setPointAltitude, isCityFocusedRef);
-  const activeAlbum = albums.find(album => album.title === activeAlbumTitle);
+    useRings(
+      globeEl,
+      setPointAltitude,
+      isCityFocusedRef,
+      hoveredProvinceRef,
+      syncHighlightRef,
+      prefersReducedMotion
+    );
 
-  // arcs animation
+  const activeAlbum = useMemo(
+    () => albums.find(album => album.title === activeAlbumTitle),
+    [albums, activeAlbumTitle]
+  );
+
+  const activeLocationTitle =
+    activeAlbum?.type === types.LOCATION ? activeAlbum.title : undefined;
+
   const { arcs } = useArcs(albums);
 
-  // resize canvas on resize viewport
-  const { width, height } = useWindowSize();
-
-  // stars in the background
-  const { customLayerData, customThreeObject, customThreeObjectUpdate } =
-    useCustomLayer(globeEl);
-
-  const isMac =
-    navigator.platform.toLowerCase().includes('mac') ||
-    navigator.userAgent.toLowerCase().includes('mac');
+  const arcColor = useCallback(
+    (arc: object) => {
+      if (!activeLocationTitle) return ARC_COLOR_DEFAULT;
+      const typedArc = arc as Arc;
+      const isConnected =
+        typedArc.startTitle === activeLocationTitle ||
+        typedArc.endTitle === activeLocationTitle;
+      return isConnected ? ARC_COLOR_FOCUSED : ARC_COLOR_DIMMED;
+    },
+    [activeLocationTitle]
+  );
 
   const polygonStrokeColor = useCallback(
-    () => (isMac ? 'black' : 'darkslategray'),
-    [isMac]
+    () => 'rgba(100, 116, 139, 0.34)',
+    []
   );
 
   return (
@@ -501,8 +754,9 @@ function Globe({
         ref={globeEl}
         width={width}
         height={height}
-        rendererConfig={{ antialias: true }} // `false` yields much better performance
+        rendererConfig={{ antialias: true }}
         onGlobeReady={handleGlobeReady}
+        enablePointerInteraction={false}
         animateIn={false}
         backgroundColor="rgba(0,0,0,0)"
         atmosphereColor="rgba(255, 255, 255, 1)"
@@ -514,7 +768,7 @@ function Globe({
         polygonsTransitionDuration={0}
         polygonAltitude={POLYGON_ALTITUDE}
         polygonSideColor={POLYGON_SIDE_COLOR}
-        polygonStrokeColor={polygonStrokeColor} // compensate for platform's polygon rendering differences
+        polygonStrokeColor={polygonStrokeColor}
         pointsData={points}
         pointColor={POINT_COLOR}
         pointAltitude={pointAltitude}
@@ -526,13 +780,15 @@ function Globe({
         ringPropagationSpeed="propagationSpeed"
         ringRepeatPeriod="repeatPeriod"
         arcsData={arcs}
-        arcColor={'color'}
-        arcDashLength={ARC_DASH_LENGTH} // the bigger the ranges, the calmer it looks
+        arcColor={arcColor}
+        arcsTransitionDuration={0}
+        arcDashLength={ARC_DASH_LENGTH}
         arcDashGap={ARC_DASH_GAP}
-        arcDashAnimateTime={ARC_DASH_ANIMATE_TIME}
-        customLayerData={customLayerData}
-        customThreeObject={customThreeObject}
-        customThreeObjectUpdate={customThreeObjectUpdate}
+        arcDashAnimateTime={
+          prefersReducedMotion
+            ? ARC_DASH_ANIMATE_TIME_STATIC
+            : ARC_DASH_ANIMATE_TIME_DYNAMIC
+        }
       />
 
       <section className="content-container grow text-3xl">
@@ -545,6 +801,9 @@ function Globe({
             md:items-start tracking-tight`}
         >
           {albums.map(album => {
+            const isActive = activeAlbumTitle === album.title;
+            const hasOtherActive = Boolean(activeAlbumTitle) && !isActive;
+
             return (
               <li
                 key={album.title}
@@ -555,12 +814,30 @@ function Globe({
                 onMouseLeave={() => {
                   handleMouseLeave();
                 }}
+                onFocus={() => {
+                  handleMouseEnter(album);
+                }}
+                onBlur={() => {
+                  handleMouseLeave();
+                }}
               >
                 <Link
                   href={`/${titleToSlug(album.title, album.slug)}`}
-                  className="hover:text-gray-500"
+                  className={`inline-flex items-center transition-all duration-200 ease-out ${
+                    isActive
+                      ? 'text-gray-900 md:translate-x-1.5'
+                      : hasOtherActive
+                        ? 'text-gray-400/70'
+                        : 'text-gray-900 hover:text-gray-700'
+                  }`}
                 >
-                  {album.title}
+                  <span
+                    aria-hidden="true"
+                    className={`hidden md:inline-block h-[1.5px] bg-red-800 rounded-full transition-all duration-200 ease-out ${
+                      isActive ? 'w-3.5 mr-2.5 opacity-100' : 'w-0 mr-0 opacity-0'
+                    }`}
+                  />
+                  <span>{album.title}</span>
                 </Link>
               </li>
             );
@@ -568,11 +845,39 @@ function Globe({
         </ul>
       </section>
 
-      {activeAlbum && <AlbumCard album={activeAlbum} />}
+      {activeAlbum && <AlbumCard key={activeAlbum.title} album={activeAlbum} />}
 
-      <footer className={`tracking-tight content`}>
-        <div className="text-3xl text-center md:text-right">
-          <p className="m-0 p-0">&copy; {new Date().getFullYear()}</p>
+      <footer className="tracking-tight content z-10">
+        <div className="flex items-center justify-center md:justify-end gap-4 text-3xl">
+          <p className="m-0 p-0 leading-none">
+            &copy; {new Date().getFullYear()}
+          </p>
+          <span
+            className="h-5 w-px bg-gray-300/80"
+            aria-hidden="true"
+          />
+          <div className="flex items-center gap-3.5 text-gray-500">
+            <a
+              href={XIAOHONGSHU_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Xiaohongshu"
+              title="Xiaohongshu"
+              className="inline-flex items-center justify-center transition-colors duration-200 hover:text-[#ff2442]"
+            >
+              <XiaohongshuLogo className="size-5" />
+            </a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              title="GitHub"
+              className="inline-flex items-center justify-center transition-colors duration-200 hover:text-black"
+            >
+              <GitHubLogo className="size-5" />
+            </a>
+          </div>
         </div>
       </footer>
     </section>

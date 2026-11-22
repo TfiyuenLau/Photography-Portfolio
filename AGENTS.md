@@ -12,11 +12,11 @@
   - `sharp`：高质量等比缩放并压制为现代 WebP 格式（最大单边边长 $\le 2048\text{px}$）。
   - `exifr`：精准解析相机型号、镜头、曝光时间（快门）、光圈、ISO、原始拍摄时间（`DateTimeOriginal` / `CreateDate`）及 GPS 经纬度。
 - **数据持久化中心**：
-  - 单一真相源：[`src/data/portfolio-data.json`](file:///d:/Project/photos/src/data/portfolio-data.json)（相册、照片列表、专题归档）。
-  - 站点品牌配置：[`src/data/site-config.json`](file:///d:/Project/photos/src/data/site-config.json)（作者姓名、Bio 简介、社交链接）。
-  - 地理边界数据：[`src/data/china-geo.json`](file:///d:/Project/photos/src/data/china-geo.json)（大中华区矢量省界与坐标体系）。
+  - 单一真相源：[`src/data/portfolio-data.json`](./src/data/portfolio-data.json)（相册、照片列表、专题归档）。
+  - 站点品牌配置：[`src/data/site-config.json`](./src/data/site-config.json)（作者姓名、Bio 简介、社交链接）。
+  - 地理边界数据：[`src/data/china-geo.json`](./src/data/china-geo.json)（大中华区矢量省界与坐标体系）。
 - **静态资源存储**：
-  - 转码后的 WebP 存放于 `public/photos/<年份>/<文件名>.webp`。
+  - 按城市相册分类存储的 WebP 存放于 `public/photos/<city_slug>/<文件名>.webp`（文件名全小写，如 `public/photos/shenzhen/p1016468.webp`）。
 
 ---
 
@@ -32,9 +32,15 @@
    - 所有外部输入的相机 RAW/JPG/PNG 必须先经过 Sharp 转码为 WebP（尺寸 $\le 2048\text{px}$，quality 88，effort 4），严禁直接复制数十兆的未压缩图片。
 3. **数据一致性校验**：
    - `albums` 和 `folders` 的 `order` 字段必须为从 `1` 开始递增的连续正整数。
-   - 相册名、文件夹名需与 `albumPhotos` 和 `folderPhotos` 的键名完全匹配（区分大小写，如 `Guangzhou`、`Shenzhen`、`Cosplay`、`Street`）。
+   - 相册名、文件夹名需与 `albumPhotos` 和 `folderPhotos` 的键名完全匹配（区分大小写，如 `Guangzhou`、`Shenzhen`、`Cosplay`、`Street`、`Architecture`）。
+   - **`Folder` 严选归档与标签同步红线**：
+     - **严禁**将未经过视觉审阅的新图默认打上 `'Street'` 标签或推入 `folderPhotos.Street`。
+     - `Street` 仅限**标准人文街拍**（包含真实人物动态、路人抓拍、街头交互、市井烟火气息）；纯建筑、静物、美食、花草、宠物、展馆画作严禁放入 `Street`。
+     - `Architecture` 仅限**建筑摄影**（城市天际线、摩天楼宇、古建亭台楼阁、桥梁工程、校园/场馆几何结构与光影）。
+     - 非专题题材（如餐饮、花草、宠物、展览静物）仅保留在所属城市 `albumPhotos` 中，不强行归入 `Folder`。
+     - 任何 `Folder` 增删或分类调整后，必须同步维护 `albumPhotos[*][].tags` 中的专题标签（如 `'Street'`、`'Architecture'`），避免标签筛选页出现错位。
 4. **验证门禁 (Zero Errors Gate)**：
-   - 任何提交前必须执行并通过 `pnpm check`（TypeScript 零错误）和 `pnpm lint`（ESLint 零警告）。
+   - 任何提交前必须执行并通过 `pnpm check`（TypeScript 零错误）和 `pnpm lint`（ESLint 零警告），涉及路由或 `folders`/`albums` 变更时还需通过 `pnpm build` 静态预渲染校验。
 
 ---
 
@@ -57,9 +63,9 @@
    const year = dateTaken ? new Date(dateTaken).getFullYear().toString() : '2026';
 
    // 转码压制为 WebP
-   const destDir = path.join(process.cwd(), 'public', 'photos', year);
+   const destDir = path.join(process.cwd(), 'public', 'photos', albumSlug);
    fs.mkdirSync(destDir, { recursive: true });
-   const destPath = path.join(destDir, `${filename}.webp`);
+   const destPath = path.join(destDir, `${filename.toLowerCase()}.webp`);
    await sharp(buffer)
      .rotate()
      .resize({ width: 2048, height: 2048, fit: 'inside', withoutEnlargement: true })
@@ -73,10 +79,11 @@
      title: filename,
      date: year,
      size: fileStat.size,
-     url: `/photos/${year}/${filename}.webp`,
+     url: `/photos/${albumSlug}/${filename.toLowerCase()}.webp`,
      width: metadata.width,
      height: metadata.height,
-     tags: [albumTitle, 'Street', year],
+     // 切勿默认硬编码 'Street'；专题标签（如 Street / Architecture / Cosplay）须经视觉审阅后按需追加
+     tags: [albumTitle, year],
      exif: {
        camera: `${parsed.Make || ''} ${parsed.Model || ''}`.trim(),
        lens: parsed.LensModel,
@@ -91,13 +98,13 @@
    };
    ```
 3. **推入并执行全局重排**：
-   - 将新照片推入对应 `albumPhotos[albumTitle]` 或 `folderPhotos[folderTitle]`。
+   - 将新照片推入对应 `albumPhotos[albumTitle]`；仅在经过视觉分类确认符合专题定义后，才同步追加对应专题标签并推入 `folderPhotos[folderTitle]`（大批量照片分类可使用 `curate-portfolio-photos` 技能）。
    - 调用 `sortPhotosByTakenDateDesc()` 确保数组保持降序。
    - 写回 `src/data/portfolio-data.json`。
 
 ### 3.2 查询与检索照片 (Read / Query)
 
-- **前台逻辑统一调用** [`src/lib/api/index.ts`](file:///d:/Project/photos/src/lib/api/index.ts)：
+- **前台逻辑统一调用** [`src/lib/api/index.ts`](./src/lib/api/index.ts)：
   - `getAlbums()`: 获取城市相册元数据列表（按 `order` 排序）。
   - `getAlbum(slugOrTitle)`: 获取特定城市相册详情及降序排列的照片列表。
   - `getFolders()` / `getFolder(slugOrName)`: 获取专题归档列表与降序排列的照片列表。
@@ -159,7 +166,7 @@ git status       # 检查工作区变动文件，避免临时调试文件被误�
   - 在 GitHub Actions 构建静态产物前，流水线会自动执行 `rm -rf src/app/admin src/app/api src/middleware.ts`，并在 `About` 页面自动隐藏 `Studio` 入口链接。
   - 这意味着部署到 GitHub Pages 的静态产物中**物理上根本不存在 `/admin` 页面与后端接口**（访问 `/admin` 直接返回 `404`），且静态托管环境无任何 Node.js 写入进程，游客 **100% 不可能登录或篡改任何页面数据**。
 
-### 5.2 自动化 CI/CD 流水线 ([`.github/workflows/nextjs.yaml`](file:///d:/Project/photos/.github/workflows/nextjs.yaml))
+### 5.2 自动化 CI/CD 流水线 ([`.github/workflows/nextjs.yaml`](./.github/workflows/nextjs.yaml))
 
 项目已预置 GitHub Actions 自动化工作流。当推送到 `main` 分支时自动触发：
 
@@ -194,7 +201,7 @@ sequenceDiagram
    *(若用户偏好网页操作，也可打开仓库 **Settings** $\to$ **Pages** $\to$ **Source** 切换为 **`GitHub Actions`**)*。
 2. **二级路径 (Subpath) 自动适配**：
    - 无论部署在根域名（`https://<username>.github.io`）还是项目二级路径（如 `https://tfiyuenlau.github.io/Photography-Portfolio`），流水线会自动将 `steps.pages.outputs.base_path` 注入 `NEXT_PUBLIC_BASE_PATH`。
-   - [`next.config.mjs`](file:///d:/Project/photos/next.config.mjs)、[`src/lib/api/index.ts`](file:///d:/Project/photos/src/lib/api/index.ts)（图片路径前缀）与 [`src/app/folders/layout.tsx`](file:///d:/Project/photos/src/app/folders/layout.tsx)（脚本路径前缀）均会自动适配二级路径。
+   - [`next.config.mjs`](./next.config.mjs)、[`src/lib/api/index.ts`](./src/lib/api/index.ts)（图片路径前缀）与 [`src/app/folders/layout.tsx`](./src/app/folders/layout.tsx)（脚本路径前缀）均会自动适配二级路径。
 
 ### 5.4 手动发布 / 重新触发部署命令
 
