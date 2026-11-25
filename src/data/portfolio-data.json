@@ -1,6 +1,25 @@
 {
   "albums": [
     {
+      "title": "Ganzhou",
+      "slug": "ganzhou",
+      "province": "Jiangxi",
+      "color": "#9a3412",
+      "type": "location",
+      "description": "Song Dynasty ancient city walls & riverfront life",
+      "date": "2020-2026",
+      "lat": 25.8318,
+      "lng": 114.9348,
+      "locations": [],
+      "tags": [
+        "Ganzhou",
+        "Jiangxi",
+        "Street",
+        "2026"
+      ],
+      "order": 1
+    },
+    {
       "title": "Shenzhen",
       "slug": "shenzhen",
       "province": "Guangdong",
@@ -17,7 +36,7 @@
         "Street",
         "2026"
       ],
-      "order": 1
+      "order": 2
     },
     {
       "title": "Guangzhou",
@@ -36,26 +55,25 @@
         "Cosplay",
         "2026"
       ],
-      "order": 2
+      "order": 3
     },
     {
-      "title": "Ganzhou",
-      "slug": "ganzhou",
+      "title": "Nanchang",
+      "slug": "nanchang",
       "province": "Jiangxi",
-      "color": "#9a3412",
+      "color": "#2563eb",
       "type": "location",
-      "description": "Song Dynasty ancient city walls & riverfront life",
-      "date": "2021-2026",
-      "lat": 25.8318,
-      "lng": 114.9348,
+      "description": "Tengwang Pavilion & Gan River everyday scenes",
+      "date": "2024.12",
+      "lat": 28.682,
+      "lng": 115.8579,
       "locations": [],
       "tags": [
-        "Ganzhou",
+        "Nanchang",
         "Jiangxi",
-        "Street",
-        "2026"
+        "Street"
       ],
-      "order": 3
+      "order": 4
     },
     {
       "title": "Beijing",
@@ -73,7 +91,7 @@
         "Street",
         "2023"
       ],
-      "order": 4
+      "order": 5
     },
     {
       "title": "Tianjin",
@@ -91,7 +109,7 @@
         "Street",
         "2023"
       ],
-      "order": 5
+      "order": 6
     },
     {
       "title": "Shiyan",
@@ -110,7 +128,7 @@
         "Street",
         "2021"
       ],
-      "order": 6
+      "order": 7
     },
     {
       "title": "Wuhan",
@@ -128,24 +146,6 @@
         "Hubei",
         "Street",
         "2021"
-      ],
-      "order": 7
-    },
-    {
-      "title": "Nanchang",
-      "slug": "nanchang",
-      "province": "Jiangxi",
-      "color": "#2563eb",
-      "type": "location",
-      "description": "Tengwang Pavilion & Gan River everyday scenes",
-      "date": "2013",
-      "lat": 28.682,
-      "lng": 115.8579,
-      "locations": [],
-      "tags": [
-        "Nanchang",
-        "Jiangxi",
-        "Street"
       ],
       "order": 8
     }
@@ -1247,7 +1247,7 @@
       {
         "id": "nanchang-dsc03244",
         "title": "DSC03244",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1264,13 +1264,13 @@
           "aperture": "f/11",
           "shutterSpeed": "1/320s",
           "iso": 100,
-          "dateTaken": "2012-12-31T19:44:39.000Z"
+          "dateTaken": "2024-12-24T19:44:39.000Z"
         }
       },
       {
         "id": "nanchang-dsc03238",
         "title": "DSC03238",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1287,13 +1287,13 @@
           "aperture": "f/8",
           "shutterSpeed": "1/250s",
           "iso": 100,
-          "dateTaken": "2012-12-31T19:36:14.000Z"
+          "dateTaken": "2024-12-24T19:36:14.000Z"
         }
       },
       {
         "id": "nanchang-dsc03227",
         "title": "DSC03227",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1310,13 +1310,13 @@
           "aperture": "f/5.6",
           "shutterSpeed": "1/160s",
           "iso": 125,
-          "dateTaken": "2012-12-31T19:27:55.000Z"
+          "dateTaken": "2024-12-24T19:27:55.000Z"
         }
       },
       {
         "id": "nanchang-dsc03213",
         "title": "DSC03213",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1333,13 +1333,13 @@
           "aperture": "f/9",
           "shutterSpeed": "1/320s",
           "iso": 100,
-          "dateTaken": "2012-12-31T19:17:51.000Z"
+          "dateTaken": "2024-12-24T19:17:51.000Z"
         }
       },
       {
         "id": "nanchang-dsc03211",
         "title": "DSC03211",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1355,13 +1355,13 @@
           "aperture": "f/8",
           "shutterSpeed": "1/250s",
           "iso": 100,
-          "dateTaken": "2012-12-31T19:11:41.000Z"
+          "dateTaken": "2024-12-24T19:11:41.000Z"
         }
       },
       {
         "id": "nanchang-dsc03204",
         "title": "DSC03204",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1378,13 +1378,13 @@
           "aperture": "f/8",
           "shutterSpeed": "1/250s",
           "iso": 100,
-          "dateTaken": "2012-12-31T19:01:45.000Z"
+          "dateTaken": "2024-12-24T19:01:45.000Z"
         }
       },
       {
         "id": "nanchang-dsc03202",
         "title": "DSC03202",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1400,13 +1400,13 @@
           "aperture": "f/4",
           "shutterSpeed": "1/160s",
           "iso": 1600,
-          "dateTaken": "2012-12-31T16:49:17.000Z"
+          "dateTaken": "2024-12-24T16:49:17.000Z"
         }
       },
       {
         "id": "nanchang-dsc03200",
         "title": "DSC03200",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1422,13 +1422,13 @@
           "aperture": "f/3.2",
           "shutterSpeed": "1/160s",
           "iso": 1600,
-          "dateTaken": "2012-12-31T16:44:10.000Z"
+          "dateTaken": "2024-12-24T16:44:10.000Z"
         }
       },
       {
         "id": "nanchang-dsc03196",
         "title": "DSC03196",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1444,13 +1444,13 @@
           "aperture": "f/4",
           "shutterSpeed": "1/160s",
           "iso": 1600,
-          "dateTaken": "2012-12-31T16:22:15.000Z"
+          "dateTaken": "2024-12-24T16:22:15.000Z"
         }
       },
       {
         "id": "nanchang-dsc03195",
         "title": "DSC03195",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1466,13 +1466,13 @@
           "aperture": "f/3.5",
           "shutterSpeed": "1/160s",
           "iso": 1600,
-          "dateTaken": "2012-12-31T16:19:43.000Z"
+          "dateTaken": "2024-12-24T16:19:43.000Z"
         }
       },
       {
         "id": "nanchang-dsc03192",
         "title": "DSC03192",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi"
@@ -1488,13 +1488,13 @@
           "aperture": "f/3.5",
           "shutterSpeed": "1/160s",
           "iso": 1600,
-          "dateTaken": "2012-12-31T16:12:36.000Z"
+          "dateTaken": "2024-12-24T16:12:36.000Z"
         }
       },
       {
         "id": "nanchang-dsc03185",
         "title": "DSC03185",
-        "date": "2013",
+        "date": "2024",
         "tags": [
           "Nanchang",
           "Jiangxi",
@@ -1511,11 +1511,1403 @@
           "aperture": "f/13",
           "shutterSpeed": "1/125s",
           "iso": 100,
-          "dateTaken": "2012-12-31T16:00:23.000Z"
+          "dateTaken": "2024-12-24T16:00:23.000Z"
         }
       }
     ],
     "Ganzhou": [
+      {
+        "id": "ganzhou-p1016900",
+        "title": "P1016900",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 513032,
+        "url": "/photos/ganzhou/p1016900.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-22T06:31:11.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016886",
+        "title": "P1016886",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 288478,
+        "url": "/photos/ganzhou/p1016886.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/80s",
+          "iso": 100,
+          "dateTaken": "2026-11-22T06:19:47.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016884",
+        "title": "P1016884",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 184096,
+        "url": "/photos/ganzhou/p1016884.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/1600s",
+          "iso": 100,
+          "dateTaken": "2026-11-22T06:18:10.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016867",
+        "title": "P1016867",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 601212,
+        "url": "/photos/ganzhou/p1016867.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/9",
+          "shutterSpeed": "1/8s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T12:58:09.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016864",
+        "title": "P1016864",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 714100,
+        "url": "/photos/ganzhou/p1016864.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/9",
+          "shutterSpeed": "1/8s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T12:55:42.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016859",
+        "title": "P1016859",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 521972,
+        "url": "/photos/ganzhou/p1016859.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/8s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T12:43:10.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016855",
+        "title": "P1016855",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 790560,
+        "url": "/photos/ganzhou/p1016855.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/8s",
+          "iso": 3200,
+          "dateTaken": "2026-11-21T12:38:17.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016846",
+        "title": "P1016846",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 575202,
+        "url": "/photos/ganzhou/p1016846.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/8s",
+          "iso": 200,
+          "dateTaken": "2026-11-21T10:52:09.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016817",
+        "title": "P1016817",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 602510,
+        "url": "/photos/ganzhou/p1016817.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/40s",
+          "iso": 1600,
+          "dateTaken": "2026-11-21T09:30:24.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016805",
+        "title": "P1016805",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 829114,
+        "url": "/photos/ganzhou/p1016805.webp",
+        "width": 1687,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-11-21T09:06:06.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016803",
+        "title": "P1016803",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 846256,
+        "url": "/photos/ganzhou/p1016803.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-11-21T09:05:30.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016793",
+        "title": "P1016793",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 1385892,
+        "url": "/photos/ganzhou/p1016793.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 500,
+          "dateTaken": "2026-11-21T08:52:05.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016792",
+        "title": "P1016792",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 1021790,
+        "url": "/photos/ganzhou/p1016792.webp",
+        "width": 2048,
+        "height": 1280,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 200,
+          "dateTaken": "2026-11-21T08:42:13.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016782",
+        "title": "P1016782",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 615814,
+        "url": "/photos/ganzhou/p1016782.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T08:20:15.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016761",
+        "title": "P1016761",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 769906,
+        "url": "/photos/ganzhou/p1016761.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:46:33.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016757",
+        "title": "P1016757",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 832396,
+        "url": "/photos/ganzhou/p1016757.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:37:26.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016749",
+        "title": "P1016749",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 1820120,
+        "url": "/photos/ganzhou/p1016749.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T07:32:29.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016731",
+        "title": "P1016731",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 784770,
+        "url": "/photos/ganzhou/p1016731.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:04:42.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016721",
+        "title": "P1016721",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 966700,
+        "url": "/photos/ganzhou/p1016721.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T06:51:36.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016718",
+        "title": "P1016718",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 708042,
+        "url": "/photos/ganzhou/p1016718.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/640s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T06:48:55.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016714",
+        "title": "P1016714",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 437612,
+        "url": "/photos/ganzhou/p1016714.webp",
+        "width": 1366,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/200s",
+          "iso": 8000,
+          "dateTaken": "2026-11-18T12:31:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016712",
+        "title": "P1016712",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 625748,
+        "url": "/photos/ganzhou/p1016712.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/8s",
+          "iso": 1600,
+          "dateTaken": "2026-11-18T12:25:55.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016700",
+        "title": "P1016700",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 368556,
+        "url": "/photos/ganzhou/p1016700.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/80s",
+          "iso": 100,
+          "dateTaken": "2026-11-18T10:32:53.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016699",
+        "title": "P1016699",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 137066,
+        "url": "/photos/ganzhou/p1016699.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-11-18T10:32:04.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016697",
+        "title": "P1016697",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 176396,
+        "url": "/photos/ganzhou/p1016697.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 100,
+          "dateTaken": "2026-11-18T10:30:52.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016696",
+        "title": "P1016696",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 131966,
+        "url": "/photos/ganzhou/p1016696.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/80s",
+          "iso": 100,
+          "dateTaken": "2026-11-18T10:30:10.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016683",
+        "title": "P1016683",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026"
+        ],
+        "size": 490210,
+        "url": "/photos/ganzhou/p1016683.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 500,
+          "dateTaken": "2026-11-18T09:45:42.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016676",
+        "title": "P1016676",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Street"
+        ],
+        "size": 832932,
+        "url": "/photos/ganzhou/p1016676.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/60s",
+          "iso": 640,
+          "dateTaken": "2026-11-15T08:55:30.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016669",
+        "title": "P1016669",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 921142,
+        "url": "/photos/ganzhou/p1016669.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 2500,
+          "dateTaken": "2026-11-15T08:48:45.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016662",
+        "title": "P1016662",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 444794,
+        "url": "/photos/ganzhou/p1016662.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/30s",
+          "iso": 5000,
+          "dateTaken": "2026-11-15T08:12:02.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016654",
+        "title": "P1016654",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 553676,
+        "url": "/photos/ganzhou/p1016654.webp",
+        "width": 1460,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/30s",
+          "iso": 2000,
+          "dateTaken": "2026-11-15T08:02:04.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016652",
+        "title": "P1016652",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 725578,
+        "url": "/photos/ganzhou/p1016652.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/50s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T07:58:10.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016640",
+        "title": "P1016640",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 689492,
+        "url": "/photos/ganzhou/p1016640.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/40s",
+          "iso": 500,
+          "dateTaken": "2026-11-15T07:46:16.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016635",
+        "title": "P1016635",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 1564276,
+        "url": "/photos/ganzhou/p1016635.webp",
+        "width": 1647,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-11-15T07:21:58.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016627",
+        "title": "P1016627",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 900922,
+        "url": "/photos/ganzhou/p1016627.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "34mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-11-15T07:00:19.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016613",
+        "title": "P1016613",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 1633840,
+        "url": "/photos/ganzhou/p1016613.webp",
+        "width": 2048,
+        "height": 1536,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 200,
+          "dateTaken": "2026-11-15T06:50:05.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016610",
+        "title": "P1016610",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 804640,
+        "url": "/photos/ganzhou/p1016610.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:47:59.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016606",
+        "title": "P1016606",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 614030,
+        "url": "/photos/ganzhou/p1016606.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:37:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016604",
+        "title": "P1016604",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 749962,
+        "url": "/photos/ganzhou/p1016604.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "24mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:35:47.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016600",
+        "title": "P1016600",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 735138,
+        "url": "/photos/ganzhou/p1016600.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-11-15T06:30:48.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016599",
+        "title": "P1016599",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 1143592,
+        "url": "/photos/ganzhou/p1016599.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-11-15T06:30:18.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016593",
+        "title": "P1016593",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 971040,
+        "url": "/photos/ganzhou/p1016593.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:12:07.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016586",
+        "title": "P1016586",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 984742,
+        "url": "/photos/ganzhou/p1016586.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:09:17.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016585",
+        "title": "P1016585",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 768634,
+        "url": "/photos/ganzhou/p1016585.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 400,
+          "dateTaken": "2026-11-13T09:08:29.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016582",
+        "title": "P1016582",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 519154,
+        "url": "/photos/ganzhou/p1016582.webp",
+        "width": 2048,
+        "height": 1280,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/15s",
+          "iso": 2000,
+          "dateTaken": "2026-11-13T09:06:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016574",
+        "title": "P1016574",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 252816,
+        "url": "/photos/ganzhou/p1016574.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/1s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T09:01:34.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016569",
+        "title": "P1016569",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 245942,
+        "url": "/photos/ganzhou/p1016569.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/3s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:56:14.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016557",
+        "title": "P1016557",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 217594,
+        "url": "/photos/ganzhou/p1016557.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/3s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:42:37.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016545",
+        "title": "P1016545",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 283796,
+        "url": "/photos/ganzhou/p1016545.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/2s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:36:52.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016543",
+        "title": "P1016543",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 180176,
+        "url": "/photos/ganzhou/p1016543.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/2s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:34:32.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016539",
+        "title": "P1016539",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 396962,
+        "url": "/photos/ganzhou/p1016539.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/60s",
+          "iso": 3200,
+          "dateTaken": "2026-11-13T08:30:48.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016532",
+        "title": "P1016532",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 292278,
+        "url": "/photos/ganzhou/p1016532.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 5000,
+          "dateTaken": "2026-11-13T08:26:41.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016531",
+        "title": "P1016531",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 309104,
+        "url": "/photos/ganzhou/p1016531.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 2000,
+          "dateTaken": "2026-11-13T08:25:54.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016528",
+        "title": "P1016528",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 281734,
+        "url": "/photos/ganzhou/p1016528.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 1600,
+          "dateTaken": "2026-11-13T08:24:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016524",
+        "title": "P1016524",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 543218,
+        "url": "/photos/ganzhou/p1016524.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/60s",
+          "iso": 6400,
+          "dateTaken": "2026-11-13T08:22:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016523",
+        "title": "P1016523",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 677902,
+        "url": "/photos/ganzhou/p1016523.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/40s",
+          "iso": 640,
+          "dateTaken": "2026-11-13T08:21:12.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016518",
+        "title": "P1016518",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 390910,
+        "url": "/photos/ganzhou/p1016518.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-11-13T08:16:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016498",
+        "title": "P1016498",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 616826,
+        "url": "/photos/ganzhou/p1016498.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 160,
+          "dateTaken": "2026-11-13T07:52:54.000Z"
+        }
+      },
       {
         "id": "ganzhou-p1015534",
         "title": "P1015534",
@@ -6113,7 +7505,7 @@
       "slug": "street",
       "parentTitle": null,
       "description": "Candid street documentary & human moments across cities",
-      "date": "2013-2026",
+      "date": "2021-2026",
       "order": 2
     },
     {
@@ -6121,8 +7513,16 @@
       "slug": "architecture",
       "parentTitle": null,
       "description": "Urban architecture, classical pavilions & structural aesthetics",
-      "date": "2023-2026",
+      "date": "2021-2026",
       "order": 3
+    },
+    {
+      "title": "Gongbing",
+      "slug": "gongbing",
+      "parentTitle": null,
+      "description": "Hometown village life & rural scenes in Gongbing, Ganzhou",
+      "date": "2026",
+      "order": 4
     }
   ],
   "folderPhotos": {
@@ -6912,6 +8312,175 @@
     ],
     "Street": [
       {
+        "id": "ganzhou-p1016867",
+        "title": "P1016867",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 601212,
+        "url": "/photos/ganzhou/p1016867.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/9",
+          "shutterSpeed": "1/8s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T12:58:09.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016864",
+        "title": "P1016864",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 714100,
+        "url": "/photos/ganzhou/p1016864.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/9",
+          "shutterSpeed": "1/8s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T12:55:42.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016761",
+        "title": "P1016761",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 769906,
+        "url": "/photos/ganzhou/p1016761.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:46:33.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016757",
+        "title": "P1016757",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 832396,
+        "url": "/photos/ganzhou/p1016757.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:37:26.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016749",
+        "title": "P1016749",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 1820120,
+        "url": "/photos/ganzhou/p1016749.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 400,
+          "dateTaken": "2026-11-21T07:32:29.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016714",
+        "title": "P1016714",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Street"
+        ],
+        "size": 437612,
+        "url": "/photos/ganzhou/p1016714.webp",
+        "width": 1366,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/200s",
+          "iso": 8000,
+          "dateTaken": "2026-11-18T12:31:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016676",
+        "title": "P1016676",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Street"
+        ],
+        "size": 832932,
+        "url": "/photos/ganzhou/p1016676.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/60s",
+          "iso": 640,
+          "dateTaken": "2026-11-15T08:55:30.000Z"
+        }
+      },
+      {
         "id": "shenzhen-p1016428",
         "title": "P1016428",
         "date": "2026",
@@ -7525,6 +9094,499 @@
       }
     ],
     "Architecture": [
+      {
+        "id": "ganzhou-p1016805",
+        "title": "P1016805",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 829114,
+        "url": "/photos/ganzhou/p1016805.webp",
+        "width": 1687,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-11-21T09:06:06.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016803",
+        "title": "P1016803",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 846256,
+        "url": "/photos/ganzhou/p1016803.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-11-21T09:05:30.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016782",
+        "title": "P1016782",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 615814,
+        "url": "/photos/ganzhou/p1016782.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T08:20:15.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016731",
+        "title": "P1016731",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 784770,
+        "url": "/photos/ganzhou/p1016731.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/160s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T07:04:42.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016721",
+        "title": "P1016721",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 966700,
+        "url": "/photos/ganzhou/p1016721.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T06:51:36.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016718",
+        "title": "P1016718",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 708042,
+        "url": "/photos/ganzhou/p1016718.webp",
+        "width": 2048,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/640s",
+          "iso": 100,
+          "dateTaken": "2026-11-21T06:48:55.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016712",
+        "title": "P1016712",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Architecture"
+        ],
+        "size": 625748,
+        "url": "/photos/ganzhou/p1016712.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/8s",
+          "iso": 1600,
+          "dateTaken": "2026-11-18T12:25:55.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016654",
+        "title": "P1016654",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 553676,
+        "url": "/photos/ganzhou/p1016654.webp",
+        "width": 1460,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/30s",
+          "iso": 2000,
+          "dateTaken": "2026-11-15T08:02:04.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016640",
+        "title": "P1016640",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 689492,
+        "url": "/photos/ganzhou/p1016640.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/40s",
+          "iso": 500,
+          "dateTaken": "2026-11-15T07:46:16.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016627",
+        "title": "P1016627",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 900922,
+        "url": "/photos/ganzhou/p1016627.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "34mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-11-15T07:00:19.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016610",
+        "title": "P1016610",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 804640,
+        "url": "/photos/ganzhou/p1016610.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:47:59.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016606",
+        "title": "P1016606",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 614030,
+        "url": "/photos/ganzhou/p1016606.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:37:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016604",
+        "title": "P1016604",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 749962,
+        "url": "/photos/ganzhou/p1016604.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "24mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:35:47.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016599",
+        "title": "P1016599",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 1143592,
+        "url": "/photos/ganzhou/p1016599.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-11-15T06:30:18.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016593",
+        "title": "P1016593",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 971040,
+        "url": "/photos/ganzhou/p1016593.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:12:07.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016586",
+        "title": "P1016586",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 984742,
+        "url": "/photos/ganzhou/p1016586.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:09:17.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016585",
+        "title": "P1016585",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 768634,
+        "url": "/photos/ganzhou/p1016585.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 400,
+          "dateTaken": "2026-11-13T09:08:29.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016582",
+        "title": "P1016582",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 519154,
+        "url": "/photos/ganzhou/p1016582.webp",
+        "width": 2048,
+        "height": 1280,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/15s",
+          "iso": 2000,
+          "dateTaken": "2026-11-13T09:06:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016574",
+        "title": "P1016574",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 252816,
+        "url": "/photos/ganzhou/p1016574.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/1s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T09:01:34.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016498",
+        "title": "P1016498",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 616826,
+        "url": "/photos/ganzhou/p1016498.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 160,
+          "dateTaken": "2026-11-13T07:52:54.000Z"
+        }
+      },
       {
         "id": "shenzhen-p1016459",
         "title": "P1016459",
@@ -8930,6 +10992,144 @@
         }
       },
       {
+        "id": "nanchang-dsc03244",
+        "title": "DSC03244",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 508382,
+        "url": "/photos/nanchang/dsc03244.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/11",
+          "shutterSpeed": "1/320s",
+          "iso": 100,
+          "dateTaken": "2024-12-24T19:44:39.000Z"
+        }
+      },
+      {
+        "id": "nanchang-dsc03238",
+        "title": "DSC03238",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 909076,
+        "url": "/photos/nanchang/dsc03238.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/250s",
+          "iso": 100,
+          "dateTaken": "2024-12-24T19:36:14.000Z"
+        }
+      },
+      {
+        "id": "nanchang-dsc03227",
+        "title": "DSC03227",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 706690,
+        "url": "/photos/nanchang/dsc03227.webp",
+        "width": 1152,
+        "height": 2048,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/5.6",
+          "shutterSpeed": "1/160s",
+          "iso": 125,
+          "dateTaken": "2024-12-24T19:27:55.000Z"
+        }
+      },
+      {
+        "id": "nanchang-dsc03213",
+        "title": "DSC03213",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 598046,
+        "url": "/photos/nanchang/dsc03213.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/9",
+          "shutterSpeed": "1/320s",
+          "iso": 100,
+          "dateTaken": "2024-12-24T19:17:51.000Z"
+        }
+      },
+      {
+        "id": "nanchang-dsc03204",
+        "title": "DSC03204",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 892170,
+        "url": "/photos/nanchang/dsc03204.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/250s",
+          "iso": 100,
+          "dateTaken": "2024-12-24T19:01:45.000Z"
+        }
+      },
+      {
+        "id": "nanchang-dsc03185",
+        "title": "DSC03185",
+        "date": "2024",
+        "tags": [
+          "Nanchang",
+          "Jiangxi",
+          "Architecture"
+        ],
+        "size": 426644,
+        "url": "/photos/nanchang/dsc03185.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "SONY ILCE-7",
+          "lens": "MEIKE 50mmF1.8",
+          "focalLength": "50mm",
+          "aperture": "f/13",
+          "shutterSpeed": "1/125s",
+          "iso": 100,
+          "dateTaken": "2024-12-24T16:00:23.000Z"
+        }
+      },
+      {
         "id": "beijing-p1110667",
         "title": "P1110667",
         "date": "2023",
@@ -10185,143 +12385,765 @@
         "exif": {
           "dateTaken": "2021-09-03T02:14:31.000Z"
         }
-      },
+      }
+    ],
+    "Gongbing": [
       {
-        "id": "nanchang-dsc03244",
-        "title": "DSC03244",
-        "date": "2013",
+        "id": "ganzhou-p1016676",
+        "title": "P1016676",
+        "date": "2026",
         "tags": [
-          "Nanchang",
+          "Ganzhou",
           "Jiangxi",
-          "Architecture"
+          "2026",
+          "Gongbing",
+          "Street"
         ],
-        "size": 508382,
-        "url": "/photos/nanchang/dsc03244.webp",
+        "size": 832932,
+        "url": "/photos/ganzhou/p1016676.webp",
         "width": 2048,
         "height": 1152,
         "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
-          "aperture": "f/11",
-          "shutterSpeed": "1/320s",
-          "iso": 100,
-          "dateTaken": "2012-12-31T19:44:39.000Z"
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/60s",
+          "iso": 640,
+          "dateTaken": "2026-11-15T08:55:30.000Z"
         }
       },
       {
-        "id": "nanchang-dsc03238",
-        "title": "DSC03238",
-        "date": "2013",
+        "id": "ganzhou-p1016669",
+        "title": "P1016669",
+        "date": "2026",
         "tags": [
-          "Nanchang",
+          "Ganzhou",
           "Jiangxi",
-          "Architecture"
+          "2026",
+          "Gongbing"
         ],
-        "size": 909076,
-        "url": "/photos/nanchang/dsc03238.webp",
+        "size": 921142,
+        "url": "/photos/ganzhou/p1016669.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 2500,
+          "dateTaken": "2026-11-15T08:48:45.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016662",
+        "title": "P1016662",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 444794,
+        "url": "/photos/ganzhou/p1016662.webp",
         "width": 1365,
         "height": 2048,
         "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
-          "aperture": "f/8",
-          "shutterSpeed": "1/250s",
-          "iso": 100,
-          "dateTaken": "2012-12-31T19:36:14.000Z"
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/30s",
+          "iso": 5000,
+          "dateTaken": "2026-11-15T08:12:02.000Z"
         }
       },
       {
-        "id": "nanchang-dsc03227",
-        "title": "DSC03227",
-        "date": "2013",
+        "id": "ganzhou-p1016654",
+        "title": "P1016654",
+        "date": "2026",
         "tags": [
-          "Nanchang",
+          "Ganzhou",
           "Jiangxi",
+          "2026",
+          "Gongbing",
           "Architecture"
         ],
-        "size": 706690,
-        "url": "/photos/nanchang/dsc03227.webp",
-        "width": 1152,
+        "size": 553676,
+        "url": "/photos/ganzhou/p1016654.webp",
+        "width": 1460,
         "height": 2048,
         "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
-          "aperture": "f/5.6",
-          "shutterSpeed": "1/160s",
-          "iso": 125,
-          "dateTaken": "2012-12-31T19:27:55.000Z"
-        }
-      },
-      {
-        "id": "nanchang-dsc03213",
-        "title": "DSC03213",
-        "date": "2013",
-        "tags": [
-          "Nanchang",
-          "Jiangxi",
-          "Architecture"
-        ],
-        "size": 598046,
-        "url": "/photos/nanchang/dsc03213.webp",
-        "width": 2048,
-        "height": 1365,
-        "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
-          "aperture": "f/9",
-          "shutterSpeed": "1/320s",
-          "iso": 100,
-          "dateTaken": "2012-12-31T19:17:51.000Z"
-        }
-      },
-      {
-        "id": "nanchang-dsc03204",
-        "title": "DSC03204",
-        "date": "2013",
-        "tags": [
-          "Nanchang",
-          "Jiangxi",
-          "Architecture"
-        ],
-        "size": 892170,
-        "url": "/photos/nanchang/dsc03204.webp",
-        "width": 2048,
-        "height": 1365,
-        "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
           "aperture": "f/8",
-          "shutterSpeed": "1/250s",
-          "iso": 100,
-          "dateTaken": "2012-12-31T19:01:45.000Z"
+          "shutterSpeed": "1/30s",
+          "iso": 2000,
+          "dateTaken": "2026-11-15T08:02:04.000Z"
         }
       },
       {
-        "id": "nanchang-dsc03185",
-        "title": "DSC03185",
-        "date": "2013",
+        "id": "ganzhou-p1016652",
+        "title": "P1016652",
+        "date": "2026",
         "tags": [
-          "Nanchang",
+          "Ganzhou",
           "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 725578,
+        "url": "/photos/ganzhou/p1016652.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/50s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T07:58:10.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016640",
+        "title": "P1016640",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
           "Architecture"
         ],
-        "size": 426644,
-        "url": "/photos/nanchang/dsc03185.webp",
-        "width": 2048,
-        "height": 1365,
+        "size": 689492,
+        "url": "/photos/ganzhou/p1016640.webp",
+        "width": 1365,
+        "height": 2048,
         "exif": {
-          "camera": "SONY ILCE-7",
-          "lens": "MEIKE 50mmF1.8",
-          "focalLength": "50mm",
-          "aperture": "f/13",
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "35mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/40s",
+          "iso": 500,
+          "dateTaken": "2026-11-15T07:46:16.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016635",
+        "title": "P1016635",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 1564276,
+        "url": "/photos/ganzhou/p1016635.webp",
+        "width": 1647,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/6.3",
+          "shutterSpeed": "1/100s",
+          "iso": 160,
+          "dateTaken": "2026-11-15T07:21:58.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016627",
+        "title": "P1016627",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 900922,
+        "url": "/photos/ganzhou/p1016627.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "34mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 250,
+          "dateTaken": "2026-11-15T07:00:19.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016613",
+        "title": "P1016613",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 1633840,
+        "url": "/photos/ganzhou/p1016613.webp",
+        "width": 2048,
+        "height": 1536,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 200,
+          "dateTaken": "2026-11-15T06:50:05.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016610",
+        "title": "P1016610",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 804640,
+        "url": "/photos/ganzhou/p1016610.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "28mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:47:59.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016606",
+        "title": "P1016606",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 614030,
+        "url": "/photos/ganzhou/p1016606.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
           "shutterSpeed": "1/125s",
           "iso": 100,
-          "dateTaken": "2012-12-31T16:00:23.000Z"
+          "dateTaken": "2026-11-15T06:37:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016604",
+        "title": "P1016604",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 749962,
+        "url": "/photos/ganzhou/p1016604.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "24mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 100,
+          "dateTaken": "2026-11-15T06:35:47.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016600",
+        "title": "P1016600",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 735138,
+        "url": "/photos/ganzhou/p1016600.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-11-15T06:30:48.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016599",
+        "title": "P1016599",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 1143592,
+        "url": "/photos/ganzhou/p1016599.webp",
+        "width": 1536,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "LUMIX S 18-40/F4.5-6.3",
+          "focalLength": "40mm",
+          "aperture": "f/8",
+          "shutterSpeed": "1/100s",
+          "iso": 125,
+          "dateTaken": "2026-11-15T06:30:18.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016593",
+        "title": "P1016593",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 971040,
+        "url": "/photos/ganzhou/p1016593.webp",
+        "width": 2048,
+        "height": 1152,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:12:07.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016586",
+        "title": "P1016586",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 984742,
+        "url": "/photos/ganzhou/p1016586.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 500,
+          "dateTaken": "2026-11-13T09:09:17.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016585",
+        "title": "P1016585",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 768634,
+        "url": "/photos/ganzhou/p1016585.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/15s",
+          "iso": 400,
+          "dateTaken": "2026-11-13T09:08:29.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016582",
+        "title": "P1016582",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 519154,
+        "url": "/photos/ganzhou/p1016582.webp",
+        "width": 2048,
+        "height": 1280,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/15s",
+          "iso": 2000,
+          "dateTaken": "2026-11-13T09:06:23.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016574",
+        "title": "P1016574",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 252816,
+        "url": "/photos/ganzhou/p1016574.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/1s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T09:01:34.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016569",
+        "title": "P1016569",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 245942,
+        "url": "/photos/ganzhou/p1016569.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/3s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:56:14.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016557",
+        "title": "P1016557",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 217594,
+        "url": "/photos/ganzhou/p1016557.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2",
+          "shutterSpeed": "1/3s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:42:37.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016545",
+        "title": "P1016545",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 283796,
+        "url": "/photos/ganzhou/p1016545.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/2s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:36:52.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016543",
+        "title": "P1016543",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 180176,
+        "url": "/photos/ganzhou/p1016543.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/2s",
+          "iso": 100,
+          "dateTaken": "2026-11-13T08:34:32.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016539",
+        "title": "P1016539",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 396962,
+        "url": "/photos/ganzhou/p1016539.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/60s",
+          "iso": 3200,
+          "dateTaken": "2026-11-13T08:30:48.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016532",
+        "title": "P1016532",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 292278,
+        "url": "/photos/ganzhou/p1016532.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 5000,
+          "dateTaken": "2026-11-13T08:26:41.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016531",
+        "title": "P1016531",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 309104,
+        "url": "/photos/ganzhou/p1016531.webp",
+        "width": 2048,
+        "height": 1365,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 2000,
+          "dateTaken": "2026-11-13T08:25:54.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016528",
+        "title": "P1016528",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 281734,
+        "url": "/photos/ganzhou/p1016528.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/60s",
+          "iso": 1600,
+          "dateTaken": "2026-11-13T08:24:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016524",
+        "title": "P1016524",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 543218,
+        "url": "/photos/ganzhou/p1016524.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/60s",
+          "iso": 6400,
+          "dateTaken": "2026-11-13T08:22:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016523",
+        "title": "P1016523",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 677902,
+        "url": "/photos/ganzhou/p1016523.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/40s",
+          "iso": 640,
+          "dateTaken": "2026-11-13T08:21:12.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016518",
+        "title": "P1016518",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing"
+        ],
+        "size": 390910,
+        "url": "/photos/ganzhou/p1016518.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/4",
+          "shutterSpeed": "1/40s",
+          "iso": 1000,
+          "dateTaken": "2026-11-13T08:16:39.000Z"
+        }
+      },
+      {
+        "id": "ganzhou-p1016498",
+        "title": "P1016498",
+        "date": "2026",
+        "tags": [
+          "Ganzhou",
+          "Jiangxi",
+          "2026",
+          "Gongbing",
+          "Architecture"
+        ],
+        "size": 616826,
+        "url": "/photos/ganzhou/p1016498.webp",
+        "width": 1365,
+        "height": 2048,
+        "exif": {
+          "camera": "Panasonic DC-S9",
+          "lens": "VILTROX AF 50mm F2.0 L",
+          "focalLength": "50mm",
+          "aperture": "f/2.8",
+          "shutterSpeed": "1/40s",
+          "iso": 160,
+          "dateTaken": "2026-11-13T07:52:54.000Z"
         }
       }
     ]
