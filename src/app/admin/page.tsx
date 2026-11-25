@@ -382,107 +382,151 @@ export default function AdminDashboardPage() {
     }
   }
 
+  const pendingChangesCount = gitInfo.changes.length;
+
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col sm:flex-row">
+    <div className="min-h-screen bg-white text-gray-900 flex flex-col sm:flex-row">
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-50 px-4 py-2 rounded text-xs font-medium transition-all ${
-            toast.type === 'ok' ? 'bg-black text-white' : 'bg-red-600 text-white'
+          role="status"
+          className={`fixed bottom-6 right-6 z-50 px-4 py-2 rounded-md text-xs font-medium tracking-tight shadow-sm border transition-all ${
+            toast.type === 'ok'
+              ? 'bg-gray-900 text-white border-gray-900'
+              : 'bg-red-800 text-white border-red-800'
           }`}
         >
           {toast.text}
         </div>
       )}
 
-      {/* Left Sidebar (matching homepage/nav style) */}
-      <aside className="w-full sm:w-64 shrink-0 border-b sm:border-b-0 sm:border-r border-gray-100 p-6 sm:pt-12 sm:pl-10 flex flex-col justify-between gap-8">
-        <div className="space-y-6">
+      {/* Left Sidebar — Sticky full-height on desktop with pinned top & bottom bars */}
+      <aside className="w-full sm:sticky sm:top-0 sm:h-screen sm:w-64 lg:w-72 shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200/80 bg-white/85 backdrop-blur-md flex flex-col">
+        {/* Fixed Top Header & Section Switcher */}
+        <div className="shrink-0 px-6 pt-6 sm:pt-8 pb-4 border-b border-gray-100 space-y-5">
           <div>
             <Link
               href="/"
-              className="text-xs text-gray-400 hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-900 transition-colors tracking-tight"
             >
               &larr; Home
             </Link>
-            <h1 className="font-bold text-2xl tracking-tight mt-2">
-              {siteConfig.photographerName}
-            </h1>
-            <p className="text-xs text-gray-400">Studio</p>
+            <div className="flex items-center gap-2 mt-2">
+              <span
+                className="w-1.5 h-1.5 rounded-full bg-red-800 shrink-0"
+                aria-hidden="true"
+              />
+              <h1 className="font-bold text-xl tracking-tight text-gray-900 truncate">
+                {siteConfig.photographerName}
+              </h1>
+            </div>
+            <p className="text-[11px] uppercase tracking-widest text-gray-400 mt-0.5 pl-3.5">
+              Studio
+            </p>
           </div>
 
           {/* Section Switcher */}
-          <div className="flex items-center gap-4 text-sm border-b border-gray-100 pb-2">
+          <div className="flex items-center gap-5 text-sm">
             {(
               [
                 { id: 'albums', label: 'Albums' },
                 { id: 'folders', label: 'Folders' },
                 { id: 'profile', label: 'Profile' }
               ] as const
-            ).map(tab => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setSection(tab.id)}
-                className={`tracking-tight transition-colors ${
-                  section === tab.id
-                    ? 'font-bold text-black'
-                    : 'text-gray-400 hover:text-black'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+            ).map(tab => {
+              const isActive = section === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setSection(tab.id)}
+                  className={`relative pb-1.5 tracking-tight transition-colors ${
+                    isActive
+                      ? 'font-semibold text-gray-900'
+                      : 'text-gray-400 hover:text-gray-800'
+                  }`}
+                >
+                  {tab.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-0 right-0 bottom-0 h-[1.5px] rounded-full bg-red-800 transition-opacity duration-200 ${
+                      isActive ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                </button>
+              );
+            })}
           </div>
+        </div>
 
+        {/* Independently Scrollable Middle List */}
+        <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4">
           {/* Item List for Albums */}
           {section === 'albums' && (
-            <div className="space-y-2">
-              <ul className="space-y-1 text-base tracking-tight">
+            <div className="space-y-3">
+              <ul className="space-y-1 text-[15px] tracking-tight">
                 {store.albums.map((album, idx) => {
                   const active = idx === selectedAlbumIdx;
                   const count = (store.albumPhotos[album.title] || []).length;
                   return (
                     <li
                       key={`${album.title}-${idx}`}
-                      className="group flex items-center justify-between py-0.5 cursor-pointer"
+                      className="group flex items-center justify-between py-1 cursor-pointer"
                       onClick={() => setSelectedAlbumIdx(idx)}
                     >
                       <span
-                        className={`truncate ${
+                        className={`inline-flex items-center min-w-0 truncate transition-all duration-200 ease-out ${
                           active
-                            ? 'font-bold text-black'
-                            : 'text-gray-400 hover:text-black'
+                            ? 'font-semibold text-gray-900'
+                            : 'text-gray-400 hover:text-gray-900'
                         }`}
                       >
-                        {album.title}
-                        <span className="text-xs font-normal text-gray-300 ml-1.5">
+                        <span
+                          aria-hidden="true"
+                          className={`inline-block h-[1.5px] bg-red-800 rounded-full shrink-0 transition-all duration-200 ease-out ${
+                            active
+                              ? 'w-3 mr-2 opacity-100'
+                              : 'w-0 mr-0 opacity-0'
+                          }`}
+                        />
+                        <span className="truncate">{album.title}</span>
+                        <span
+                          className={`text-[11px] font-mono font-normal ml-1.5 shrink-0 ${
+                            active ? 'text-gray-500' : 'text-gray-300'
+                          }`}
+                        >
                           {count}
                         </span>
                       </span>
 
                       <span
-                        className="hidden group-hover:flex items-center gap-1 text-xs text-gray-400"
+                        className="hidden group-hover:flex items-center gap-0.5 text-xs text-gray-400 shrink-0 pl-1"
                         onClick={e => e.stopPropagation()}
                       >
                         <button
                           type="button"
+                          title="Move up"
+                          aria-label={`Move ${album.title} up`}
                           onClick={() => handleMoveAlbum(idx, -1)}
-                          className="hover:text-black px-0.5"
+                          className="hover:text-gray-900 px-1 py-0.5 rounded"
                         >
                           &uarr;
                         </button>
                         <button
                           type="button"
+                          title="Move down"
+                          aria-label={`Move ${album.title} down`}
                           onClick={() => handleMoveAlbum(idx, 1)}
-                          className="hover:text-black px-0.5"
+                          className="hover:text-gray-900 px-1 py-0.5 rounded"
                         >
                           &darr;
                         </button>
                         <button
                           type="button"
+                          title="Delete album"
+                          aria-label={`Delete ${album.title}`}
                           onClick={() => handleDeleteAlbum(idx)}
-                          className="hover:text-red-600 px-0.5"
+                          className="hover:text-red-700 px-1 py-0.5 rounded"
                         >
                           &times;
                         </button>
@@ -495,7 +539,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={handleAddAlbum}
-                className="text-xs text-gray-400 hover:text-black pt-1 transition-colors"
+                className="text-xs text-gray-400 hover:text-gray-900 pt-1 transition-colors tracking-tight"
               >
                 + New Album
               </button>
@@ -504,37 +548,51 @@ export default function AdminDashboardPage() {
 
           {/* Item List for Folders */}
           {section === 'folders' && (
-            <div className="space-y-2">
-              <ul className="space-y-1 text-base tracking-tight">
+            <div className="space-y-3">
+              <ul className="space-y-1 text-[15px] tracking-tight">
                 {store.folders.map((folder, idx) => {
                   const active = idx === selectedFolderIdx;
                   const count = (store.folderPhotos[folder.title] || []).length;
                   return (
                     <li
                       key={`${folder.title}-${idx}`}
-                      className="group flex items-center justify-between py-0.5 cursor-pointer"
+                      className="group flex items-center justify-between py-1 cursor-pointer"
                       onClick={() => setSelectedFolderIdx(idx)}
                     >
                       <span
-                        className={`truncate ${
+                        className={`inline-flex items-center min-w-0 truncate transition-all duration-200 ease-out ${
                           active
-                            ? 'font-bold text-black'
-                            : 'text-gray-400 hover:text-black'
+                            ? 'font-semibold text-gray-900'
+                            : 'text-gray-400 hover:text-gray-900'
                         }`}
                       >
-                        {folder.title}
-                        <span className="text-xs font-normal text-gray-300 ml-1.5">
+                        <span
+                          aria-hidden="true"
+                          className={`inline-block h-[1.5px] bg-red-800 rounded-full shrink-0 transition-all duration-200 ease-out ${
+                            active
+                              ? 'w-3 mr-2 opacity-100'
+                              : 'w-0 mr-0 opacity-0'
+                          }`}
+                        />
+                        <span className="truncate">{folder.title}</span>
+                        <span
+                          className={`text-[11px] font-mono font-normal ml-1.5 shrink-0 ${
+                            active ? 'text-gray-500' : 'text-gray-300'
+                          }`}
+                        >
                           {count}
                         </span>
                       </span>
                       {store.folders.length > 1 && (
                         <button
                           type="button"
+                          title="Delete folder"
+                          aria-label={`Delete ${folder.title}`}
                           onClick={e => {
                             e.stopPropagation();
                             handleDeleteFolder(idx);
                           }}
-                          className="hidden group-hover:inline text-xs text-gray-400 hover:text-red-600 px-1"
+                          className="hidden group-hover:inline text-xs text-gray-400 hover:text-red-700 px-1 py-0.5 rounded shrink-0"
                         >
                           &times;
                         </button>
@@ -547,37 +605,84 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={handleAddFolder}
-                className="text-xs text-gray-400 hover:text-black pt-1 transition-colors"
+                className="text-xs text-gray-400 hover:text-gray-900 pt-1 transition-colors tracking-tight"
               >
                 + New Folder
               </button>
             </div>
           )}
+
+          {/* Contextual Info for Profile */}
+          {section === 'profile' && (
+            <div className="space-y-3 text-xs text-gray-400 leading-relaxed">
+              <p className="text-gray-500 font-medium tracking-tight">
+                Site &amp; Version Settings
+              </p>
+              <p>
+                Edit portfolio identity, biography, and social links, or create
+                a local Git snapshot of your changes.
+              </p>
+              <div className="pt-2 border-t border-gray-100 space-y-1.5 font-mono text-[11px]">
+                <div className="flex items-center justify-between">
+                  <span>Albums</span>
+                  <span className="text-gray-700">{store.albums.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Folders</span>
+                  <span className="text-gray-700">{store.folders.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Git Changes</span>
+                  <span
+                    className={
+                      pendingChangesCount > 0
+                        ? 'text-red-800 font-semibold'
+                        : 'text-gray-700'
+                    }
+                  >
+                    {pendingChangesCount}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Bottom Actions */}
-        <div className="space-y-2 pt-4 border-t border-gray-100">
+        {/* Permanently Pinned Bottom Action Bar */}
+        <div className="shrink-0 px-6 py-4 border-t border-gray-200/80 bg-white/95 backdrop-blur-sm space-y-2.5">
           <button
             type="button"
             onClick={handleSaveAll}
             disabled={saving}
-            className="w-full py-2 bg-black hover:bg-gray-800 text-white text-xs font-medium rounded transition-colors disabled:opacity-50"
+            className="w-full py-2 bg-gray-900 hover:bg-black text-white text-xs font-medium tracking-tight rounded-md transition-colors disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
-          <div className="flex items-center justify-between text-xs text-gray-400 pt-1">
+          <div className="flex items-center justify-between text-xs text-gray-500 pt-0.5">
             <button
               type="button"
               onClick={handleGitCommit}
               disabled={committing}
-              className="hover:text-black transition-colors"
+              className="inline-flex items-center gap-1.5 hover:text-gray-900 transition-colors disabled:opacity-50"
             >
-              {committing ? 'Committing...' : 'Git Snapshot'}
+              <span>{committing ? 'Committing...' : 'Git Snapshot'}</span>
+              {pendingChangesCount > 0 && (
+                <span
+                  title={`${pendingChangesCount} uncommitted change${pendingChangesCount === 1 ? '' : 's'}`}
+                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-red-800/10 text-red-800 font-mono text-[10px] font-medium leading-none"
+                >
+                  <span
+                    className="w-1 h-1 rounded-full bg-red-800"
+                    aria-hidden="true"
+                  />
+                  {pendingChangesCount}
+                </span>
+              )}
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="hover:text-black transition-colors"
+              className="text-gray-400 hover:text-gray-900 transition-colors"
             >
               Logout
             </button>
@@ -585,40 +690,51 @@ export default function AdminDashboardPage() {
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 p-6 sm:p-12 max-w-5xl space-y-10 overflow-y-auto">
+      {/* Main Content Area — Full available workspace width */}
+      <main className="flex-1 min-w-0 w-full px-6 py-8 sm:px-10 lg:px-12 xl:px-16 space-y-8">
         {/* ALBUMS OR FOLDERS WORKSPACE */}
         {(section === 'albums' || section === 'folders') && (
           <>
             {/* Metadata Section */}
             {isAlbumMode && currentAlbum ? (
               <section className="space-y-5">
-                <div className="flex items-baseline justify-between border-b border-gray-100 pb-3">
-                  <div className="flex items-baseline gap-3">
-                    <h2 className="text-2xl font-bold tracking-tight">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200/80 pb-3.5">
+                  <div className="flex items-baseline gap-3 min-w-0">
+                    <span
+                      className="w-2 h-2 rounded-full bg-red-800 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 truncate">
                       {currentAlbum.title}
                     </h2>
                     <Link
                       href={`/${titleToSlug(currentAlbum.title, currentAlbum.slug)}`}
                       target="_blank"
-                      className="text-xs font-mono text-gray-400 hover:text-black"
+                      className="text-xs font-mono text-gray-400 hover:text-gray-900 transition-colors shrink-0"
                     >
                       /{titleToSlug(currentAlbum.title, currentAlbum.slug)} &#8599;
                     </Link>
+                    <span className="text-xs font-mono text-gray-400 shrink-0">
+                      {currentPhotosList.length} photos
+                    </span>
                   </div>
 
                   {currentAlbum.type === 'location' && (
                     <button
                       type="button"
                       onClick={() => setShowMapPicker(v => !v)}
-                      className="text-xs px-2.5 py-1 border border-gray-200 hover:border-black rounded transition-colors"
+                      className={`text-xs px-3 py-1.5 border rounded-md transition-colors tracking-tight ${
+                        showMapPicker
+                          ? 'border-red-800 text-red-800 bg-red-800/5'
+                          : 'border-gray-200/80 text-gray-600 hover:border-gray-900 hover:text-gray-900'
+                      }`}
                     >
-                      {showMapPicker ? 'Hide Map' : 'Map Picker'}
+                      {showMapPicker ? 'Hide Map Picker' : 'Map Picker'}
                     </button>
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                   <div>
                     <label className="block text-gray-400 mb-1">Title</label>
                     <input
@@ -630,7 +746,7 @@ export default function AdminDashboardPage() {
                           title: e.target.value as AlbumTitle
                         }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
                   </div>
                   <div>
@@ -641,7 +757,7 @@ export default function AdminDashboardPage() {
                       onChange={e =>
                         updateCurrentAlbum(a => ({ ...a, slug: e.target.value }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
                     />
                   </div>
                   <div>
@@ -654,7 +770,7 @@ export default function AdminDashboardPage() {
                           type: e.target.value as 'location' | 'custom'
                         }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded bg-white focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md bg-white focus:outline-none focus:border-gray-900 transition-colors"
                     >
                       <option value="location">Location</option>
                       <option value="custom">Custom</option>
@@ -671,12 +787,18 @@ export default function AdminDashboardPage() {
                           date: e.target.value || null
                         }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div
+                  className={`grid gap-4 text-xs ${
+                    currentAlbum.type === 'location'
+                      ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+                      : 'grid-cols-1 sm:grid-cols-2'
+                  }`}
+                >
                   <div>
                     <label className="block text-gray-400 mb-1">Subtitle</label>
                     <input
@@ -688,7 +810,7 @@ export default function AdminDashboardPage() {
                           description: e.target.value || null
                         }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
                   </div>
                   <div>
@@ -705,11 +827,11 @@ export default function AdminDashboardPage() {
                             .filter(Boolean)
                         }))
                       }
-                      className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
                   </div>
                   {currentAlbum.type === 'location' && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <>
                       <div>
                         <label className="block text-gray-400 mb-1">Lat</label>
                         <input
@@ -722,7 +844,7 @@ export default function AdminDashboardPage() {
                               lat: parseFloat(e.target.value) || 0
                             }))
                           }
-                          className="w-full px-2 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                          className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
                         />
                       </div>
                       <div>
@@ -737,10 +859,10 @@ export default function AdminDashboardPage() {
                               lng: parseFloat(e.target.value) || 0
                             }))
                           }
-                          className="w-full px-2 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                          className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
                         />
                       </div>
-                    </div>
+                    </>
                   )}
                 </div>
 
@@ -752,7 +874,7 @@ export default function AdminDashboardPage() {
                       {currentAlbum.locations.map((loc, lIdx) => (
                         <span
                           key={lIdx}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 border border-gray-200 rounded text-gray-600"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 border border-gray-200/80 rounded-full text-gray-600 bg-gray-50/50"
                         >
                           {loc.description || `${loc.lat.toFixed(1)},${loc.lng.toFixed(1)}`}
                           <button
@@ -763,7 +885,7 @@ export default function AdminDashboardPage() {
                                 locations: a.locations.filter((_, i) => i !== lIdx)
                               }))
                             }
-                            className="text-gray-400 hover:text-red-600"
+                            className="text-gray-400 hover:text-red-700"
                           >
                             &times;
                           </button>
@@ -774,44 +896,55 @@ export default function AdminDashboardPage() {
 
                 {/* Collapsible Map Picker */}
                 {showMapPicker && currentAlbum.type === 'location' && (
-                  <ChinaCoordPicker
-                    lat={currentAlbum.lat}
-                    lng={currentAlbum.lng}
-                    locations={currentAlbum.locations}
-                    onPickMainCoord={(pickedLat, pickedLng, detectedProv) => {
-                      updateCurrentAlbum(a => ({
-                        ...a,
-                        lat: pickedLat,
-                        lng: pickedLng,
-                        province: detectedProv || a.province
-                      }));
-                    }}
-                    onAddSubLocation={loc => {
-                      updateCurrentAlbum(a => ({
-                        ...a,
-                        locations: [...a.locations, loc]
-                      }));
-                    }}
-                  />
+                  <div className="border border-gray-200/80 rounded-lg p-3 bg-white">
+                    <ChinaCoordPicker
+                      lat={currentAlbum.lat}
+                      lng={currentAlbum.lng}
+                      locations={currentAlbum.locations}
+                      onPickMainCoord={(pickedLat, pickedLng, detectedProv) => {
+                        updateCurrentAlbum(a => ({
+                          ...a,
+                          lat: pickedLat,
+                          lng: pickedLng,
+                          province: detectedProv || a.province
+                        }));
+                      }}
+                      onAddSubLocation={loc => {
+                        updateCurrentAlbum(a => ({
+                          ...a,
+                          locations: [...a.locations, loc]
+                        }));
+                      }}
+                    />
+                  </div>
                 )}
               </section>
             ) : (
               currentFolder && (
-                <section className="space-y-4">
-                  <div className="flex items-baseline justify-between border-b border-gray-100 pb-3">
-                    <h2 className="text-2xl font-bold tracking-tight">
-                      {currentFolder.title}
-                    </h2>
-                    <Link
-                      href="/folders"
-                      target="_blank"
-                      className="text-xs font-mono text-gray-400 hover:text-black"
-                    >
-                      /folders &#8599;
-                    </Link>
+                <section className="space-y-5">
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200/80 pb-3.5">
+                    <div className="flex items-baseline gap-3 min-w-0">
+                      <span
+                        className="w-2 h-2 rounded-full bg-red-800 shrink-0 self-center"
+                        aria-hidden="true"
+                      />
+                      <h2 className="text-2xl font-bold tracking-tight text-gray-900 truncate">
+                        {currentFolder.title}
+                      </h2>
+                      <Link
+                        href="/folders"
+                        target="_blank"
+                        className="text-xs font-mono text-gray-400 hover:text-gray-900 transition-colors shrink-0"
+                      >
+                        /folders &#8599;
+                      </Link>
+                      <span className="text-xs font-mono text-gray-400 shrink-0">
+                        {currentPhotosList.length} photos
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                     <div>
                       <label className="block text-gray-400 mb-1">Title</label>
                       <input
@@ -823,7 +956,7 @@ export default function AdminDashboardPage() {
                             title: e.target.value as FolderName
                           }))
                         }
-                        className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                        className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                       />
                     </div>
                     <div>
@@ -834,7 +967,7 @@ export default function AdminDashboardPage() {
                         onChange={e =>
                           updateCurrentFolder(f => ({ ...f, slug: e.target.value }))
                         }
-                        className="w-full px-2.5 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                        className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
                       />
                     </div>
                     <div>
@@ -845,7 +978,7 @@ export default function AdminDashboardPage() {
                         onChange={e =>
                           updateCurrentFolder(f => ({ ...f, date: e.target.value }))
                         }
-                        className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                        className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                       />
                     </div>
                     <div>
@@ -859,7 +992,7 @@ export default function AdminDashboardPage() {
                             description: e.target.value
                           }))
                         }
-                        className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                        className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                       />
                     </div>
                   </div>
@@ -868,11 +1001,11 @@ export default function AdminDashboardPage() {
             )}
 
             {/* Unified Photos Section */}
-            <section className="space-y-4">
+            <section className="space-y-5">
               {/* Compact Toolbar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-gray-100 text-xs">
-                <div className="flex items-center gap-3">
-                  <label className="px-3 py-1.5 bg-black hover:bg-gray-800 text-white rounded cursor-pointer transition-colors font-medium">
+              <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-gray-200/80 text-xs">
+                <div className="flex flex-wrap items-center gap-3">
+                  <label className="px-3.5 py-1.5 bg-gray-900 hover:bg-black text-white rounded-md cursor-pointer transition-colors font-medium tracking-tight">
                     <input
                       type="file"
                       multiple
@@ -884,53 +1017,53 @@ export default function AdminDashboardPage() {
                     {uploading ? 'Processing...' : '+ Upload Photos'}
                   </label>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <input
                       type="url"
                       value={manualUrl}
                       onChange={e => setManualUrl(e.target.value)}
                       placeholder="Image URL..."
-                      className="w-40 px-2.5 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                      className="w-48 sm:w-56 px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
                     />
                     <button
                       type="button"
                       onClick={handleAddManualUrlPhoto}
-                      className="px-2.5 py-1.5 border border-gray-200 hover:border-black rounded"
+                      className="px-3 py-1.5 border border-gray-200/80 hover:border-gray-900 text-gray-700 hover:text-gray-900 rounded-md transition-colors"
                     >
                       Add
                     </button>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   <input
                     type="text"
                     value={batchTagInput}
                     onChange={e => setBatchTagInput(e.target.value)}
                     placeholder="Batch tag..."
-                    className="w-28 px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                    className="w-32 sm:w-40 px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                   />
                   <button
                     type="button"
                     onClick={handleBatchAddTag}
-                    className="px-2.5 py-1.5 border border-gray-200 hover:border-black rounded"
+                    className="px-3 py-1.5 border border-gray-200/80 hover:border-gray-900 text-gray-700 hover:text-gray-900 rounded-md transition-colors"
                   >
                     Tag All
                   </button>
                 </div>
               </div>
 
-              {/* Photo Grid */}
+              {/* Responsive Photo Grid */}
               {currentPhotosList.length === 0 ? (
-                <div className="py-16 text-center text-gray-300 text-sm">
+                <div className="py-20 text-center text-gray-300 text-sm border border-dashed border-gray-200/80 rounded-lg">
                   No photos yet
                 </div>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
                   {currentPhotosList.map((photo, pIdx) => (
                     <div
                       key={photo.id || `${photo.url}-${pIdx}`}
-                      className="group border border-gray-100 rounded-lg overflow-hidden flex flex-col justify-between"
+                      className="group border border-gray-200/80 hover:border-gray-300 rounded-lg overflow-hidden flex flex-col justify-between bg-white transition-colors"
                     >
                       <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -938,9 +1071,9 @@ export default function AdminDashboardPage() {
                           src={photo.url}
                           alt={photo.title || ''}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                         />
-                        <span className="absolute top-1.5 left-1.5 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">
+                        <span className="absolute top-1.5 left-1.5 bg-black/65 backdrop-blur-sm text-white text-[10px] px-1.5 py-0.5 rounded font-mono">
                           #{pIdx + 1}
                         </span>
                       </div>
@@ -955,7 +1088,7 @@ export default function AdminDashboardPage() {
                             updateCurrentPhotos(next);
                           }}
                           placeholder="Year"
-                          className="w-full px-1.5 py-1 border-b border-gray-100 focus:border-black focus:outline-none text-gray-600"
+                          className="w-full px-1.5 py-1 border-b border-gray-100 focus:border-gray-900 focus:outline-none text-gray-700 font-mono text-[11px]"
                         />
                         <input
                           type="text"
@@ -972,7 +1105,7 @@ export default function AdminDashboardPage() {
                             updateCurrentPhotos(next);
                           }}
                           placeholder="Tags..."
-                          className="w-full px-1.5 py-1 border-b border-gray-100 focus:border-black focus:outline-none text-gray-600"
+                          className="w-full px-1.5 py-1 border-b border-gray-100 focus:border-gray-900 focus:outline-none text-gray-600 text-[11px]"
                         />
 
                         <div className="flex items-center justify-between pt-1 text-[11px] text-gray-400">
@@ -986,33 +1119,35 @@ export default function AdminDashboardPage() {
                                 next.unshift(item);
                                 updateCurrentPhotos(next);
                               }}
-                              className="hover:text-black disabled:opacity-30"
+                              className="hover:text-gray-900 disabled:opacity-30 transition-colors"
                             >
                               Top
                             </button>
                             <button
                               type="button"
                               disabled={pIdx === 0}
+                              aria-label="Move left"
                               onClick={() => {
                                 const next = [...currentPhotosList];
                                 const [item] = next.splice(pIdx, 1);
                                 next.splice(pIdx - 1, 0, item);
                                 updateCurrentPhotos(next);
                               }}
-                              className="hover:text-black disabled:opacity-30"
+                              className="hover:text-gray-900 disabled:opacity-30 transition-colors"
                             >
                               &larr;
                             </button>
                             <button
                               type="button"
                               disabled={pIdx === currentPhotosList.length - 1}
+                              aria-label="Move right"
                               onClick={() => {
                                 const next = [...currentPhotosList];
                                 const [item] = next.splice(pIdx, 1);
                                 next.splice(pIdx + 1, 0, item);
                                 updateCurrentPhotos(next);
                               }}
-                              className="hover:text-black disabled:opacity-30"
+                              className="hover:text-gray-900 disabled:opacity-30 transition-colors"
                             >
                               &rarr;
                             </button>
@@ -1029,7 +1164,7 @@ export default function AdminDashboardPage() {
                                     }));
                                     showToast('ok', 'GPS applied');
                                   }}
-                                  className="hover:text-black"
+                                  className="hover:text-red-800 transition-colors"
                                 >
                                   GPS
                                 </button>
@@ -1038,13 +1173,14 @@ export default function AdminDashboardPage() {
 
                           <button
                             type="button"
+                            aria-label="Remove photo"
                             onClick={() => {
                               const next = currentPhotosList.filter(
                                 (_, i) => i !== pIdx
                               );
                               updateCurrentPhotos(next);
                             }}
-                            className="hover:text-red-600"
+                            className="hover:text-red-700 transition-colors px-0.5"
                           >
                             &times;
                           </button>
@@ -1058,190 +1194,242 @@ export default function AdminDashboardPage() {
           </>
         )}
 
-        {/* PROFILE & GIT SECTION */}
+        {/* PROFILE & GIT SECTION — Balanced two-column layout on wide screens */}
         {section === 'profile' && (
-          <div className="max-w-xl space-y-8 text-xs">
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold tracking-tight border-b border-gray-100 pb-3">
-                Profile
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 border-b border-gray-200/80 pb-3.5">
+              <span
+                className="w-2 h-2 rounded-full bg-red-800 shrink-0"
+                aria-hidden="true"
+              />
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                Profile &amp; Git
               </h2>
+            </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-gray-400 mb-1">Name</label>
-                  <input
-                    type="text"
-                    value={siteConfig.photographerName}
-                    onChange={e =>
-                      setSiteConfig({
-                        ...siteConfig,
-                        photographerName: e.target.value
-                      })
-                    }
-                    className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1">Site Title</label>
-                  <input
-                    type="text"
-                    value={siteConfig.siteTitle}
-                    onChange={e =>
-                      setSiteConfig({ ...siteConfig, siteTitle: e.target.value })
-                    }
-                    className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-gray-400 mb-1">Subtitle</label>
-                  <input
-                    type="text"
-                    value={siteConfig.subtitle}
-                    onChange={e =>
-                      setSiteConfig({ ...siteConfig, subtitle: e.target.value })
-                    }
-                    className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1">Copyright</label>
-                  <input
-                    type="text"
-                    value={siteConfig.copyrightName || ''}
-                    onChange={e =>
-                      setSiteConfig({
-                        ...siteConfig,
-                        copyrightName: e.target.value
-                      })
-                    }
-                    className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-gray-400 mb-1">Bio I</label>
-                <textarea
-                  rows={2}
-                  value={siteConfig.bioParagraph1}
-                  onChange={e =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      bioParagraph1: e.target.value
-                    })
-                  }
-                  className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-400 mb-1">Bio II</label>
-                <textarea
-                  rows={2}
-                  value={siteConfig.bioParagraph2}
-                  onChange={e =>
-                    setSiteConfig({
-                      ...siteConfig,
-                      bioParagraph2: e.target.value
-                    })
-                  }
-                  className="w-full px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                />
-              </div>
-
-              <div className="space-y-2 pt-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-400">Socials</span>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setSiteConfig({
-                        ...siteConfig,
-                        socials: [
-                          ...siteConfig.socials,
-                          { label: 'Link', url: 'https://' }
-                        ]
-                      })
-                    }
-                    className="text-gray-400 hover:text-black"
-                  >
-                    + Add
-                  </button>
-                </div>
-                {siteConfig.socials.map((soc, sIdx) => (
-                  <div key={sIdx} className="flex items-center gap-2">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-10 text-xs items-start">
+              {/* Left Column: Site Identity & Socials */}
+              <section className="xl:col-span-7 space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-400 mb-1">Name</label>
                     <input
                       type="text"
-                      value={soc.label}
-                      onChange={e => {
-                        const next = [...siteConfig.socials];
-                        next[sIdx] = { ...soc, label: e.target.value };
-                        setSiteConfig({ ...siteConfig, socials: next });
-                      }}
-                      className="w-28 px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
+                      value={siteConfig.photographerName}
+                      onChange={e =>
+                        setSiteConfig({
+                          ...siteConfig,
+                          photographerName: e.target.value
+                        })
+                      }
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Site Title</label>
                     <input
                       type="text"
-                      value={soc.url}
-                      onChange={e => {
-                        const next = [...siteConfig.socials];
-                        next[sIdx] = { ...soc, url: e.target.value };
-                        setSiteConfig({ ...siteConfig, socials: next });
-                      }}
-                      className="flex-1 px-2.5 py-1.5 border border-gray-200 rounded font-mono focus:outline-none focus:border-black"
+                      value={siteConfig.siteTitle}
+                      onChange={e =>
+                        setSiteConfig({ ...siteConfig, siteTitle: e.target.value })
+                      }
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                     />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-400 mb-1">Subtitle</label>
+                    <input
+                      type="text"
+                      value={siteConfig.subtitle}
+                      onChange={e =>
+                        setSiteConfig({ ...siteConfig, subtitle: e.target.value })
+                      }
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Copyright</label>
+                    <input
+                      type="text"
+                      value={siteConfig.copyrightName || ''}
+                      onChange={e =>
+                        setSiteConfig({
+                          ...siteConfig,
+                          copyrightName: e.target.value
+                        })
+                      }
+                      className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 mb-1">Bio I</label>
+                  <textarea
+                    rows={3}
+                    value={siteConfig.bioParagraph1}
+                    onChange={e =>
+                      setSiteConfig({
+                        ...siteConfig,
+                        bioParagraph1: e.target.value
+                      })
+                    }
+                    className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 mb-1">Bio II</label>
+                  <textarea
+                    rows={3}
+                    value={siteConfig.bioParagraph2}
+                    onChange={e =>
+                      setSiteConfig({
+                        ...siteConfig,
+                        bioParagraph2: e.target.value
+                      })
+                    }
+                    className="w-full px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-2.5 pt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-400">Socials</span>
                     <button
                       type="button"
-                      onClick={() => {
-                        const next = siteConfig.socials.filter(
-                          (_, i) => i !== sIdx
-                        );
-                        setSiteConfig({ ...siteConfig, socials: next });
-                      }}
-                      className="text-gray-400 hover:text-red-600 px-1"
+                      onClick={() =>
+                        setSiteConfig({
+                          ...siteConfig,
+                          socials: [
+                            ...siteConfig.socials,
+                            { label: 'Link', url: 'https://' }
+                          ]
+                        })
+                      }
+                      className="text-gray-400 hover:text-gray-900 transition-colors"
                     >
-                      &times;
+                      + Add
                     </button>
                   </div>
-                ))}
-              </div>
-            </section>
+                  {siteConfig.socials.map((soc, sIdx) => (
+                    <div key={sIdx} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={soc.label}
+                        onChange={e => {
+                          const next = [...siteConfig.socials];
+                          next[sIdx] = { ...soc, label: e.target.value };
+                          setSiteConfig({ ...siteConfig, socials: next });
+                        }}
+                        className="w-32 px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                      />
+                      <input
+                        type="text"
+                        value={soc.url}
+                        onChange={e => {
+                          const next = [...siteConfig.socials];
+                          next[sIdx] = { ...soc, url: e.target.value };
+                          setSiteConfig({ ...siteConfig, socials: next });
+                        }}
+                        className="flex-1 min-w-0 px-2.5 py-1.5 border border-gray-200/80 rounded-md font-mono focus:outline-none focus:border-gray-900 transition-colors"
+                      />
+                      <button
+                        type="button"
+                        aria-label={`Remove ${soc.label}`}
+                        onClick={() => {
+                          const next = siteConfig.socials.filter(
+                            (_, i) => i !== sIdx
+                          );
+                          setSiteConfig({ ...siteConfig, socials: next });
+                        }}
+                        className="text-gray-400 hover:text-red-700 px-1.5 py-1 transition-colors"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </section>
 
-            {/* Minimal Git Commit Section */}
-            <section className="space-y-3 pt-4 border-t border-gray-100">
-              <span className="block text-gray-400">Git Version</span>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={commitMessage}
-                  onChange={e => setCommitMessage(e.target.value)}
-                  placeholder="Commit message..."
-                  className="flex-1 px-2.5 py-1.5 border border-gray-200 rounded focus:outline-none focus:border-black"
-                />
-                <button
-                  type="button"
-                  disabled={committing}
-                  onClick={handleGitCommit}
-                  className="px-4 py-1.5 bg-black hover:bg-gray-800 text-white rounded transition-colors disabled:opacity-50"
-                >
-                  Commit
-                </button>
-              </div>
-              <ul className="space-y-1 text-gray-400 font-mono text-[11px] pt-1">
-                {gitInfo.commits.slice(0, 5).map(c => (
-                  <li key={c.hash} className="flex justify-between">
-                    <span className="truncate pr-4">
-                      <span className="text-black mr-2">{c.hash}</span>
-                      {c.subject}
+              {/* Right Column: Git Version & Working Tree Panel */}
+              <section className="xl:col-span-5 border border-gray-200/80 rounded-lg p-5 bg-white/85 backdrop-blur-md space-y-4">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <span className="font-semibold text-sm tracking-tight text-gray-900">
+                    Git Version
+                  </span>
+                  <span
+                    className={`font-mono text-[11px] px-2 py-0.5 rounded-full ${
+                      pendingChangesCount > 0
+                        ? 'bg-red-800/10 text-red-800'
+                        : 'bg-gray-100 text-gray-500'
+                    }`}
+                  >
+                    {pendingChangesCount > 0
+                      ? `${pendingChangesCount} pending`
+                      : 'Clean'}
+                  </span>
+                </div>
+
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={commitMessage}
+                    onChange={e => setCommitMessage(e.target.value)}
+                    placeholder="Commit message..."
+                    className="flex-1 min-w-0 px-2.5 py-1.5 border border-gray-200/80 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
+                  />
+                  <button
+                    type="button"
+                    disabled={committing}
+                    onClick={handleGitCommit}
+                    className="px-4 py-1.5 bg-gray-900 hover:bg-black text-white rounded-md font-medium tracking-tight transition-colors disabled:opacity-50 shrink-0"
+                  >
+                    {committing ? 'Committing...' : 'Commit'}
+                  </button>
+                </div>
+
+                {pendingChangesCount > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    <span className="block text-[11px] uppercase tracking-wider text-gray-400">
+                      Working Tree
                     </span>
-                    <span className="shrink-0">{c.time}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
+                    <ul className="max-h-36 overflow-y-auto space-y-1 font-mono text-[11px] text-gray-600 bg-gray-50/70 border border-gray-100 rounded-md p-2.5">
+                      {gitInfo.changes.map((line, idx) => (
+                        <li key={idx} className="truncate">
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="space-y-1.5 pt-1">
+                  <span className="block text-[11px] uppercase tracking-wider text-gray-400">
+                    Recent Commits
+                  </span>
+                  <ul className="space-y-1.5 text-gray-500 font-mono text-[11px]">
+                    {gitInfo.commits.slice(0, 6).map(c => (
+                      <li
+                        key={c.hash}
+                        className="flex items-baseline justify-between gap-3 py-0.5 border-b border-gray-50 last:border-b-0"
+                      >
+                        <span className="truncate">
+                          <span className="text-gray-900 font-medium mr-2">
+                            {c.hash}
+                          </span>
+                          {c.subject}
+                        </span>
+                        <span className="shrink-0 text-gray-400">{c.time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            </div>
           </div>
         )}
       </main>
