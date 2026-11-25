@@ -34,6 +34,8 @@ export default function AdminDashboardPage() {
   const [showMapPicker, setShowMapPicker] = useState(false);
 
   const [uploading, setUploading] = useState(false);
+  const [replacingUrl, setReplacingUrl] = useState<string | null>(null);
+  const [previewVersions, setPreviewVersions] = useState<Record<string, number>>({});
   const [manualUrl, setManualUrl] = useState('');
   const [batchTagInput, setBatchTagInput] = useState('');
 
@@ -116,7 +118,12 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (res.ok && data.success) {
         setStore(updatedStore);
-        showToast('ok', 'Saved');
+        const deletedCount =
+          typeof data.deletedFiles === 'number' ? data.deletedFiles : 0;
+        showToast(
+          'ok',
+          deletedCount > 0 ? `Saved (deleted ${deletedCount} files)` : 'Saved'
+        );
         fetchGitInfo();
       } else {
         showToast('err', data.message || 'Save failed');
@@ -324,6 +331,119 @@ export default function AdminDashboardPage() {
     } finally {
       setUploading(false);
     }
+  }
+
+  async function handleReplacePhoto(photo: Photo, files: FileList | null) {
+    if (!files || files.length === 0 || !store) return;
+    const file = files[0];
+    setReplacingUrl(photo.url);
+    try {
+      const formData = new FormData();
+      formData.append('files', file);
+      formData.append('replaceUrl', photo.url);
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        showToast('err', data.message || 'Replace failed');
+        return;
+      }
+
+      const targetUrlLower = photo.url.toLowerCase();
+      const applyReplacement = (list: Photo[]) =>
+        list.map(p => {
+          const matches =
+            Boolean(photo.id && p.id === photo.id) ||
+            p.url.toLowerCase() === targetUrlLower;
+          if (!matches) return p;
+          return {
+            ...p,
+            size: typeof data.size === 'number' ? data.size : p.size,
+            width: typeof data.width === 'number' ? data.width : p.width,
+            height: typeof data.height === 'number' ? data.height : p.height,
+            exif: data.exif !== undefined ? data.exif : p.exif
+          };
+        });
+
+      const nextAlbumPhotos: Record<string, Photo[]> = {};
+      for (const [k, list] of Object.entries(store.albumPhotos)) {
+        nextAlbumPhotos[k] = applyReplacement(list);
+      }
+
+      const nextFolderPhotos: Record<string, Photo[]> = {};
+      for (const [k, list] of Object.entries(store.folderPhotos)) {
+        nextFolderPhotos[k] = applyReplacement(list);
+      }
+
+      setStore({
+        ...store,
+        albumPhotos: nextAlbumPhotos,
+        folderPhotos: nextFolderPhotos
+      });
+      setPreviewVersions(prev => ({
+        ...prev,
+        [targetUrlLower]: Date.now()
+      }));
+      showToast('ok', 'Replaced photo');
+    } catch {
+      showToast('err', 'Replace error');
+    } finally {
+      setReplacingUrl(null);
+    }
+  }
+
+  function handleRemovePhoto(pIdx: number) {
+    if (!store || !currentPhotosKey) return;
+    const target = currentPhotosList[pIdx];
+    if (!target) return;
+
+    const nextCurrentList = currentPhotosList.filter((_, i) => i !== pIdx);
+
+    if (!isAlbumMode) {
+      setStore({
+        ...store,
+        folderPhotos: {
+          ...store.folderPhotos,
+          [currentPhotosKey]: nextCurrentList
+        }
+      });
+      return;
+    }
+
+    const nextAlbumPhotos: Record<string, Photo[]> = {
+      ...store.albumPhotos,
+      [currentPhotosKey]: nextCurrentList
+    };
+
+    const targetUrlLower = target.url?.toLowerCase();
+    const stillReferencedInAlbums = targetUrlLower
+      ? Object.values(nextAlbumPhotos).some(list =>
+          list.some(p => p.url?.toLowerCase() === targetUrlLower)
+        )
+      : false;
+
+    let nextFolderPhotos = store.folderPhotos;
+    if (!stillReferencedInAlbums) {
+      nextFolderPhotos = {};
+      for (const [folderKey, list] of Object.entries(store.folderPhotos)) {
+        nextFolderPhotos[folderKey] = list.filter(p => {
+          const sameId = Boolean(target.id && p.id && p.id === target.id);
+          const sameUrl = Boolean(
+            targetUrlLower && p.url && p.url.toLowerCase() === targetUrlLower
+          );
+          return !sameId && !sameUrl;
+        });
+      }
+    }
+
+    setStore({
+      ...store,
+      albumPhotos: nextAlbumPhotos,
+      folderPhotos: nextFolderPhotos
+    });
   }
 
   function handleAddManualUrlPhoto() {
@@ -1012,7 +1132,10 @@ export default function AdminDashboardPage() {
                       accept="image/jpeg,image/png,image/webp"
                       className="hidden"
                       disabled={uploading}
-                      onChange={e => handleFileUpload(e.target.files)}
+                      onChange={e => {
+                        handleFileUpload(e.target.files);
+                        e.target.value = '';
+                      }}
                     />
                     {uploading ? 'Processing...' : '+ Upload Photos'}
                   </label>
@@ -1060,7 +1183,14 @@ export default function AdminDashboardPage() {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-                  {currentPhotosList.map((photo, pIdx) => (
+                  {currentPhotosList.map((photo, pIdx) => {
+                    const previewVersion =
+                      previewVersions[photo.url.toLowerCase()];
+                    const previewSrc = previewVersion
+                      ? `${photo.url}${photo.url.includes('?') ? '&' : '?'}v=${previewVersion}`
+                      : photo.url;
+                    const isReplacing = replacingUrl === photo.url;
+                    return (
                     <div
                       key={photo.id || `${photo.url}-${pIdx}`}
                       className="group border border-gray-200/80 hover:border-gray-300 rounded-lg overflow-hidden flex flex-col justify-between bg-white transition-colors"
@@ -1068,7 +1198,7 @@ export default function AdminDashboardPage() {
                       <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={photo.url}
+                          src={previewSrc}
                           alt={photo.title || ''}
                           loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
@@ -1169,17 +1299,31 @@ export default function AdminDashboardPage() {
                                   GPS
                                 </button>
                               )}
+                            <label
+                              className={`cursor-pointer transition-colors ${
+                                isReplacing
+                                  ? 'text-red-800 pointer-events-none'
+                                  : 'hover:text-gray-900'
+                              }`}
+                            >
+                              <input
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                className="hidden"
+                                disabled={isReplacing}
+                                onChange={e => {
+                                  handleReplacePhoto(photo, e.target.files);
+                                  e.target.value = '';
+                                }}
+                              />
+                              {isReplacing ? '...' : 'Replace'}
+                            </label>
                           </div>
 
                           <button
                             type="button"
                             aria-label="Remove photo"
-                            onClick={() => {
-                              const next = currentPhotosList.filter(
-                                (_, i) => i !== pIdx
-                              );
-                              updateCurrentPhotos(next);
-                            }}
+                            onClick={() => handleRemovePhoto(pIdx)}
                             className="hover:text-red-700 transition-colors px-0.5"
                           >
                             &times;
@@ -1187,7 +1331,8 @@ export default function AdminDashboardPage() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </section>
